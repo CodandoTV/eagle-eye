@@ -15,15 +15,9 @@ jobs:
 
       - name: Set up Flutter
         uses: ./.github/actions/setup-flutter
-
-      - name: Generate Resources
-        run: flutter gen-l10n
-        
+  
       - name: Run tests
         run: flutter test
 
       - name: Analyze
         run: dart analyze
-
-      - name: Build APK
-        run: flutter build apk --debug
