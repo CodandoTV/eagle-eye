@@ -1,0 +1,39 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    avoid_print: false
+    prefer_single_quotes: true
+    always_use_package_imports: true
+    annotate_overrides: true
+    prefer_final_fields: true
+    prefer_const_constructors: true
+    always_declare_return_types: true
+    avoid_bool_literals_in_conditional_expressions: true
+    avoid_empty_else: true
+    avoid_multiple_declarations_per_line: true
+    avoid_relative_lib_imports: true
+    avoid_void_async: true
+    curly_braces_in_flow_control_structures: true
+    directives_ordering: true
+    file_names: true
+    lines_longer_than_80_chars: true
+
+analyzer:
+  errors:
+    avoid_print: error
+    prefer_single_quotes: error
+    always_use_package_imports: error
+    annotate_overrides: error
+    prefer_final_fields: error
+    prefer_const_constructors: error
+    always_declare_return_types: error
+    avoid_bool_literals_in_conditional_expressions: error
+    avoid_empty_else: error
+    avoid_multiple_declarations_per_line: error
+    avoid_relative_lib_imports: error
+    avoid_void_async: error
+    curly_braces_in_flow_control_structures: error
+    directives_ordering: error
+    file_names: error
+    lines_longer_than_80_chars: error

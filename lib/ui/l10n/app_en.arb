@@ -1,0 +1,22 @@
+{
+  "task": "Task",
+  "description": "Description",
+  "tasks": "Tasks",
+  "empty_tasks": "No tasks available",
+  "empty_checklists": "No checklists available",
+  "task_name_required": "Task name is required",
+  "checklist_name_required": "Checklist name is required",
+  "task_added": "Task was added.",
+  "checklist_added": "Checklist was added.",
+  "remove_task_dialog_title": "Remove task",
+  "remove_task_dialog_desc": "Are you sure you want to remove this task?",
+  "remove_checklist_dialog_title": "Remove checklist",
+  "remove_checklist_dialog_desc": "Are you sure you want to remove this checklist?",
+  "yes": "Yes",
+  "no": "No",
+  "checklists": "Checklists",
+  "checklist": "Checklist",
+  "checklist_name": "Checklist name",
+  "remove": "Remove",
+  "sort_message": "It is sorted"
+}

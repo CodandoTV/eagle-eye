@@ -1,0 +1,18 @@
+name: 'Setup Flutter'
+description: 'Reusable action to setup Flutter environment'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.32.6' # Set the desired Flutter version
+
+    - name: Install dependencies
+      run: flutter pub get
+      shell: bash
+
+    - name: Generate files
+      run: dart run build_runner build --delete-conflicting-outputs
+      shell: bash

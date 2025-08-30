@@ -1,0 +1,12 @@
+name: 'Setup Tag'
+description: 'Reusable action to setup tag'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Dart
+      uses: dart-lang/setup-dart@v1
+
+    - name: Set up tag
+      shell: bash
+      run: dart run scripts/setup_tag.dart
