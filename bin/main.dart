@@ -41,11 +41,13 @@ Future<void> main(List<String> args) async {
   }
 
   if (errors.isNotEmpty) {
-    LoggerHelper.printError('${errors.length} violations found');
+    var errorMessage = '${errors.length} violations found:\n';
+
     for (var error in errors) {
-      LoggerHelper.printError(
-          'Violation found in ${error.filePath}: ${error.import}');
+      errorMessage += '${error.filePath} -> ${error.import}\n';
     }
+
+    LoggerHelper.printError(errorMessage);
     exit(1);
   } else {
     LoggerHelper.printSuccess('No architecture violations found.');
