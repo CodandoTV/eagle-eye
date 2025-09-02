@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:eagleeye/eagle_eye/architecture_violation_checker.dart';
-import 'package:eagleeye/eagle_eye/software_unit_mapper.dart';
+import 'package:eagle_eye/architecture_violation_checker.dart';
+import 'package:eagle_eye/software_unit_mapper.dart';
 
 Map<String, List<String>> importViolationByFile = {
   '*screen.dart': ['*data*', '*domain*'],

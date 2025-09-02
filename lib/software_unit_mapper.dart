@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:eagleeye/eagle_eye/model/software_unit.dart';
+import 'package:eagle_eye/model/software_unit.dart';
 
 class SoftwareUnitMapper {
   Future<List<SoftwareUnit>> map(List<File> files) async {
