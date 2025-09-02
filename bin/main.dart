@@ -50,7 +50,7 @@ Future<void> main(List<String> args) async {
     LoggerHelper.printError(errorMessage);
     exit(1);
   } else {
-    LoggerHelper.printSuccess('No architecture violations found.');
+    LoggerHelper.printSuccess('No architecture violation found.');
   }
 }
 
