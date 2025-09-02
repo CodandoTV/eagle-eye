@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:eagleeye/architecture_violation_checker.dart';
-import 'package:eagleeye/software_unit_mapper.dart';
+import 'package:eagleeye/eagle_eye/architecture_violation_checker.dart';
+import 'package:eagleeye/eagle_eye/software_unit_mapper.dart';
 
 Map<String, List<String>> importViolationByFile = {
   '*screen.dart': ['*data*', '*domain*'],
@@ -12,8 +12,8 @@ const red = '\x1B[31m';
 const green = '\x1B[32m';
 const reset = '\x1B[0m';
 
-Future<void> main(List<String> args) async {
-  final files = Directory('../todoapp_flutter/lib')
+Future<void> check(String projectPath) async {
+  final files = Directory('$projectPath/lib')
       .listSync(recursive: true)
       .whereType<File>()
       .where((f) => f.path.endsWith('.dart'))
