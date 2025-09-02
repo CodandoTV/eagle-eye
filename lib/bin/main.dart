@@ -12,8 +12,8 @@ const red = '\x1B[31m';
 const green = '\x1B[32m';
 const reset = '\x1B[0m';
 
-Future<void> check(String projectPath) async {
-  final files = Directory('$projectPath/lib')
+Future<void> main(List<String> args) async {
+  final files = Directory('lib')
       .listSync(recursive: true)
       .whereType<File>()
       .where((f) => f.path.endsWith('.dart'))
