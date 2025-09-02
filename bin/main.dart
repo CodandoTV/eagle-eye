@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:eagle_eye/architecture_violation_checker.dart';
+import 'package:eagle_eye/logger_helper.dart';
+import 'package:eagle_eye/model/error_info.dart';
 import 'package:eagle_eye/software_unit_mapper.dart';
-
-const red = '\x1B[31m';
-const green = '\x1B[32m';
-const reset = '\x1B[0m';
 
 Future<void> main(List<String> args) async {
   final file = File('eagle_eye_config.json');
   if (!file.existsSync()) {
-    print('${red}eagle_eye_config.json not found!');
+    LoggerHelper.printError('eagle_eye_config.json not found!');
     exit(1);
   }
 
@@ -33,20 +31,24 @@ Future<void> main(List<String> args) async {
 
   final checker = ArchitectureViolationChecker(importViolationsByFile);
 
-  var hasAnyError = false;
+  List<ErrorInfo> errors = [];
+
   for (var unit in units) {
     final error = checker.check(unit);
     if (error != null) {
-      print('${red}Architecture violation in ${error.filePath}: '
-          '${error.import} which violates rule ${error.violation}${reset}');
-      hasAnyError = true;
+      errors.add(error);
     }
   }
 
-  if (hasAnyError) {
+  if (errors.isNotEmpty) {
+    LoggerHelper.printError('${errors.length} violations found');
+    for (var error in errors) {
+      LoggerHelper.printError(
+          'Violation found in ${error.filePath}: ${error.import}');
+    }
     exit(1);
   } else {
-    print('${green}No architecture violations found.${reset}');
+    LoggerHelper.printSuccess('No architecture violations found.');
   }
 }
 

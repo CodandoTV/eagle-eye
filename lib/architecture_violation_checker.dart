@@ -1,4 +1,4 @@
-import 'package:eagle_eye/model/error.dart';
+import 'package:eagle_eye/model/error_info.dart';
 import 'package:eagle_eye/model/software_unit.dart';
 
 class ArchitectureViolationChecker {
@@ -6,14 +6,14 @@ class ArchitectureViolationChecker {
 
   ArchitectureViolationChecker(this.importViolationByFile);
 
-  Error? check(SoftwareUnit unit) {
+  ErrorInfo? check(SoftwareUnit unit) {
     for (var pattern in importViolationByFile.keys) {
       if (_matchesPattern(unit.filePath, pattern)) {
         final violations = importViolationByFile[pattern]!;
         for (var violation in violations) {
           for (var import in unit.imports) {
             if (_matchesPattern(import, violation)) {
-              return Error(
+              return ErrorInfo(
                 filePath: unit.filePath,
                 import: import,
                 violation: violation,
