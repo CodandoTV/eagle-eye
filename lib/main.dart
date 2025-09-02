@@ -13,7 +13,7 @@ const green = '\x1B[32m';
 const reset = '\x1B[0m';
 
 Future<void> main(List<String> args) async {
-  final files = Directory('lib')
+  final files = Directory('../todoapp_flutter/lib')
       .listSync(recursive: true)
       .whereType<File>()
       .where((f) => f.path.endsWith('.dart'))
