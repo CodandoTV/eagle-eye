@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:eagle_eye/architecture_violation_checker.dart';
 import 'package:eagle_eye/logger_helper.dart';
 import 'package:eagle_eye/model/error_info.dart';
+import 'package:eagle_eye/rules/do_not_with_rule_checker.dart';
 import 'package:eagle_eye/software_unit_mapper.dart';
 
 Future<void> main(List<String> args) async {
@@ -29,12 +29,12 @@ Future<void> main(List<String> args) async {
   final mapper = SoftwareUnitMapper();
   final units = await mapper.map(files);
 
-  final checker = ArchitectureViolationChecker(importViolationsByFile);
+  final checker = DoNotWithRuleChecker(notWithImports: importViolationsByFile);
 
   List<ErrorInfo> errors = [];
 
   for (var unit in units) {
-    final error = checker.check(unit);
+    final error = checker.check(softwareUnit: unit);
     if (error != null) {
       errors.add(error);
     }
