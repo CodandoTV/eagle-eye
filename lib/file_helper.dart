@@ -19,8 +19,15 @@ class FileHelper {
 
     List<EagleEyeConfigItem> eagleConfigItems = [];
     for (var jsonItem in jsonData) {
-      eagleConfigItems
-          .add(EagleEyeConfigItem.fromJson(jsonItem as Map<String, dynamic>));
+      EagleEyeConfigItem configItem = EagleEyeConfigItem.fromJson(
+        jsonItem as Map<String, dynamic>,
+      );
+      eagleConfigItems.add(configItem);
+
+      LoggerHelper.printDebug(
+        '${configItem.filePattern}-->' +
+            'noDependsEnabled:${configItem.noDependsEnabled}',
+      );
     }
 
     return EagleEyeConfig(items: eagleConfigItems);

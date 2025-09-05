@@ -3,6 +3,7 @@ class LoggerHelper {
   static const green = '\x1B[32m';
   static const reset = '\x1B[0m';
   static const eagleEmoji = '🦅';
+  static const debug = true;
 
   static void printError(String message) {
     print('$eagleEmoji $red$message$reset');
@@ -10,5 +11,11 @@ class LoggerHelper {
 
   static void printSuccess(String message) {
     print('$eagleEmoji $green$message$reset');
+  }
+
+  static void printDebug(String message) {
+    if (debug) {
+      print('!!!!! $red $message $reset');
+    }
   }
 }
