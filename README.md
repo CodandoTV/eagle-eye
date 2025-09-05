@@ -23,7 +23,7 @@ git clone <repository-url>
 cd eagle_eye
 ```
 
-### 2. Add EagleEye to your project in ** `pubspec.yaml`:
+### 2. Add EagleEye to your project in `pubspec.yaml`:
 
 ```yaml
 dependencies:
