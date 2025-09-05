@@ -1,69 +1,28 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:eagle_eye/logger_helper.dart';
-import 'package:eagle_eye/model/error_info.dart';
-import 'package:eagle_eye/rules/do_not_with_rule_checker.dart';
-import 'package:eagle_eye/software_unit_mapper.dart';
+import 'package:analyzer/dart/analysis/features.dart';
+import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:eagle_eye/file_helper.dart';
+import 'package:eagle_eye/model/eagle_eye_config.dart';
+import 'package:eagle_eye/resources.dart';
+import 'package:eagle_eye/rules/no_dependency_rule_visitor.dart';
 
-Future<void> main(List<String> args) async {
-  final file = File('eagle_eye_config.json');
-  if (!file.existsSync()) {
-    LoggerHelper.printError('eagle_eye_config.json not found!');
-    exit(1);
-  }
+Future<void> main() async {
+  EagleEyeConfig configFile = await FileHelper.getAndCheckIfConfigFileExists(
+    Resources.configFile,
+  );
+  Directory libsDirectory = FileHelper.getAndCheckIfLibsDirectoryExists(
+    Resources.libsFolderName,
+  );
 
-  final content = file.readAsStringSync();
-  final config = jsonDecode(content);
+  final dartFiles = FileHelper.allDartFiles(libsDirectory);
 
-  Map<String, dynamic> importViolationsData = config['import_violations'];
-
-  Map<String, List<String>> importViolationsByFile =
-      _convertToMapOfListOfString(importViolationsData);
-
-  final files = Directory('lib')
-      .listSync(recursive: true)
-      .whereType<File>()
-      .where((f) => f.path.endsWith('.dart'))
-      .toList();
-
-  final mapper = SoftwareUnitMapper();
-  final units = await mapper.map(files);
-
-  final checker = DoNotWithRuleChecker(notWithImports: importViolationsByFile);
-
-  List<ErrorInfo> errors = [];
-
-  for (var unit in units) {
-    final error = checker.check(softwareUnit: unit);
-    if (error != null) {
-      errors.add(error);
+  for (final file in dartFiles) {
+    final result = parseFile(
+      path: file.path,
+      featureSet: FeatureSet.latestLanguageVersion(),
+    );
+    if (file.path.contains('tasks_viewmodel.dart')) {
+      result.unit.visitChildren(NoDependencyRuleVisitor(file.path));
     }
   }
-
-  if (errors.isNotEmpty) {
-    var errorMessage = '${errors.length} violations found:\n';
-
-    for (var error in errors) {
-      errorMessage += '${error.filePath} -> ${error.import}\n';
-    }
-
-    LoggerHelper.printError(errorMessage);
-    exit(1);
-  } else {
-    LoggerHelper.printSuccess('No architecture violation found.');
-  }
-}
-
-Map<String, List<String>> _convertToMapOfListOfString(
-  Map<String, dynamic> input,
-) {
-  final Map<String, List<String>> output = {};
-
-  input.forEach((key, value) {
-    if (value is List) {
-      output[key.toString()] = value.map((e) => e.toString()).toList();
-    }
-  });
-
-  return output;
 }
