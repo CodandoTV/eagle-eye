@@ -47,6 +47,7 @@ Create a JSON file in your project to define rules. Example:
 Add it in the root level of your project.
 
 > filePattern – glob pattern to match files.
+> 
 > noDependsEnabled – set to true to forbid dependencies for matching files.
 
 Run the eagle eye locally:
