@@ -46,6 +46,7 @@ class EagleEyeLauncher {
           configItem: eagleEyeItem,
           filePath: file.path,
           errorCallback: (error) => errors.add(error),
+          regexHelper: RegexHelper(),
         );
         result.unit.visitChildren(visitor);
       }

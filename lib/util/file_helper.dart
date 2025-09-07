@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/util/json_mapper.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 class FileHelper {
@@ -22,8 +23,9 @@ class FileHelper {
     List<dynamic> jsonData = jsonDecode(textContent);
 
     List<EagleEyeConfigItem> eagleConfigItems = [];
+    JsonMapper jsonMapper = JsonMapper();
     for (var jsonItem in jsonData) {
-      EagleEyeConfigItem configItem = EagleEyeConfigItem.fromJson(
+      EagleEyeConfigItem configItem = jsonMapper.map(
         jsonItem as Map<String, dynamic>,
       );
       eagleConfigItems.add(configItem);
@@ -31,6 +33,10 @@ class FileHelper {
       loggerHelper.printDebug(
         '${configItem.filePattern}-->' +
             'noDependsEnabled:${configItem.noDependsEnabled}',
+      );
+      loggerHelper.printDebug(
+        '${configItem.filePattern}-->' +
+            'justDepsWithPatterns:${configItem.justDepsWithPatterns}',
       );
     }
 

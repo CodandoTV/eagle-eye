@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/error_info.dart';
 
@@ -7,15 +8,21 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   final EagleEyeConfigItem configItem;
   final String filePath;
   final Function(ErrorInfo) errorCallback;
+  final RegexHelper regexHelper;
 
   EagleEyeVisitor({
     required this.configItem,
     required this.filePath,
     required this.errorCallback,
+    required this.regexHelper,
   });
 
   @override
   void visitImportDirective(ImportDirective node) {
+    super.visitImportDirective(node);
+
+    final importDirective = node.uri.stringValue;
+
     if (configItem.noDependsEnabled == true) {
       errorCallback(
         ErrorInfo(
@@ -23,7 +30,28 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
           errorMessage: '$filePath should not contains any import.',
         ),
       );
+      return;
     }
-    super.visitImportDirective(node);
+
+    if (importDirective != null) {
+      if (configItem.justDepsWithPatterns != null) {
+        for (var justDepsWith in configItem.justDepsWithPatterns!) {
+          var matches = regexHelper.matchesPattern(
+            importDirective,
+            justDepsWith,
+          );
+          if (matches == false) {
+            errorCallback(
+              ErrorInfo(
+                filePath: filePath,
+                errorMessage:
+                    '$filePath should not depends on $importDirective',
+              ),
+            );
+            return;
+          }
+        }
+      }
+    }
   }
 }
