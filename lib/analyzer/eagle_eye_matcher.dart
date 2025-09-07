@@ -1,14 +1,19 @@
+import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 
 class EagleEyeMatcher {
-  EagleEyeConfig config;
+  final EagleEyeConfig config;
+  final RegexHelper regexHelper;
 
-  EagleEyeMatcher(this.config);
+  EagleEyeMatcher({
+    required this.config,
+    required this.regexHelper,
+  });
 
   EagleEyeConfigItem? find(filePath) {
     for (var configurationItem in config.items) {
-      bool configItemFounded = _matchesPattern(
+      bool configItemFounded = regexHelper.matchesPattern(
         filePath,
         configurationItem.filePattern,
       );
@@ -17,10 +22,5 @@ class EagleEyeMatcher {
       }
     }
     return null;
-  }
-
-  bool _matchesPattern(String text, String pattern) {
-    final regex = RegExp(pattern.replaceAll('*', '.*'));
-    return regex.hasMatch(text);
   }
 }

@@ -24,8 +24,6 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
         ),
       );
     }
-
-    // TODO: Implement other rules based on eagle item
     super.visitImportDirective(node);
   }
 }
