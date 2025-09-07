@@ -21,8 +21,6 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   void visitImportDirective(ImportDirective node) {
     super.visitImportDirective(node);
 
-    final importDirective = node.uri.stringValue;
-
     if (configItem.noDependsEnabled == true) {
       errorCallback(
         ErrorInfo(
@@ -30,11 +28,10 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
           errorMessage: '$filePath should not contains any import.',
         ),
       );
-      return;
-    }
+    } else if (configItem.noDepsWithPatterns != null) {
+      final importDirective = node.uri.stringValue;
 
-    if (importDirective != null) {
-      if (configItem.noDepsWithPatterns != null) {
+      if (importDirective != null) {
         for (var noDepsWithItem in configItem.noDepsWithPatterns!) {
           var matches = regexHelper.matchesPattern(
             importDirective,
@@ -48,7 +45,6 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
                     '$filePath should not depends on $importDirective',
               ),
             );
-            return;
           }
         }
       }
