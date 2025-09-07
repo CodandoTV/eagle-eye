@@ -34,13 +34,13 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
     }
 
     if (importDirective != null) {
-      if (configItem.justDepsWithPatterns != null) {
-        for (var justDepsWith in configItem.justDepsWithPatterns!) {
+      if (configItem.noDepsWithPatterns != null) {
+        for (var noDepsWithItem in configItem.noDepsWithPatterns!) {
           var matches = regexHelper.matchesPattern(
             importDirective,
-            justDepsWith,
+            noDepsWithItem,
           );
-          if (matches == false) {
+          if (matches == true) {
             errorCallback(
               ErrorInfo(
                 filePath: filePath,

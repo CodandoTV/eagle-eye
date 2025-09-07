@@ -29,15 +29,6 @@ class FileHelper {
         jsonItem as Map<String, dynamic>,
       );
       eagleConfigItems.add(configItem);
-
-      loggerHelper.printDebug(
-        '${configItem.filePattern}-->' +
-            'noDependsEnabled:${configItem.noDependsEnabled}',
-      );
-      loggerHelper.printDebug(
-        '${configItem.filePattern}-->' +
-            'justDepsWithPatterns:${configItem.justDepsWithPatterns}',
-      );
     }
 
     return EagleEyeConfig(items: eagleConfigItems);

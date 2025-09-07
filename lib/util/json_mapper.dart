@@ -7,19 +7,11 @@ class JsonMapper {
 
     List<String>? noDepsWithPatterns;
     try {
-      noDepsWithPatterns =
-          json[Constants.noDepsWithPatternsEagleItemKey] as List<String>;
-    } catch (e) {
-      noDepsWithPatterns = null;
-    }
-
-    List<String>? justDepsWithPatterns;
-    try {
-      justDepsWithPatterns = _convertList(
-        json[Constants.justDepsWithPatternsEagleItemKey] as List<dynamic>,
+      noDepsWithPatterns = _convertList(
+        json[Constants.noDepsWithPatternsEagleItemKey] as List<dynamic>,
       );
     } catch (e) {
-      justDepsWithPatterns = null;
+      noDepsWithPatterns = null;
     }
 
     String filePattern = json[Constants.filePatternEagleItemKey];
@@ -27,7 +19,6 @@ class JsonMapper {
     return EagleEyeConfigItem(
       noDependsEnabled: noDependsEnabled,
       noDepsWithPatterns: noDepsWithPatterns,
-      justDepsWithPatterns: justDepsWithPatterns,
       filePattern: filePattern,
     );
   }
