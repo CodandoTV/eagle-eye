@@ -5,8 +5,8 @@ import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 
 abstract class EagleEyeRepository {
-  Future<EagleEyeConfig> getAndCheckIfConfigFileExists();
-  List<File> allDartFiles();
+  Future<EagleEyeConfig?> getAndCheckIfConfigFileExists();
+  List<File>? allDartFiles();
 }
 
 class EagleEyeRepositoryImpl extends EagleEyeRepository {
@@ -22,18 +22,26 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
   });
 
   @override
-  List<File> allDartFiles() {
-    Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
-      libsFolderName,
-    );
-    return fileHelper.allDartFiles(libsDir);
+  List<File>? allDartFiles() {
+    try {
+      Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
+        libsFolderName,
+      );
+      return fileHelper.allDartFiles(libsDir);
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
-  Future<EagleEyeConfig> getAndCheckIfConfigFileExists() async {
-    final String configFileContent =
-        await fileHelper.getAndCheckIfConfigFileExists(configFileName);
+  Future<EagleEyeConfig?> getAndCheckIfConfigFileExists() async {
+    try {
+      final String configFileContent =
+          await fileHelper.getAndCheckIfConfigFileExists(configFileName);
 
-    return jsonConverter.convert(configFileContent);
+      return jsonConverter.convert(configFileContent);
+    } catch (e) {
+      return null;
+    }
   }
 }

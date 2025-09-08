@@ -25,9 +25,26 @@ class EagleEyeLauncher {
   }
 
   Future<void> launchEagleEye() async {
-    EagleEyeConfig configFile =
+    EagleEyeConfig? configFile =
         await _repository.getAndCheckIfConfigFileExists();
-    List<File> dartFiles = _repository.allDartFiles();
+    List<File>? dartFiles = _repository.allDartFiles();
+
+    if (configFile == null) {
+      LoggerHelper.printError(
+        '❌ Unable to load configuration file. '
+        'Please ensure that an eagle_eye_config.json file exists at the '
+        'root of your project.',
+      );
+      exit(1);
+    }
+
+    if (dartFiles == null) {
+      LoggerHelper.printError(
+        '❌ Unable to load the dart files of your project.',
+      );
+      exit(1);
+    }
+
     final EagleEyeMatcher matcher = EagleEyeMatcher(
       config: configFile,
       regexHelper: RegexHelper(),
