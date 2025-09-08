@@ -1,0 +1,39 @@
+import 'dart:io';
+
+import 'package:eagle_eye/data/file_helper.dart';
+import 'package:eagle_eye/data/json_converter.dart';
+import 'package:eagle_eye/model/eagle_eye_config.dart';
+
+abstract class EagleEyeRepository {
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists();
+  List<File> allDartFiles();
+}
+
+class EagleEyeRepositoryImpl extends EagleEyeRepository {
+  static const configFileName = 'eagle_eye_config.json';
+  static const libsFolderName = 'lib';
+
+  FileHelper fileHelper;
+  JsonConverter jsonConverter;
+
+  EagleEyeRepositoryImpl({
+    required this.fileHelper,
+    required this.jsonConverter,
+  });
+
+  @override
+  List<File> allDartFiles() {
+    Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
+      libsFolderName,
+    );
+    return fileHelper.allDartFiles(libsDir);
+  }
+
+  @override
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists() async {
+    final String configFileContent =
+        await fileHelper.getAndCheckIfConfigFileExists(configFileName);
+
+    return jsonConverter.convert(configFileContent);
+  }
+}

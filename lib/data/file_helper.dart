@@ -1,9 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:eagle_eye/model/eagle_eye_config.dart';
-import 'package:eagle_eye/model/eagle_eye_config_item.dart';
-import 'package:eagle_eye/util/json_mapper.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 class FileHelper {
@@ -11,27 +6,14 @@ class FileHelper {
 
   FileHelper({required this.loggerHelper});
 
-  Future<EagleEyeConfig> getAndCheckIfConfigFileExists(
-      String configFile) async {
+  Future<String> getAndCheckIfConfigFileExists(String configFile) async {
     final file = File(configFile);
     if (!file.existsSync()) {
       loggerHelper.printError('$configFile not found!');
       exit(1);
     }
     final textContent = await file.readAsString();
-
-    List<dynamic> jsonData = jsonDecode(textContent);
-
-    List<EagleEyeConfigItem> eagleConfigItems = [];
-    JsonMapper jsonMapper = JsonMapper();
-    for (var jsonItem in jsonData) {
-      EagleEyeConfigItem configItem = jsonMapper.map(
-        jsonItem as Map<String, dynamic>,
-      );
-      eagleConfigItems.add(configItem);
-    }
-
-    return EagleEyeConfig(items: eagleConfigItems);
+    return textContent;
   }
 
   Directory getAndCheckIfLibsDirectoryExists(String libsFolderName) {

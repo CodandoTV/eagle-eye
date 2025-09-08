@@ -5,30 +5,30 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/constants.dart';
+import 'package:eagle_eye/data/eagle_eye_repository.dart';
+import 'package:eagle_eye/data/file_helper.dart';
+import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/error_info.dart';
-import 'package:eagle_eye/util/file_helper.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 class EagleEyeLauncher {
   final LoggerHelper _loggerHelper = LoggerHelper(debug: true);
-  late FileHelper _fileHelper;
+  late EagleEyeRepository _repository;
 
   EagleEyeLauncher() {
-    _fileHelper = FileHelper(loggerHelper: _loggerHelper);
+    final fileHelper = FileHelper(loggerHelper: _loggerHelper);
+    _repository = EagleEyeRepositoryImpl(
+      fileHelper: fileHelper,
+      jsonConverter: JsonConverter(),
+    );
   }
 
   Future<void> launchEagleEye() async {
-    EagleEyeConfig configFile = await _fileHelper.getAndCheckIfConfigFileExists(
-      Constants.configFile,
-    );
-    Directory libsDirectory = _fileHelper.getAndCheckIfLibsDirectoryExists(
-      Constants.libsFolderName,
-    );
-
-    final dartFiles = _fileHelper.allDartFiles(libsDirectory);
+    EagleEyeConfig configFile =
+        await _repository.getAndCheckIfConfigFileExists();
+    List<File> dartFiles = _repository.allDartFiles();
     final EagleEyeMatcher matcher = EagleEyeMatcher(
       config: configFile,
       regexHelper: RegexHelper(),
