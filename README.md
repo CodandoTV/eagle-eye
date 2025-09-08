@@ -38,11 +38,19 @@ Create a JSON file in your project to define rules. Example:
 ```json
 [
   {
-    "filePattern": "*screen.dart",
+    "filePattern": "*util.dart",
     "noDependsEnabled": true
+  },
+  {
+    "filePattern": "*screen.dart",
+    "noDepsWithPatterns": ["*repository.dart"]
   }
 ]
 ```
+
+In the example above, we define two rules:
+- Any file ending with the `util.dart` suffix must not have dependencies.
+- Any screen file must not directly depend on repository classes — instead, it should access data through a ViewModel (for example).
 
 Add it in the root level of your project.
 
