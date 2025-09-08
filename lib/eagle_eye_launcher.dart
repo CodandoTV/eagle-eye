@@ -14,11 +14,10 @@ import 'package:eagle_eye/model/error_info.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 class EagleEyeLauncher {
-  final LoggerHelper _loggerHelper = LoggerHelper(debug: true);
   late EagleEyeRepository _repository;
 
   EagleEyeLauncher() {
-    final fileHelper = FileHelper(loggerHelper: _loggerHelper);
+    final fileHelper = FileHelper();
     _repository = EagleEyeRepositoryImpl(
       fileHelper: fileHelper,
       jsonConverter: JsonConverter(),
@@ -53,14 +52,14 @@ class EagleEyeLauncher {
     }
 
     for (var errorInfoItem in errors) {
-      _loggerHelper.printError(
+      LoggerHelper.printError(
         '${errorInfoItem.errorMessage} - ${errorInfoItem.filePath}',
       );
     }
 
     if (errors.isNotEmpty) {
-      _loggerHelper
-          .printError('Verification failed with ${errors.length} errors');
+      LoggerHelper.printError(
+          'Verification failed with ${errors.length} errors');
       exit(1);
     }
   }
