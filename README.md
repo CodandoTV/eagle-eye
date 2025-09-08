@@ -52,11 +52,7 @@ In the example above, we define two rules:
 - Any file ending with the `util.dart` suffix must not have dependencies.
 - Any screen file must not directly depend on repository classes — instead, it should access data through a ViewModel (for example).
 
-Add it in the root level of your project.
-
-> filePattern – glob pattern to match files.
-> 
-> noDependsEnabled – set to true to forbid dependencies for matching files.
+Add the JSON file in the root level of your project.
 
 Run the eagle eye locally:
 
