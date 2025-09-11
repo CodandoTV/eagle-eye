@@ -1,5 +1,7 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:eagle_eye/analyzer/checker/do_not_with_rule_checker.dart';
+import 'package:eagle_eye/analyzer/checker/just_with_rule_checker.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/error_info.dart';
@@ -28,6 +30,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
     // Only check internal software components of the app
     // (discard any third party libraries)
     if (importDirective?.contains(applicationName) == true) {
+      // Check rules exclusively
       if (configItem.noDependsEnabled == true) {
         errorCallback(
           ErrorInfo(
@@ -37,20 +40,26 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
         );
       } else if (configItem.noDepsWithPatterns != null) {
         if (importDirective != null) {
-          for (var noDepsWithItem in configItem.noDepsWithPatterns!) {
-            var matches = regexHelper.matchesPattern(
-              importDirective,
-              noDepsWithItem,
-            );
-            if (matches == true) {
-              errorCallback(
-                ErrorInfo(
-                  filePath: filePath,
-                  errorMessage:
-                      '$filePath should not depends on $importDirective',
-                ),
-              );
-            }
+          ErrorInfo? errorInfo = DoNotWithRuleChecker(regexHelper).check(
+            noDepsWithPatterns: configItem.noDepsWithPatterns!,
+            importDirective: importDirective,
+            filePath: filePath,
+          );
+
+          if (errorInfo != null) {
+            errorCallback(errorInfo);
+          }
+        }
+      } else if (configItem.justWithPatterns != null) {
+        if (importDirective != null) {
+          ErrorInfo? errorInfo = JustWithRuleChecker(regexHelper).check(
+            justWithPatterns: configItem.noDepsWithPatterns!,
+            importDirective: importDirective,
+            filePath: filePath,
+          );
+
+          if (errorInfo != null) {
+            errorCallback(errorInfo);
           }
         }
       }
