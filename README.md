@@ -25,6 +25,8 @@ cd eagle_eye
 
 ### 2. Add EagleEye to your project in `pubspec.yaml`:
 
+⚠ We are working on a better way to distribute the library.
+
 ```yaml
 dependencies:
   eagle_eye:
@@ -93,5 +95,5 @@ dart run eagle_eye:main
 
 If you have any error, the process will fail immediately.
 
-We are working on error reports.
+⚠ We are working on error reports.
 
