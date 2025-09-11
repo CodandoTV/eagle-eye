@@ -45,6 +45,14 @@ class EagleEyeLauncher {
       exit(1);
     }
 
+    String? applicationName = _repository.getApplicationName();
+    if (applicationName == null) {
+      LoggerHelper.printError(
+        '❌ Unable to find pubspec.yaml.',
+      );
+      exit(1);
+    }
+
     final EagleEyeMatcher matcher = EagleEyeMatcher(
       config: configFile,
       regexHelper: RegexHelper(),
@@ -61,6 +69,7 @@ class EagleEyeLauncher {
         EagleEyeVisitor visitor = EagleEyeVisitor(
           configItem: eagleEyeItem,
           filePath: file.path,
+          applicationName: applicationName,
           errorCallback: (error) => errors.add(error),
           regexHelper: RegexHelper(),
         );
