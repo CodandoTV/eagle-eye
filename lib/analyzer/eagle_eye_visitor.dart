@@ -38,10 +38,10 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
             errorMessage: '$filePath should not contains any import.',
           ),
         );
-      } else if (configItem.noDepsWithPatterns != null) {
+      } else if (configItem.doNotWithPatterns != null) {
         if (importDirective != null) {
           ErrorInfo? errorInfo = DoNotWithRuleChecker(regexHelper).check(
-            noDepsWithPatterns: configItem.noDepsWithPatterns!,
+            noDepsWithPatterns: configItem.doNotWithPatterns!,
             importDirective: importDirective,
             filePath: filePath,
           );
@@ -53,7 +53,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
       } else if (configItem.justWithPatterns != null) {
         if (importDirective != null) {
           ErrorInfo? errorInfo = JustWithRuleChecker(regexHelper).check(
-            justWithPatterns: configItem.noDepsWithPatterns!,
+            justWithPatterns: configItem.justWithPatterns!,
             importDirective: importDirective,
             filePath: filePath,
           );

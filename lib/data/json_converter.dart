@@ -5,7 +5,8 @@ import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 
 class JsonConverter {
   static const noDependsEnabledEagleItemKey = 'noDependsEnabled';
-  static const noDepsWithPatternsEagleItemKey = 'noDepsWithPatterns';
+  static const doNotWithPatternsEagleItemKey = 'doNotWithPatterns';
+  static const justWithPatternsEagleItemKey = 'justWithPatterns';
   static const filePatternEagleItemKey = 'filePattern';
 
   EagleEyeConfig convert(String jsonText) {
@@ -25,20 +26,30 @@ class JsonConverter {
   EagleEyeConfigItem _map(Map<String, dynamic> json) {
     bool? noDependsEnabled = json[noDependsEnabledEagleItemKey];
 
-    List<String>? noDepsWithPatterns;
+    List<String>? doNotWithPatterns;
     try {
-      noDepsWithPatterns = _convertList(
-        json[noDepsWithPatternsEagleItemKey] as List<dynamic>,
+      doNotWithPatterns = _convertList(
+        json[doNotWithPatternsEagleItemKey] as List<dynamic>,
       );
     } catch (e) {
-      noDepsWithPatterns = null;
+      doNotWithPatterns = null;
+    }
+
+    List<String>? justWithPatterns;
+    try {
+      justWithPatterns = _convertList(
+        json[justWithPatternsEagleItemKey] as List<dynamic>,
+      );
+    } catch (e) {
+      justWithPatterns = null;
     }
 
     String filePattern = json[filePatternEagleItemKey];
 
     return EagleEyeConfigItem(
       noDependsEnabled: noDependsEnabled,
-      noDepsWithPatterns: noDepsWithPatterns,
+      doNotWithPatterns: doNotWithPatterns,
+      justWithPatterns: justWithPatterns,
       filePattern: filePattern,
     );
   }

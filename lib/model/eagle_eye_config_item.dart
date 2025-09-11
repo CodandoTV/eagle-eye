@@ -1,12 +1,12 @@
 class EagleEyeConfigItem {
   bool? noDependsEnabled = false;
-  List<String>? noDepsWithPatterns;
+  List<String>? doNotWithPatterns;
   List<String>? justWithPatterns;
   String filePattern;
 
   EagleEyeConfigItem({
     this.noDependsEnabled,
-    this.noDepsWithPatterns,
+    this.doNotWithPatterns,
     this.justWithPatterns,
     required this.filePattern,
   });
