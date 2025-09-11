@@ -14,16 +14,16 @@
 
 ---
 
-## Installation
+## How to install? 
 
-### 1. Clone the repository:
+### 2. Clone the repository:
 
 ```bash
 git clone <repository-url>
 cd eagle_eye
 ```
 
-### 2. Add EagleEye to your project in `pubspec.yaml`:
+### 3. Add EagleEye to your project in `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -31,7 +31,33 @@ dependencies:
     path: ../eagle_eye
 ```
 
-## Usage
+## How to use?
+
+### 1. Make sure you have a lint rule to avoid relative imports
+
+```yaml
+# analysis_options.yaml
+
+analyzer:
+    errors:
+        avoid_relative_lib_imports: error
+```
+
+In this way, we are forcing the internal imports to have the app name:
+
+```dart
+// BAD ❌ (relative import)
+import '../utils/helper.dart';
+```
+
+```dart
+// GOOD ✅ (package import)
+import 'package:my_app/utils/helper.dart';
+```
+
+Ensure that this lint rule is enabled for EagleEye to function correctly.
+
+### 42. In your project create a file `eagle_eye_config.json`
 
 Create a JSON file in your project to define rules. Example:
 
@@ -42,21 +68,21 @@ Create a JSON file in your project to define rules. Example:
     "noDependsEnabled": true
   },
   {
-    "filePattern": "*screen.dart",
-    "noDepsWithPatterns": ["*repository.dart"]
+    "filePattern": "*viewmodel.dart",
+    "justWithPatterns": ["*repository.dart"]
+  },
+  {
+    "filePattern": "*repository.dart",
+    "doNotWithPatterns": ["*screen.dart"]
   }
 ]
 ```
+Add the json file in the root level of your project.
 
-In the example above, we define two rules:
-- Any file ending with the `util.dart` suffix must not have dependencies.
-- Any screen file must not directly depend on repository classes — instead, it should access data through a ViewModel (for example).
-
-Add it in the root level of your project.
-
-> filePattern – glob pattern to match files.
-> 
-> noDependsEnabled – set to true to forbid dependencies for matching files.
+Just to explain, we are defining some rules in this example:
+- Any file ending with the `util.dart` suffix must not have dependencies;
+- Any viewModel file should depend on repository classes;
+- Any repository file should not depends on screen files.
 
 Run the eagle eye locally:
 
