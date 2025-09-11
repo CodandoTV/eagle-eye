@@ -9,42 +9,48 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   final String filePath;
   final Function(ErrorInfo) errorCallback;
   final RegexHelper regexHelper;
+  final String applicationName;
 
   EagleEyeVisitor({
     required this.configItem,
     required this.filePath,
     required this.errorCallback,
     required this.regexHelper,
+    required this.applicationName,
   });
 
   @override
   void visitImportDirective(ImportDirective node) {
     super.visitImportDirective(node);
 
-    if (configItem.noDependsEnabled == true) {
-      errorCallback(
-        ErrorInfo(
-          filePath: filePath,
-          errorMessage: '$filePath should not contains any import.',
-        ),
-      );
-    } else if (configItem.noDepsWithPatterns != null) {
-      final importDirective = node.uri.stringValue;
+    final importDirective = node.uri.stringValue;
 
-      if (importDirective != null) {
-        for (var noDepsWithItem in configItem.noDepsWithPatterns!) {
-          var matches = regexHelper.matchesPattern(
-            importDirective,
-            noDepsWithItem,
-          );
-          if (matches == true) {
-            errorCallback(
-              ErrorInfo(
-                filePath: filePath,
-                errorMessage:
-                    '$filePath should not depends on $importDirective',
-              ),
+    // Only check internal software components of the app
+    // (discard any third party libraries)
+    if (importDirective?.contains(applicationName) == true) {
+      if (configItem.noDependsEnabled == true) {
+        errorCallback(
+          ErrorInfo(
+            filePath: filePath,
+            errorMessage: '$filePath should not contains any import.',
+          ),
+        );
+      } else if (configItem.noDepsWithPatterns != null) {
+        if (importDirective != null) {
+          for (var noDepsWithItem in configItem.noDepsWithPatterns!) {
+            var matches = regexHelper.matchesPattern(
+              importDirective,
+              noDepsWithItem,
             );
+            if (matches == true) {
+              errorCallback(
+                ErrorInfo(
+                  filePath: filePath,
+                  errorMessage:
+                      '$filePath should not depends on $importDirective',
+                ),
+              );
+            }
           }
         }
       }
