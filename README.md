@@ -16,14 +16,14 @@
 
 ## How to install? 
 
-### 2. Clone the repository:
+### 1. Clone the repository:
 
 ```bash
 git clone <repository-url>
 cd eagle_eye
 ```
 
-### 3. Add EagleEye to your project in `pubspec.yaml`:
+### 2. Add EagleEye to your project in `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -57,7 +57,7 @@ import 'package:my_app/utils/helper.dart';
 
 Ensure that this lint rule is enabled for EagleEye to function correctly.
 
-### 42. In your project create a file `eagle_eye_config.json`
+### 2. In your project create a file `eagle_eye_config.json`
 
 Create a JSON file in your project to define rules. Example:
 
@@ -84,9 +84,14 @@ Just to explain, we are defining some rules in this example:
 - Any viewModel file should depend on repository classes;
 - Any repository file should not depends on screen files.
 
-Run the eagle eye locally:
+
+### 3. Run the eagle eye locally:
 
 ```sh
 dart run eagle_eye:main
 ```
+
+If you have any error, the process will fail immediately.
+
+We are working on error reports.
 
