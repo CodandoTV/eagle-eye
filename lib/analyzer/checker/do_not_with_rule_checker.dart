@@ -7,7 +7,6 @@ import 'package:eagle_eye/model/error_info.dart';
 /// against a list of forbidden dependency patterns. If a match is found,
 /// an [ErrorInfo] is returned describing the violation.
 class DoNotWithRuleChecker {
-
   /// Helper class used for regex-based pattern matching
   RegexHelper regexHelper;
 
