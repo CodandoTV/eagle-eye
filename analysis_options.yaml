@@ -18,6 +18,7 @@ linter:
     directives_ordering: true
     file_names: true
     lines_longer_than_80_chars: true
+    public_member_api_docs: true
 
 analyzer:
   errors:
@@ -37,3 +38,4 @@ analyzer:
     directives_ordering: error
     file_names: error
     lines_longer_than_80_chars: error
+    public_member_api_docs: error

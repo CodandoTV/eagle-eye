@@ -1,8 +1,8 @@
 name: eagle_eye
-description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: "EagleEye is a Dart CLI tool for detecting architecture violations in Dart projects."
+homepage: "https://github.com/CodandoTV/eagle-eye"
 
-version: 1.0.0+1
+version: 0.0.1
 
 environment:
   sdk: ^3.5.0
