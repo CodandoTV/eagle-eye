@@ -41,4 +41,4 @@ The `NoDependencyRule` ensures that some files should remain free of any depende
   },
 ```
 
-In this case, the all utils should be free of any dependencies.
+In this case, the all utils should be free of any internal dependencies.
