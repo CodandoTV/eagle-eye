@@ -4,7 +4,7 @@
 
 **EagleEye** is a Dart CLI tool for **detecting architecture violations** in Dart projects.  
 
-> ⚠️ **Note:** This tool is under active development and **not yet production-ready**.
+📚 Check our documentation [here](https://codandotv.github.io/eagle-eye/).
 
 ---
 
