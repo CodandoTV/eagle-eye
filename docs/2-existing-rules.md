@@ -1,6 +1,6 @@
 # Existing rules 📐
 
-We have several rules already defined in the plugin. You can create some rule too, take a look in our section about [contributions](./5-contributions.md).
+We have several rules already defined in the plugin. You can create some rule too, take a look in our section about [contributions](./3-contributions.md).
 
 ## DoNotWithRule
 

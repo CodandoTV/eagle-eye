@@ -1,4 +1,5 @@
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/CodandoTV/eagle-eye/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/CodandoTV/eagle-eye/issues)[![Pub Version](https://img.shields.io/pub/v/eagle_eye?style=flat)](https://pub.dev/packages/eagle_eye)
+
 
 # Welcome to the Eagle Eye documentation! 👋
 
