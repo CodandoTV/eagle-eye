@@ -57,7 +57,7 @@ Add EagleEye to your project in `pubspec.yaml`:
 
 ```yaml
 # versions available, run `flutter pub outdated`.
-dependencies:
+dev_dependencies:
     ...
     eagle_eye: ^version
 ```

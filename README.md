@@ -30,7 +30,7 @@ cd eagle_eye
 ⚠ We are working on a better way to distribute the library.
 
 ```yaml
-dependencies:
+dev_dependencies:
   eagle_eye:
     path: ../eagle_eye
 ```
