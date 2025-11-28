@@ -1,8 +1,10 @@
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/CodandoTV/eagle-eye/issues)[![Pub Version](https://img.shields.io/pub/v/eagle_eye?style=flat)](https://pub.dev/packages/eagle_eye)
+
 # EagleEye
 
 **EagleEye** is a Dart CLI tool for **detecting architecture violations** in Dart projects.  
 
-> ⚠️ **Note:** This tool is under active development and **not yet production-ready**.
+📚 Check our documentation [here](https://codandotv.github.io/eagle-eye/).
 
 ---
 
@@ -28,7 +30,7 @@ cd eagle_eye
 ⚠ We are working on a better way to distribute the library.
 
 ```yaml
-dependencies:
+dev_dependencies:
   eagle_eye:
     path: ../eagle_eye
 ```
