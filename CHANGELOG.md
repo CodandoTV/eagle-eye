@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Add information about how to use the tool.
+
 ## 1.0.0
 
 - Documentation + README.md updates.
