@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Add information about how to install the cli.
+
 ## 1.0.1
 
 - Add information about how to use the tool.
