@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Remove a unnecessary README install.
+
 ## 1.0.3
 
 - Try to update install tab renaming the package to install instead of installing.
