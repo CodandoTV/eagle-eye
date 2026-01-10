@@ -16,23 +16,12 @@
 
 ---
 
-## How to install? 
-
-### 1. Clone the repository:
-
-```bash
-git clone <repository-url>
-cd eagle_eye
-```
-
-### 2. Add EagleEye to your project in `pubspec.yaml`:
-
-⚠ We are working on a better way to distribute the library.
+## How to install?
 
 ```yaml
 dev_dependencies:
-  eagle_eye:
-    path: ../eagle_eye
+    ...
+    eagle_eye: ^version
 ```
 
 ## How to use?
@@ -81,15 +70,18 @@ Create a JSON file in your project to define rules. Example:
   }
 ]
 ```
+
 Add the json file in the root level of your project.
 
 Just to explain, we are defining some rules in this example:
+
 - Any file ending with the `util.dart` suffix must not have dependencies;
+
 - Any viewModel file should depend on repository classes;
+
 - Any repository file should not depends on screen files.
 
-
-### 3. Run the eagle eye locally:
+### 3. Run the eagle eye locally
 
 ```sh
 dart run eagle_eye:main
@@ -98,4 +90,3 @@ dart run eagle_eye:main
 If you have any error, the process will fail immediately.
 
 ⚠ We are working on error reports.
-

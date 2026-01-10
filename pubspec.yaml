@@ -2,7 +2,7 @@ name: eagle_eye
 description: "EagleEye is a Dart CLI tool provided by CodandoTV for detecting architecture violations in Dart projects."
 homepage: "https://github.com/CodandoTV/eagle-eye"
 
-version: 1.0.1
+version: 1.0.4
 
 environment:
   sdk: ^3.5.0
