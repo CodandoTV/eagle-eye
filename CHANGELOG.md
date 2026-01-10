@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Try to update install tab renaming the package to install instead of installing.
+
 ## 1.0.2
 
 - Add information about how to install the cli.
