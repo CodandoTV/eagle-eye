@@ -36,4 +36,11 @@ class LoggerHelper {
       print('!!!!! $_red $message $_reset');
     }
   }
+
+  /// Prints a warning message
+  ///
+  /// The message is printed in orange color with a prefix 'warn' for visibility
+  static void printWarning(String message) {
+    print('⚠️  $message');
+  }
 }

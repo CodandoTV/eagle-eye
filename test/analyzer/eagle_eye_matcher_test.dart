@@ -14,7 +14,9 @@ void main() {
     });
 
     test('returns matching config item when pattern matches', () {
-      final item = EagleEyeConfigItem(filePattern: '*screen.dart', );
+      final item = EagleEyeConfigItem(
+        filePattern: '*screen.dart',
+      );
       final config = EagleEyeConfig(items: [item]);
 
       final matcher = EagleEyeMatcher(
