@@ -52,6 +52,12 @@ class EagleEyeLauncher {
         await _repository.getAndCheckIfConfigFileExists();
     List<File>? dartFiles = _repository.allDartFiles();
 
+    LoggerHelper.printWarning(
+      'Next major release will introduce changes to the '
+      'configuration file. Existing configuration keys '
+      'will be updated for better consistency.',
+    );
+
     if (configFile == null) {
       LoggerHelper.printError(
         '❌ Unable to load configuration file. '
@@ -106,9 +112,13 @@ class EagleEyeLauncher {
       );
     }
 
-    if (errors.isNotEmpty) {
+    if (errors.isEmpty) {
+      LoggerHelper.printSuccess('Verification finished');
+    } else {
       LoggerHelper.printError(
-          'Verification failed with ${errors.length} errors');
+        'Verification failed with ${errors.length} errors',
+      );
+
       exit(1);
     }
   }

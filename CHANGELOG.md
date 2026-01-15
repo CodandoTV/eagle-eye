@@ -1,3 +1,9 @@
+## 1.0.5
+
+- Add a warning message indicating that the keys will be renamed in the next major version
+
+- Display a success message when Eagle Eye successfully checks the project
+
 ## 1.0.4
 
 - Remove a unnecessary README install.
