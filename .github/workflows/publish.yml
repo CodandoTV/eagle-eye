@@ -12,6 +12,9 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-flutter
-      - run: flutter pub publish --force
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Publish
+        run: flutter pub publish --force
