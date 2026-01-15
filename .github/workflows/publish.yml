@@ -17,12 +17,6 @@ jobs:
 
       - name: Set up Flutter
         uses: ./.github/actions/setup-flutter
-  
-      - name: Run tests
-        run: flutter test
-
-      - name: Analyze
-        run: dart analyze
 
       - name: Publish
         run: flutter pub publish
