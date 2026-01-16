@@ -9,15 +9,5 @@ on:
 jobs:
   publish:
     permissions:
-      contents: read
-      id-token: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Dart
-        uses: ./.github/actions/setup-dart
-
-      - name: Publish
-        run: dart pub publish --force
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
