@@ -3,15 +3,17 @@ import 'package:eagle_eye/model/error_info.dart';
 
 /// A rule checker that validates whether a file imports disallowed dependencies
 ///
-/// The [DoNotWithRuleChecker] uses a [RegexHelper] to test import directives
-/// against a list of forbidden dependency patterns. If a match is found,
+/// The [ForbiddenDependenciesRuleChecker] uses a [RegexHelper] to test import
+/// directives against a list of forbidden dependency patterns.
+/// If a match is found,
 /// an [ErrorInfo] is returned describing the violation.
-class DoNotWithRuleChecker {
+class ForbiddenDependenciesRuleChecker {
   /// Helper class used for regex-based pattern matching
   RegexHelper regexHelper;
 
-  /// Creates a new [DoNotWithRuleChecker] instance with the given [regexHelper]
-  DoNotWithRuleChecker(this.regexHelper);
+  /// Creates a new [ForbiddenDependenciesRuleChecker] instance with the
+  /// given [regexHelper]
+  ForbiddenDependenciesRuleChecker(this.regexHelper);
 
   /// Checks if the given [importDirective] violates any of the provided
   /// [noDepsWithPatterns] for the specified [filePath].
