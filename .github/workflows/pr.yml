@@ -13,11 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: ./.github/actions/setup-flutter
+      - name: Set up Dart
+        uses: ./.github/actions/setup-dart
   
       - name: Run tests
-        run: flutter test
+        run: dart test
 
       - name: Analyze
         run: dart analyze

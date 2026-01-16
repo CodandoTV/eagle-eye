@@ -4,6 +4,8 @@
 
 - Display a success message when Eagle Eye successfully checks the project
 
+- Remove flutter dependency
+
 ## 1.0.4
 
 - Remove a unnecessary README install.
