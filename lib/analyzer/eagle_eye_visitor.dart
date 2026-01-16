@@ -3,8 +3,8 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:eagle_eye/analyzer/checker/exclusive_dependencies_rule_checker.dart';
 import 'package:eagle_eye/analyzer/checker/forbidden_dependencies_rule_checker.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
-import 'package:eagle_eye/model/error_info.dart';
 
 /// A visitor that analyzes import directives to validate architectural rules
 /// defined in an [EagleEyeConfigItem].
@@ -28,7 +28,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   final String filePath;
 
   /// Callback used to report detected rule violations.
-  final Function(ErrorInfo) errorCallback;
+  final Function(AnalysisErrorInfo) errorCallback;
 
   /// Helper used for regex-based pattern matching.
   final RegexHelper regexHelper;
@@ -63,7 +63,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
       // Check rules exclusively
       if (configItem.dependenciesAllowed == false) {
         errorCallback(
-          ErrorInfo(
+          AnalysisErrorInfo(
             filePath: filePath,
             errorMessage: '$filePath should not contains any import.',
           ),
@@ -71,7 +71,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
       } else if (configItem.forbiddenDependencies != null) {
         if (importDirective != null) {
           final checker = ForbiddenDependenciesRuleChecker(regexHelper);
-          ErrorInfo? errorInfo = checker.check(
+          AnalysisErrorInfo? errorInfo = checker.check(
             noDepsWithPatterns: configItem.forbiddenDependencies!,
             importDirective: importDirective,
             filePath: filePath,
@@ -84,7 +84,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
       } else if (configItem.exclusiveDependencies != null) {
         if (importDirective != null) {
           final checker = ExclusiveDependenciesRuleChecker(regexHelper);
-          ErrorInfo? errorInfo = checker.check(
+          AnalysisErrorInfo? errorInfo = checker.check(
             justWithPatterns: configItem.exclusiveDependencies!,
             importDirective: importDirective,
             filePath: filePath,

@@ -8,9 +8,9 @@ import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
-import 'package:eagle_eye/model/error_info.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 /// The main launcher for Eagle Eye architecture validation.
@@ -86,7 +86,7 @@ class EagleEyeLauncher {
       config: configFile,
       regexHelper: RegexHelper(),
     );
-    List<ErrorInfo> errors = [];
+    List<AnalysisErrorInfo> errors = [];
 
     for (final file in dartFiles) {
       final result = parseFile(

@@ -1,5 +1,5 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/model/error_info.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 
 /// A rule checker that ensures a file imports **only allowed dependencies**.
 ///
@@ -22,9 +22,9 @@ class ExclusiveDependenciesRuleChecker {
   /// - [importDirective]: The import statement to validate
   /// - [filePath]: The path of the file being analyzed
   ///
-  /// Returns an [ErrorInfo] if the import does **not** match any allowed
-  /// pattern, or `null` if it passes the validation.
-  ErrorInfo? check({
+  /// Returns an [AnalysisErrorInfo] if the import does **not** match any
+  /// allowed pattern, or `null` if it passes the validation.
+  AnalysisErrorInfo? check({
     required List<String> justWithPatterns,
     required String importDirective,
     required String filePath,
@@ -35,7 +35,7 @@ class ExclusiveDependenciesRuleChecker {
         justWithItem,
       );
       if (matches == false) {
-        return ErrorInfo(
+        return AnalysisErrorInfo(
           filePath: filePath,
           errorMessage: '$filePath should depends only on $justWithPatterns',
         );

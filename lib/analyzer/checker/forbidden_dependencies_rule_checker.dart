@@ -1,5 +1,5 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/model/error_info.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 
 /// A rule checker that validates whether a file imports disallowed dependencies
 ///
@@ -23,9 +23,9 @@ class ForbiddenDependenciesRuleChecker {
   /// - [importDirective]: The import statement to validate.
   /// - [filePath]: The path of the file containing the import.
   ///
-  /// Returns an [ErrorInfo] if the import violates a rule, or `null` if all
-  /// checks pass.
-  ErrorInfo? check({
+  /// Returns an [AnalysisErrorInfo] if the import violates a rule, or `null`
+  /// if all checks pass.
+  AnalysisErrorInfo? check({
     required List<String> noDepsWithPatterns,
     required String importDirective,
     required String filePath,
@@ -36,7 +36,7 @@ class ForbiddenDependenciesRuleChecker {
         noDepsWithItem,
       );
       if (matches == true) {
-        return ErrorInfo(
+        return AnalysisErrorInfo(
           filePath: filePath,
           errorMessage: '$filePath should not depends on $importDirective',
         );
