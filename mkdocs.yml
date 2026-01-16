@@ -1,6 +1,7 @@
 site_name: Eagle eye
 repo_url: https://github.com/CodandoTV/eagle-eye
 repo_name: EagleEye
+docs_dir: 'doc'
 
 theme:
   name: material
