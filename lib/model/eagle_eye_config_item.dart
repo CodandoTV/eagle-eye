@@ -8,29 +8,29 @@ import 'package:eagle_eye/model/config_keys.dart';
 /// within that scope.
 ///
 /// Configuration behavior:
-/// - If [noDependsEnabled] is `true`, the file cannot import anything.
-/// - If [doNotWithPatterns] is provided, the file **cannot** import
+/// - If [dependenciesAllowed] is `false`, the file cannot import anything.
+/// - If [forbiddenDependencies] is provided, the file **cannot** import
 ///   any module matching those patterns.
-/// - If [justWithPatterns] is provided, the file **can only** import
+/// - If [exclusiveDependencies] is provided, the file **can only** import
 ///   modules that match those patterns.
 class EagleEyeConfigItem {
-  /// If `true`, the file should not contain any import statements.
-  bool? noDependsEnabled = false;
+  /// If `false`, the file should not contain any import statements.
+  bool? dependenciesAllowed = true;
 
   /// List of regex or wildcard patterns representing forbidden imports.
-  List<String>? doNotWithPatterns;
+  List<String>? forbiddenDependencies;
 
   /// List of regex or wildcard patterns representing allowed imports.
-  List<String>? justWithPatterns;
+  List<String>? exclusiveDependencies;
 
   /// Pattern used to identify which files this rule applies to.
   String filePattern;
 
   /// Creates a new [EagleEyeConfigItem] instance with the given parameters.
   EagleEyeConfigItem({
-    this.noDependsEnabled,
-    this.doNotWithPatterns,
-    this.justWithPatterns,
+    this.dependenciesAllowed,
+    this.forbiddenDependencies,
+    this.exclusiveDependencies,
     required this.filePattern,
   });
 
@@ -39,32 +39,33 @@ class EagleEyeConfigItem {
   /// Handles missing or invalid fields gracefully by assigning `null`
   /// where appropriate.
   factory EagleEyeConfigItem.fromJson(Map<String, dynamic> json) {
-    bool? noDependsEnabled = json[ConfigKeys.noDependsEnabledEagleItemKey];
+    bool? dependenciesAllowed =
+        json[ConfigKeys.dependenciesAllowedEagleItemKey];
 
-    List<String>? doNotWithPatterns;
+    List<String>? forbiddenDependencies;
     try {
-      doNotWithPatterns = List<String>.from(
-        json[ConfigKeys.doNotWithPatternsEagleItemKey] as List<dynamic>,
+      forbiddenDependencies = List<String>.from(
+        json[ConfigKeys.forbiddenDependenciesEagleItemKey] as List<dynamic>,
       );
     } catch (e) {
-      doNotWithPatterns = null;
+      forbiddenDependencies = null;
     }
 
-    List<String>? justWithPatterns;
+    List<String>? exclusiveDependencies;
     try {
-      justWithPatterns = List<String>.from(
-        json[ConfigKeys.justWithPatternsEagleItemKey] as List<dynamic>,
+      exclusiveDependencies = List<String>.from(
+        json[ConfigKeys.exclusiveDependenciesEagleItemKey] as List<dynamic>,
       );
     } catch (e) {
-      justWithPatterns = null;
+      exclusiveDependencies = null;
     }
 
     String filePattern = json[ConfigKeys.filePatternEagleItemKey];
 
     return EagleEyeConfigItem(
-      noDependsEnabled: noDependsEnabled,
-      doNotWithPatterns: doNotWithPatterns,
-      justWithPatterns: justWithPatterns,
+      dependenciesAllowed: dependenciesAllowed,
+      forbiddenDependencies: forbiddenDependencies,
+      exclusiveDependencies: exclusiveDependencies,
       filePattern: filePattern,
     );
   }

@@ -58,15 +58,15 @@ Create a JSON file in your project to define rules. Example:
 [
   {
     "filePattern": "*util.dart",
-    "noDependsEnabled": true
+    "dependenciesAllowed": false
   },
   {
     "filePattern": "*viewmodel.dart",
-    "justWithPatterns": ["*repository.dart"]
+    "exclusiveDependencies": ["*repository.dart"]
   },
   {
     "filePattern": "*repository.dart",
-    "doNotWithPatterns": ["*screen.dart"]
+    "forbiddenDependencies": ["*screen.dart"]
   }
 ]
 ```

@@ -1,10 +1,10 @@
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:eagle_eye/analyzer/checker/do_not_with_rule_checker.dart';
-import 'package:eagle_eye/analyzer/checker/just_with_rule_checker.dart';
+import 'package:eagle_eye/analyzer/checker/exclusive_dependencies_rule_checker.dart';
+import 'package:eagle_eye/analyzer/checker/forbidden_dependencies_rule_checker.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
-import 'package:eagle_eye/model/error_info.dart';
 
 /// A visitor that analyzes import directives to validate architectural rules
 /// defined in an [EagleEyeConfigItem].
@@ -28,7 +28,7 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   final String filePath;
 
   /// Callback used to report detected rule violations.
-  final Function(ErrorInfo) errorCallback;
+  final Function(AnalysisErrorInfo) errorCallback;
 
   /// Helper used for regex-based pattern matching.
   final RegexHelper regexHelper;
@@ -61,17 +61,18 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
     // (discard any third party libraries)
     if (importDirective?.contains(applicationName) == true) {
       // Check rules exclusively
-      if (configItem.noDependsEnabled == true) {
+      if (configItem.dependenciesAllowed == false) {
         errorCallback(
-          ErrorInfo(
+          AnalysisErrorInfo(
             filePath: filePath,
             errorMessage: '$filePath should not contains any import.',
           ),
         );
-      } else if (configItem.doNotWithPatterns != null) {
+      } else if (configItem.forbiddenDependencies != null) {
         if (importDirective != null) {
-          ErrorInfo? errorInfo = DoNotWithRuleChecker(regexHelper).check(
-            noDepsWithPatterns: configItem.doNotWithPatterns!,
+          final checker = ForbiddenDependenciesRuleChecker(regexHelper);
+          AnalysisErrorInfo? errorInfo = checker.check(
+            noDepsWithPatterns: configItem.forbiddenDependencies!,
             importDirective: importDirective,
             filePath: filePath,
           );
@@ -80,10 +81,11 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
             errorCallback(errorInfo);
           }
         }
-      } else if (configItem.justWithPatterns != null) {
+      } else if (configItem.exclusiveDependencies != null) {
         if (importDirective != null) {
-          ErrorInfo? errorInfo = JustWithRuleChecker(regexHelper).check(
-            justWithPatterns: configItem.justWithPatterns!,
+          final checker = ExclusiveDependenciesRuleChecker(regexHelper);
+          AnalysisErrorInfo? errorInfo = checker.check(
+            justWithPatterns: configItem.exclusiveDependencies!,
             importDirective: importDirective,
             filePath: filePath,
           );

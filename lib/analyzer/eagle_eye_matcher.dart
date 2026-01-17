@@ -29,7 +29,7 @@ class EagleEyeMatcher {
   ///
   /// Returns the matching [EagleEyeConfigItem] if found,
   /// or `null` if no configuration item matches.
-  EagleEyeConfigItem? find(filePath) {
+  EagleEyeConfigItem? find(String filePath) {
     for (var configurationItem in config.items) {
       bool configItemFounded = regexHelper.matchesPattern(
         filePath,

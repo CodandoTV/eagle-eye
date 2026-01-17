@@ -18,19 +18,14 @@ abstract class EagleEyeRepository {
   /// Retrieves and parses the Eagle Eye configuration file
   /// if it exists in the project root.
   ///
-  /// Returns an [EagleEyeConfig] if the file exists and is valid,
-  /// or `null` otherwise.
-  Future<EagleEyeConfig?> getAndCheckIfConfigFileExists();
+  /// Returns an [EagleEyeConfig]
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists();
 
   /// Returns all Dart files found within the project’s `lib/` directory.
-  ///
-  /// Returns `null` if the directory doesn’t exist or cannot be read.
-  List<File>? allDartFiles();
+  List<File> allDartFiles();
 
   /// Returns the application’s name as defined in the project structure.
-  ///
-  /// Returns `null` if the name cannot be determined.
-  String? getApplicationName();
+  String getApplicationName();
 }
 
 // Concrete implementation of [EagleEyeRepository] that uses
@@ -61,35 +56,23 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
   });
 
   @override
-  List<File>? allDartFiles() {
-    try {
-      Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
-        libsFolderName,
-      );
-      return fileHelper.allDartFiles(libsDir);
-    } catch (e) {
-      return null;
-    }
+  List<File> allDartFiles() {
+    Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
+      libsFolderName,
+    );
+    return fileHelper.allDartFiles(libsDir);
   }
 
   @override
-  Future<EagleEyeConfig?> getAndCheckIfConfigFileExists() async {
-    try {
-      final String configFileContent =
-          await fileHelper.getAndCheckIfConfigFileExists(configFileName);
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists() async {
+    final String configFileContent =
+        await fileHelper.getAndCheckIfConfigFileExists(configFileName);
 
-      return jsonConverter.convert(configFileContent);
-    } catch (e) {
-      return null;
-    }
+    return jsonConverter.convert(configFileContent);
   }
 
   @override
-  String? getApplicationName() {
-    try {
-      return fileHelper.getApplicationName();
-    } catch (e) {
-      return null;
-    }
+  String getApplicationName() {
+    return fileHelper.getApplicationName();
   }
 }
