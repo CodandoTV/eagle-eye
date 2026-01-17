@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Update the configuration file structure by renaming JSON keys to improve readability. Breaking changes: renamed doNotWithPatterns to forbiddenDependencies, justWithPatterns to exclusiveDependencies, and noDependsEnabled to dependenciesAllowed.
+
 ## 1.0.5
 
 - Add a warning message indicating that the keys will be renamed in the next major version
