@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:eagle_eye/model/config_keys.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/model/exceptions/invalid_json_key_exception.dart';
 
 /// A utility class that converts JSON configuration data
 /// into [EagleEyeConfig] and [EagleEyeConfigItem] objects.
@@ -16,6 +18,20 @@ import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 /// - `justWithPatterns` — defines allowed dependency patterns
 /// - `filePattern` — defines which files the rule applies to
 class JsonConverter {
+  void _checkKeys(List<String> keys) {
+    final validKeys = [
+      ConfigKeys.filePatternEagleItemKey,
+      ConfigKeys.dependenciesAllowedEagleItemKey,
+      ConfigKeys.exclusiveDependenciesEagleItemKey,
+      ConfigKeys.forbiddenDependenciesEagleItemKey,
+    ];
+    for (var key in keys.toList()) {
+      if (validKeys.contains(key) == false) {
+        throw InvalidJsonKeyException();
+      }
+    }
+  }
+
   /// Converts a JSON string ([jsonText]) into an [EagleEyeConfig] object.
   ///
   /// The JSON is expected to be an array of configuration items.
@@ -24,9 +40,13 @@ class JsonConverter {
     List<dynamic> jsonData = jsonDecode(jsonText);
 
     List<EagleEyeConfigItem> eagleConfigItems = [];
-    for (var jsonItem in jsonData) {
+    for (var jsonDataItem in jsonData) {
+      final jsonItem = jsonDataItem as Map<String, dynamic>;
+
+      _checkKeys(jsonItem.keys.toList());
+
       EagleEyeConfigItem configItem = EagleEyeConfigItem.fromJson(
-        jsonItem as Map<String, dynamic>,
+        jsonItem,
       );
       eagleConfigItems.add(configItem);
     }
