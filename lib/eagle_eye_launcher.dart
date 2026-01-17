@@ -11,6 +11,7 @@ import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/model/exceptions/eagle_eye_exception.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 
 /// The main launcher for Eagle Eye architecture validation.
@@ -48,77 +49,55 @@ class EagleEyeLauncher {
   /// - Exits the process with a non-zero code if violations are found or
   /// critical files are missing.
   Future<void> launchEagleEye() async {
-    EagleEyeConfig? configFile =
-        await _repository.getAndCheckIfConfigFileExists();
-    List<File>? dartFiles = _repository.allDartFiles();
+    try {
+      EagleEyeConfig configFile =
+          await _repository.getAndCheckIfConfigFileExists();
 
-    LoggerHelper.printWarning(
-      'Next major release will introduce changes to the '
-      'configuration file. Existing configuration keys '
-      'will be updated for better consistency.',
-    );
+      List<File> dartFiles = _repository.allDartFiles();
 
-    if (configFile == null) {
-      LoggerHelper.printError(
-        '❌ Unable to load configuration file. '
-        'Please ensure that an eagle_eye_config.json file exists at the '
-        'root of your project.',
+      String applicationName = _repository.getApplicationName();
+
+      final EagleEyeMatcher matcher = EagleEyeMatcher(
+        config: configFile,
+        regexHelper: RegexHelper(),
       );
-      exit(1);
-    }
 
-    if (dartFiles == null) {
-      LoggerHelper.printError(
-        '❌ Unable to load the dart files of your project.',
-      );
-      exit(1);
-    }
+      List<AnalysisErrorInfo> errors = [];
 
-    String? applicationName = _repository.getApplicationName();
-    if (applicationName == null) {
-      LoggerHelper.printError(
-        '❌ Unable to find pubspec.yaml.',
-      );
-      exit(1);
-    }
-
-    final EagleEyeMatcher matcher = EagleEyeMatcher(
-      config: configFile,
-      regexHelper: RegexHelper(),
-    );
-    List<AnalysisErrorInfo> errors = [];
-
-    for (final file in dartFiles) {
-      final result = parseFile(
-        path: file.path,
-        featureSet: FeatureSet.latestLanguageVersion(),
-      );
-      EagleEyeConfigItem? eagleEyeItem = matcher.find(file.path);
-      if (eagleEyeItem != null) {
-        EagleEyeVisitor visitor = EagleEyeVisitor(
-          configItem: eagleEyeItem,
-          filePath: file.path,
-          applicationName: applicationName,
-          errorCallback: (error) => errors.add(error),
-          regexHelper: RegexHelper(),
+      for (final file in dartFiles) {
+        final result = parseFile(
+          path: file.path,
+          featureSet: FeatureSet.latestLanguageVersion(),
         );
-        result.unit.visitChildren(visitor);
+        EagleEyeConfigItem? eagleEyeItem = matcher.find(file.path);
+        if (eagleEyeItem != null) {
+          EagleEyeVisitor visitor = EagleEyeVisitor(
+            configItem: eagleEyeItem,
+            filePath: file.path,
+            applicationName: applicationName,
+            errorCallback: (error) => errors.add(error),
+            regexHelper: RegexHelper(),
+          );
+          result.unit.visitChildren(visitor);
+        }
       }
-    }
 
-    for (var errorInfoItem in errors) {
-      LoggerHelper.printError(
-        '${errorInfoItem.errorMessage} - ${errorInfoItem.filePath}',
-      );
-    }
+      for (var errorInfoItem in errors) {
+        LoggerHelper.printError(
+          '${errorInfoItem.errorMessage} - ${errorInfoItem.filePath}',
+        );
+      }
 
-    if (errors.isEmpty) {
-      LoggerHelper.printSuccess('Verification finished');
-    } else {
-      LoggerHelper.printError(
-        'Verification failed with ${errors.length} errors',
-      );
-
+      if (errors.isEmpty) {
+        LoggerHelper.printSuccess('Verification finished');
+      } else {
+        LoggerHelper.printError(
+          'Verification failed with ${errors.length} errors',
+        );
+        exit(1);
+      }
+    } on EagleEyeException catch (e) {
+      LoggerHelper.printError(e.message);
       exit(1);
     }
   }
