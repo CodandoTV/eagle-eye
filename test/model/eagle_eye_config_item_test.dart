@@ -2,50 +2,50 @@ import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('no depends enabled - returns a valid configuration item object', () {
+  test('dependenciesAllowed - returns a valid configuration item object', () {
     final noDependsEnabled = {
       'filePattern': '*/data/model/*',
-      'noDependsEnabled': true
+      'dependenciesAllowed': false
     };
 
     final actual = EagleEyeConfigItem.fromJson(noDependsEnabled);
     expect(
-      actual.noDependsEnabled,
-      true,
+      actual.dependenciesAllowed,
+      false,
     );
     expect(actual.filePattern, '*/data/model/*');
-    expect(null, actual.doNotWithPatterns);
-    expect(null, actual.justWithPatterns);
+    expect(null, actual.forbiddenDependencies);
+    expect(null, actual.exclusiveDependencies);
   });
 
-  test('do not with - returns a valid configuration item object', () {
+  test('forbiddenDependencies - returns a valid configuration item object', () {
     final doNotWith = {
       'filePattern': '*viewmodel.dart',
-      'doNotWithPatterns': ['*_screen.dart']
+      'forbiddenDependencies': ['*_screen.dart']
     };
 
     final actual = EagleEyeConfigItem.fromJson(doNotWith);
 
     expect(
-      actual.doNotWithPatterns,
+      actual.forbiddenDependencies,
       ['*_screen.dart'],
     );
-    expect(actual.noDependsEnabled, null);
+    expect(actual.dependenciesAllowed, null);
     expect(actual.filePattern, '*viewmodel.dart');
-    expect(actual.justWithPatterns, null);
+    expect(actual.exclusiveDependencies, null);
   });
 
-  test('just with - returns a valid configuration item object', () {
+  test('exclusiveDependencies - returns a valid configuration item object', () {
     final doNotWith = {
       'filePattern': '*screen.dart',
-      'justWithPatterns': ['*_widget.dart']
+      'exclusiveDependencies': ['*_widget.dart']
     };
 
     final actual = EagleEyeConfigItem.fromJson(doNotWith);
 
-    expect(actual.justWithPatterns, ['*_widget.dart']);
-    expect(actual.doNotWithPatterns, null);
-    expect(actual.noDependsEnabled, null);
+    expect(actual.exclusiveDependencies, ['*_widget.dart']);
+    expect(actual.forbiddenDependencies, null);
+    expect(actual.dependenciesAllowed, null);
     expect(actual.filePattern, '*screen.dart');
   });
 }

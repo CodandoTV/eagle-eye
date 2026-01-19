@@ -1,17 +1,19 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/model/error_info.dart';
+import 'package:eagle_eye/model/analysis_error_info.dart';
 
 /// A rule checker that validates whether a file imports disallowed dependencies
 ///
-/// The [DoNotWithRuleChecker] uses a [RegexHelper] to test import directives
-/// against a list of forbidden dependency patterns. If a match is found,
+/// The [ForbiddenDependenciesRuleChecker] uses a [RegexHelper] to test import
+/// directives against a list of forbidden dependency patterns.
+/// If a match is found,
 /// an [ErrorInfo] is returned describing the violation.
-class DoNotWithRuleChecker {
+class ForbiddenDependenciesRuleChecker {
   /// Helper class used for regex-based pattern matching
   RegexHelper regexHelper;
 
-  /// Creates a new [DoNotWithRuleChecker] instance with the given [regexHelper]
-  DoNotWithRuleChecker(this.regexHelper);
+  /// Creates a new [ForbiddenDependenciesRuleChecker] instance with the
+  /// given [regexHelper]
+  ForbiddenDependenciesRuleChecker(this.regexHelper);
 
   /// Checks if the given [importDirective] violates any of the provided
   /// [noDepsWithPatterns] for the specified [filePath].
@@ -21,9 +23,9 @@ class DoNotWithRuleChecker {
   /// - [importDirective]: The import statement to validate.
   /// - [filePath]: The path of the file containing the import.
   ///
-  /// Returns an [ErrorInfo] if the import violates a rule, or `null` if all
-  /// checks pass.
-  ErrorInfo? check({
+  /// Returns an [AnalysisErrorInfo] if the import violates a rule, or `null`
+  /// if all checks pass.
+  AnalysisErrorInfo? check({
     required List<String> noDepsWithPatterns,
     required String importDirective,
     required String filePath,
@@ -34,7 +36,7 @@ class DoNotWithRuleChecker {
         noDepsWithItem,
       );
       if (matches == true) {
-        return ErrorInfo(
+        return AnalysisErrorInfo(
           filePath: filePath,
           errorMessage: '$filePath should not depends on $importDirective',
         );

@@ -2,22 +2,43 @@
 
 ## 1. Define rules
 
-- In the root level of you project, you need to create the file `eagle_eye_config.json` at the root level of your flutter/dart project.
+!!! warning "Deprecated - Only available before v2.0.0"
+
+    In the root level of you project, you need to create the file `eagle_eye_config.json` at the root level of your flutter/dart project.
+
+    ```json
+    [
+        {
+          "filePattern": "*/data/model/*",
+          "noDependsEnabled": true
+        },
+        {
+          "filePattern": "*viewmodel.dart",
+          "doNotWithPatterns": ["*_screen.dart"]
+        },
+        {
+          "filePattern": "*/util/*_handler.dart",
+          "noDependsEnabled": true
+        }
+    ]
+    ```
+
+In the root level of you project, you need to create the file `eagle_eye_config.json` at the root level of your flutter/dart project.
 
 ```json
 [
-  {
-    "filePattern": "*/data/model/*",
-    "noDependsEnabled": true
-  },
-  {
-    "filePattern": "*viewmodel.dart",
-    "doNotWithPatterns": ["*_screen.dart"]
-  },
-  {
-    "filePattern": "*/util/*_handler.dart",
-    "noDependsEnabled": true
-  }
+    {
+      "filePattern": "*/data/model/*",
+      "dependenciesAllowed": false
+    },
+    {
+      "filePattern": "*viewmodel.dart",
+      "forbiddenDependencies": ["*_screen.dart"]
+    },
+    {
+      "filePattern": "*/util/*_handler.dart",
+      "dependenciesAllowed": false
+    }
 ]
 ```
 
