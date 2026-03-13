@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Update analyzer dependency.
+
 ## 2.0.0
 
 - Update the configuration file structure by renaming JSON keys to improve readability. Breaking changes: renamed doNotWithPatterns to forbiddenDependencies, justWithPatterns to exclusiveDependencies, and noDependsEnabled to dependenciesAllowed.
