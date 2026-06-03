@@ -1,3 +1,9 @@
+## 2.0.2
+
+- Update Dart SDK constraint to ^3.8.0.
+- Update analyzer dependency to ^8.4.1.
+- Update test dependency to ^1.31.1.
+
 ## 2.0.1
 
 - Update analyzer dependency.
