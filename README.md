@@ -6,6 +6,12 @@
 
 📚 Check our documentation [here](https://codandotv.github.io/eagle-eye/).
 
+## Minimum Requirements
+
+### Dart Package
+
+- Dart 3.8+
+
 ---
 
 ## Features
