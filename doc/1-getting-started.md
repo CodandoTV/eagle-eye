@@ -1,5 +1,11 @@
 # Getting started 🚀
 
+## Minimum Requirements
+
+- **Dart SDK:** ^3.8.0
+
+---
+
 ## 1. Define rules
 
 !!! warning "Deprecated - Only available before v2.0.0"
