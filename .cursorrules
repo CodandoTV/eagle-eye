@@ -1,0 +1,16 @@
+# EagleEye — Cursor Rules
+
+> Read `AGENTS.md` at the start of every session for full project context.
+
+EagleEye is a Dart CLI tool for detecting architecture violations in Dart projects.
+
+## Critical Rules
+
+- Dart CLI only — no platform dependencies in `lib/`
+- No cyclic dependencies between `lib/` subdirectories
+- `lib/model/` depends on nothing
+- Tests use `package:test` framework
+- Commit messages: English, semantic
+- Never expose internal implementation from `lib/` as public API
+
+For complete rules and skills, read `ia/`.

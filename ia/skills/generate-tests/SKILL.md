@@ -1,7 +1,10 @@
 ---
 name: generate-tests
 description: Generate tests following project conventions
+trigger: when the user asks to write tests, review test files, or generate new test cases
 ---
+
+# Generate Tests
 
 When invoked:
 

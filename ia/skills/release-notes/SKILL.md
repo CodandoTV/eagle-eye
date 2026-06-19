@@ -1,7 +1,10 @@
 ---
 name: release-notes
-description: Generate release notes and prepare the next release
+description: Generate release notes and prepare the next release for EagleEye
+trigger: when the user asks to prepare a release, bump version, or generate release notes
 ---
+
+# EagleEye Release Process
 
 When invoked:
 

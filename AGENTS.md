@@ -74,3 +74,12 @@ example/
   6. Publish to pub.dev (`dart pub publish`)
 - **Git tag strategy:** `vX.Y.Z` (e.g., `v2.0.2`)
 - **Versioning strategy:** Semantic Versioning (SemVer)
+
+## Available Skills
+
+Before starting any task:
+1. List all directories in `ia/skills/`
+2. Identify which one covers the current task
+3. Read that file in full before proceeding
+
+Each skill file is a self-contained guide. Never skip this step — the skill may contain patterns, checklists, or constraints that are not obvious from the code alone.

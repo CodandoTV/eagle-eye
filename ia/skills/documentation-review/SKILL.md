@@ -1,7 +1,10 @@
 ---
 name: documentation-review
-description: Validate project documentation matches actual implementation
+description: Validate EagleEye documentation matches actual implementation
+trigger: when the user asks to review documentation, check for outdated docs, or verify docs match code
 ---
+
+# Documentation Review for EagleEye
 
 When invoked:
 
