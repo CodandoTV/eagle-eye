@@ -78,7 +78,7 @@ example/
 ## Available Skills
 
 Before starting any task:
-1. List all directories in `ia/skills/`
+1. List all directories in `ai/skills/`
 2. Identify which one covers the current task
 3. Read that file in full before proceeding
 

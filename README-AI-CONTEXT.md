@@ -4,7 +4,7 @@ EagleEye uses multiple AI coding tools (OpenCode, Claude Code, GitHub Copilot, G
 
 ```
 📄 AGENTS.md  ← single source of truth (master initializer)
-📁 ia/        ← detailed context: instructions, skills, module graph
+📁 ai/        ← detailed context: instructions, skills, module graph
 ```
 
 ```mermaid
@@ -17,7 +17,7 @@ graph LR
     CODEX["Codex / OpenAI<br/>(reads natively)"]
 
     AG["📄 AGENTS.md<br/>Master Initializer"]
-    IA["📁 ia/<br/>Detailed Context"]
+    AI["📁 ai/<br/>Detailed Context"]
 
     OPENCODE -->|reads| AG
     CLAUDE -->|reads| AG
@@ -26,24 +26,35 @@ graph LR
     GEMINI -->|reads| AG
     CODEX -->|reads| AG
 
-    AG -->|references| IA
+    AG -->|references| AI
 ```
 
-## ia/ structure
+## ai/ structure
 
 ```
-ia/
-  module-graph.md         ← module dependency graph
+ai/
+  module-graph.md              ← module dependency graph
   instructions/
-    dart.md               ← Dart CLI patterns and conventions
+    dart.md                    ← Dart CLI patterns and conventions
   skills/
-    architecture.md       ← architectural rules and code conventions
-    testing.md            ← testing strategies
-    release-notes.md      ← release process
-    documentation-review.md ← docs validation
-    minimum-requirements.md ← version requirements
-    run-build.md          ← how to build and test
-    review-pr.md          ← PR review checklist
+    architecture/
+      SKILL.md                 ← architectural rules and code conventions
+    documentation-review/
+      SKILL.md                 ← docs validation
+    generate-tests/
+      SKILL.md                 ← test generation
+    minimum-requirements/
+      SKILL.md                 ← version requirements
+    release-notes/
+      SKILL.md                 ← release process
+    review-pr/
+      SKILL.md                 ← PR review checklist
+    run-build/
+      SKILL.md                 ← how to build and test
+    testing/
+      SKILL.md                 ← testing strategies
+    validate-architecture/
+      SKILL.md                 ← architectural validation
 ```
 
 ## Tool-specific config
@@ -55,4 +66,4 @@ ia/
 | `.gemini/context.md` | Gemini | Entry point → reads `AGENTS.md` |
 | `.github/copilot-instructions.md` | GitHub Copilot | Entry point → reads `AGENTS.md` |
 | `.cursorrules` | Cursor | Entry point → reads `AGENTS.md` |
-| `opencode.json` → `AGENTS.md` | OpenCode | Reads `AGENTS.md` and `ia/skills/` |
+| `opencode.json` → `AGENTS.md` | OpenCode | Reads `AGENTS.md` and `ai/skills/` |

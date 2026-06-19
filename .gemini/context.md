@@ -15,4 +15,4 @@ EagleEye is a Dart CLI tool for detecting architecture violations in Dart projec
 - Commit messages: English, semantic (`feat:`, `fix:`, `test:`, `chore:`, `docs:`)
 - Never expose internal implementation from `lib/` as public API
 
-For complete rules and skills, read `ia/`.
+For complete rules and skills, read `ai/`.
