@@ -51,10 +51,10 @@ example/
 
 ## Documentation
 
-- **Generator:** MkDocs
+- **Generator:** Zensical
 - **Configuration:** `mkdocs.yml`
 - **Source directory:** `doc/`
-- **Theme:** Material for MkDocs
+- **Theme:** Material for MkDocs (via Zensical)
 - **Live site:** https://codandotv.github.io/eagle-eye/
 
 ## Distribution

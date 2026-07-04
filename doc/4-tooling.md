@@ -1,8 +1,8 @@
 # Tooling 🛠️
 
-## Mkdocs-material
+## Zensical
 
-### How to run mkdocs locally?
+### How to run the docs locally?
 
 - Create your virtual env:
 
@@ -16,16 +16,18 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-- Install mkdocs-material:
+- Install Zensical (pinned version):
 
 ```shell
-pip install mkdocs-material
+pip install zensical==0.0.46
 ```
 
 - Start the local server:
 
 ```shell
-mkdocs serve --watch .
+zensical serve
 ```
 
 Access your documentation at `http://127.0.0.1:8000/`
+
+> Zensical is in active development — the version is pinned to avoid breakage. Bump manually when needed.
