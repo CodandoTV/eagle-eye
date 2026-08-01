@@ -8,11 +8,12 @@ import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
-import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/exceptions/eagle_eye_exception.dart';
+import 'package:eagle_eye/model/violation.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
+import 'package:eagle_eye/util/output_renderer.dart';
 
 /// The main launcher for Eagle Eye architecture validation.
 ///
@@ -62,7 +63,7 @@ class EagleEyeLauncher {
         regexHelper: RegexHelper(),
       );
 
-      List<AnalysisErrorInfo> errors = [];
+      List<Violation> errors = [];
 
       for (final file in dartFiles) {
         final result = parseFile(
@@ -77,23 +78,20 @@ class EagleEyeLauncher {
             applicationName: applicationName,
             errorCallback: (error) => errors.add(error),
             regexHelper: RegexHelper(),
+            unit: result.unit,
           );
           result.unit.visitChildren(visitor);
         }
       }
 
-      for (var errorInfoItem in errors) {
-        LoggerHelper.printError(
-          '${errorInfoItem.errorMessage} - ${errorInfoItem.filePath}',
-        );
+      if (errors.isNotEmpty) {
+        final output = OutputRenderer().format(errors);
+        print(output);
       }
 
       if (errors.isEmpty) {
         LoggerHelper.printSuccess('Verification finished');
       } else {
-        LoggerHelper.printError(
-          'Verification failed with ${errors.length} errors',
-        );
         exit(1);
       }
     } on EagleEyeException catch (e) {

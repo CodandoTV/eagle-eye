@@ -24,6 +24,7 @@ class JsonConverter {
       ConfigKeys.dependenciesAllowedEagleItemKey,
       ConfigKeys.exclusiveDependenciesEagleItemKey,
       ConfigKeys.forbiddenDependenciesEagleItemKey,
+      ConfigKeys.nameEagleItemKey,
     ];
     for (var key in keys.toList()) {
       if (validKeys.contains(key) == false) {

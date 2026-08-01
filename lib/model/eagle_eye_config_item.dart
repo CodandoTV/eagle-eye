@@ -26,12 +26,16 @@ class EagleEyeConfigItem {
   /// Pattern used to identify which files this rule applies to.
   String filePattern;
 
+  /// Optional human-readable name for this rule.
+  String? name;
+
   /// Creates a new [EagleEyeConfigItem] instance with the given parameters.
   EagleEyeConfigItem({
     this.dependenciesAllowed,
     this.forbiddenDependencies,
     this.exclusiveDependencies,
     required this.filePattern,
+    this.name,
   });
 
   /// Maps a single JSON object into an [EagleEyeConfigItem].
@@ -62,11 +66,14 @@ class EagleEyeConfigItem {
 
     String filePattern = json[ConfigKeys.filePatternEagleItemKey];
 
+    String? name = json[ConfigKeys.nameEagleItemKey];
+
     return EagleEyeConfigItem(
       dependenciesAllowed: dependenciesAllowed,
       forbiddenDependencies: forbiddenDependencies,
       exclusiveDependencies: exclusiveDependencies,
       filePattern: filePattern,
+      name: name,
     );
   }
 }

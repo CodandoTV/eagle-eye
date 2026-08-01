@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ForbiddenDependenciesRuleChecker', () {
-    test('returns ErrorInfo when a pattern matches', () {
+    test('returns description when a pattern matches', () {
       final regexHelper = RegexHelper();
       final checker = ForbiddenDependenciesRuleChecker(regexHelper);
 
@@ -15,7 +15,7 @@ void main() {
       );
 
       expect(
-        result!.errorMessage,
+        result,
         'lib/my_screen.dart should not depends on my_repository.dart',
       );
     });

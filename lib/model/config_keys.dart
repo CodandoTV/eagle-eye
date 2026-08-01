@@ -12,4 +12,7 @@ class ConfigKeys {
 
   /// JSON key for the file-matching pattern.
   static const filePatternEagleItemKey = 'filePattern';
+
+  /// JSON key for the optional human-readable rule name.
+  static const nameEagleItemKey = 'name';
 }

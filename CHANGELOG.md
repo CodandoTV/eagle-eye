@@ -1,3 +1,7 @@
+## 2.0.3
+
+- Update error output to include more detailed information about the violations EagleEye detected in each file.
+
 ## 2.0.2
 
 - Update Dart SDK constraint to ^3.8.0.

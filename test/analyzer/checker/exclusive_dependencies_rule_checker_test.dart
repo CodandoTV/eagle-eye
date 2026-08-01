@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('ExclusiveDependenciesRuleChecker', () {
-    test('returns ErrorInfo when a pattern matches', () {
+    test('returns description when a pattern does not match', () {
       final regexHelper = RegexHelper();
       final checker = ExclusiveDependenciesRuleChecker(regexHelper);
 
@@ -15,12 +15,12 @@ void main() {
       );
 
       expect(
-        result!.errorMessage,
+        result,
         'lib/my_screen.dart should depends only on [*repository.dart]',
       );
     });
 
-    test('returns null when no patterns match', () {
+    test('returns null when a pattern matches', () {
       final regexHelper = RegexHelper();
       final checker = ExclusiveDependenciesRuleChecker(regexHelper);
 
