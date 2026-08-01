@@ -31,40 +31,39 @@ When invoked:
 
 5. Determine next semantic version based on the highest category found.
 
-6. Update version in `pubspec.yaml`:
+6. Generate a product-perspective summary:
+   - Write a 1-2 sentence bullet that explains the impact and benefits of this release.
+   - Focus on what this means for a developer using EagleEye, not technical details.
+   - Start with: `- **Summary:** `
+   - Example: `- **Summary:** This release improves error reporting so developers can quickly identify and fix architecture violations with detailed file-level context.`
+
+7. Update version in `pubspec.yaml`:
    - Replace the `version:` field with the new version.
 
-7. Create or update `CHANGELOG.md`:
+8. Create or update `CHANGELOG.md`:
    - Add a new section at the top:
 
    ```md
    ## X.Y.Z
 
-   ### Features
-
+   - **Summary:** <product-perspective impact and benefits>.
    - Added ...
-
-   ### Fixes
-
    - Fixed ...
-
-   ### Documentation
-
    - Updated ...
    ```
 
-8. Generate a release summary with:
+9. Generate a release summary with:
    - New version number
    - Number of commits by category
    - Key changes
 
-9. Prompt the user to:
+10. Prompt the user to:
    ```bash
    git commit -m "Bump version to X.Y.Z"
    git tag vX.Y.Z
    git push && git push --tags
    ```
 
-10. Verify publishing metadata:
+11. Verify publishing metadata:
     - Confirm `pubspec.yaml` has `homepage`, `description`, and valid `version`.
     - No sensitive or private packages (check for `publish_to: none`).
