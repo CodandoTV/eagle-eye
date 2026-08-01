@@ -18,7 +18,7 @@ void main() {
 
     test('formats single violation without ruleName', () {
       final violations = [
-        Violation(
+        const Violation(
           ruleType: RuleType.forbiddenDependency,
           filePath: 'lib/src/foo.dart',
           lineNumber: 10,
@@ -42,7 +42,7 @@ void main() {
 
     test('formats single violation with ruleName', () {
       final violations = [
-        Violation(
+        const Violation(
           ruleType: RuleType.noImportsAllowed,
           filePath: 'lib/src/bar.dart',
           lineNumber: 3,
@@ -67,7 +67,7 @@ void main() {
 
     test('groups multiple violations in the same file', () {
       final violations = [
-        Violation(
+        const Violation(
           ruleType: RuleType.forbiddenDependency,
           filePath: 'lib/src/foo.dart',
           lineNumber: 5,
@@ -75,7 +75,7 @@ void main() {
           importUri: 'package:bar/bar.dart',
           description: 'Forbidden dependency',
         ),
-        Violation(
+        const Violation(
           ruleType: RuleType.noImportsAllowed,
           filePath: 'lib/src/foo.dart',
           lineNumber: 12,
@@ -101,7 +101,7 @@ void main() {
 
     test('groups and sorts violations across multiple files', () {
       final violations = [
-        Violation(
+        const Violation(
           ruleType: RuleType.forbiddenDependency,
           filePath: 'lib/src/zzz.dart',
           lineNumber: 1,
@@ -109,7 +109,7 @@ void main() {
           importUri: 'package:x/x.dart',
           description: 'Forbidden dependency',
         ),
-        Violation(
+        const Violation(
           ruleType: RuleType.exclusiveDependency,
           filePath: 'lib/src/aaa.dart',
           lineNumber: 2,
@@ -137,7 +137,7 @@ void main() {
 
     test('renders all three rule type labels', () {
       final violations = [
-        Violation(
+        const Violation(
           ruleType: RuleType.noImportsAllowed,
           filePath: 'a.dart',
           lineNumber: 1,
@@ -145,7 +145,7 @@ void main() {
           importUri: 'dart:async',
           description: 'No imports allowed',
         ),
-        Violation(
+        const Violation(
           ruleType: RuleType.forbiddenDependency,
           filePath: 'b.dart',
           lineNumber: 1,
@@ -153,7 +153,7 @@ void main() {
           importUri: 'dart:async',
           description: 'Forbidden dependency',
         ),
-        Violation(
+        const Violation(
           ruleType: RuleType.exclusiveDependency,
           filePath: 'c.dart',
           lineNumber: 1,
