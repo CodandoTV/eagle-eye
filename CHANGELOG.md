@@ -1,14 +1,6 @@
 ## 2.0.3
 
-### Refactors
-
-- Replaced `AnalysisErrorInfo` with `Violation` and updated related logic.
-
-### Chores
-
-- Migrated doc toolchain from mkdocs-material to zensical.
-- Renamed `ia/` to `ai/` and synced AI context docs.
-- Added SKILL documents for various project tasks.
+- Update error output to include more detailed information about the violations EagleEye detected in each file.
 
 ## 2.0.2
 
