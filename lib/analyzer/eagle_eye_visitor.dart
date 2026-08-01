@@ -3,8 +3,8 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:eagle_eye/analyzer/checker/exclusive_dependencies_rule_checker.dart';
 import 'package:eagle_eye/analyzer/checker/forbidden_dependencies_rule_checker.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/model/analysis_error_info.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/model/violation.dart';
 
 /// A visitor that analyzes import directives to validate architectural rules
 /// defined in an [EagleEyeConfigItem].
@@ -28,13 +28,16 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
   final String filePath;
 
   /// Callback used to report detected rule violations.
-  final Function(AnalysisErrorInfo) errorCallback;
+  final Function(Violation) errorCallback;
 
   /// Helper used for regex-based pattern matching.
   final RegexHelper regexHelper;
 
   /// The name of the current application, used to identify internal imports.
   final String applicationName;
+
+  /// The parsed compilation unit, used to resolve line/column numbers.
+  final CompilationUnit unit;
 
   /// Creates a new [EagleEyeVisitor] with the given configuration,
   /// file path, callback, and helpers.
@@ -44,54 +47,76 @@ class EagleEyeVisitor extends RecursiveAstVisitor<void> {
     required this.errorCallback,
     required this.regexHelper,
     required this.applicationName,
+    required this.unit,
   });
 
-  /// Visits each [ImportDirective] node in the AST and checks if the import
-  /// complies with the dependency rules defined in [configItem].
-  ///
-  /// - Ignores third-party imports (not containing [applicationName]).
-  /// - Reports violations using [errorCallback].
   @override
   void visitImportDirective(ImportDirective node) {
     super.visitImportDirective(node);
 
     final importDirective = node.uri.stringValue;
 
-    // Only check internal software components of the app
-    // (discard any third party libraries)
     if (importDirective?.contains(applicationName) == true) {
-      // Check rules exclusively
+      final location = unit.lineInfo.getLocation(node.offset);
+      final lineNumber = location.lineNumber;
+      final columnNumber = location.columnNumber;
+
       if (configItem.dependenciesAllowed == false) {
         errorCallback(
-          AnalysisErrorInfo(
+          Violation(
+            ruleType: RuleType.noImportsAllowed,
             filePath: filePath,
-            errorMessage: '$filePath should not contains any import.',
+            lineNumber: lineNumber,
+            columnNumber: columnNumber,
+            importUri: importDirective,
+            ruleName: configItem.name,
+            description: '$filePath should not contains any import.',
           ),
         );
       } else if (configItem.forbiddenDependencies != null) {
         if (importDirective != null) {
           final checker = ForbiddenDependenciesRuleChecker(regexHelper);
-          AnalysisErrorInfo? errorInfo = checker.check(
+          String? errorDescription = checker.check(
             noDepsWithPatterns: configItem.forbiddenDependencies!,
             importDirective: importDirective,
             filePath: filePath,
           );
 
-          if (errorInfo != null) {
-            errorCallback(errorInfo);
+          if (errorDescription != null) {
+            errorCallback(
+              Violation(
+                ruleType: RuleType.forbiddenDependency,
+                filePath: filePath,
+                lineNumber: lineNumber,
+                columnNumber: columnNumber,
+                importUri: importDirective,
+                ruleName: configItem.name,
+                description: errorDescription,
+              ),
+            );
           }
         }
       } else if (configItem.exclusiveDependencies != null) {
         if (importDirective != null) {
           final checker = ExclusiveDependenciesRuleChecker(regexHelper);
-          AnalysisErrorInfo? errorInfo = checker.check(
+          String? errorDescription = checker.check(
             justWithPatterns: configItem.exclusiveDependencies!,
             importDirective: importDirective,
             filePath: filePath,
           );
 
-          if (errorInfo != null) {
-            errorCallback(errorInfo);
+          if (errorDescription != null) {
+            errorCallback(
+              Violation(
+                ruleType: RuleType.exclusiveDependency,
+                filePath: filePath,
+                lineNumber: lineNumber,
+                columnNumber: columnNumber,
+                importUri: importDirective,
+                ruleName: configItem.name,
+                description: errorDescription,
+              ),
+            );
           }
         }
       }

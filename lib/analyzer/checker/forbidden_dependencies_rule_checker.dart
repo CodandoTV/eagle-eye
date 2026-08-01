@@ -1,31 +1,23 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
-import 'package:eagle_eye/model/analysis_error_info.dart';
 
-/// A rule checker that validates whether a file imports disallowed dependencies
+/// Validates whether a file imports disallowed dependencies.
 ///
-/// The [ForbiddenDependenciesRuleChecker] uses a [RegexHelper] to test import
-/// directives against a list of forbidden dependency patterns.
-/// If a match is found,
-/// an [ErrorInfo] is returned describing the violation.
+/// Tests each import against a list of forbidden dependency patterns.
+/// Returns a description string if a violation is found.
 class ForbiddenDependenciesRuleChecker {
-  /// Helper class used for regex-based pattern matching
+  /// Helper used for regex-based pattern matching.
   RegexHelper regexHelper;
 
-  /// Creates a new [ForbiddenDependenciesRuleChecker] instance with the
-  /// given [regexHelper]
+  /// Creates a new [ForbiddenDependenciesRuleChecker] with the given
+  /// [regexHelper].
   ForbiddenDependenciesRuleChecker(this.regexHelper);
 
-  /// Checks if the given [importDirective] violates any of the provided
-  /// [noDepsWithPatterns] for the specified [filePath].
+  /// Checks if [importDirective] violates any of [noDepsWithPatterns]
+  /// for the given [filePath].
   ///
-  /// - [noDepsWithPatterns]: A list of regex patterns representing
-  ///   dependencies that should not be imported.
-  /// - [importDirective]: The import statement to validate.
-  /// - [filePath]: The path of the file containing the import.
-  ///
-  /// Returns an [AnalysisErrorInfo] if the import violates a rule, or `null`
+  /// Returns a violation description if a pattern matches, or `null`
   /// if all checks pass.
-  AnalysisErrorInfo? check({
+  String? check({
     required List<String> noDepsWithPatterns,
     required String importDirective,
     required String filePath,
@@ -36,10 +28,7 @@ class ForbiddenDependenciesRuleChecker {
         noDepsWithItem,
       );
       if (matches == true) {
-        return AnalysisErrorInfo(
-          filePath: filePath,
-          errorMessage: '$filePath should not depends on $importDirective',
-        );
+        return '$filePath should not depends on $importDirective';
       }
     }
     return null;
