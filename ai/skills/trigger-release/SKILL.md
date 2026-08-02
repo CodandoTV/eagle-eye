@@ -8,37 +8,43 @@ trigger: when the user asks to trigger a release, cut a release, or release a ne
 
 When invoked:
 
-1. Detect current version from `pubspec.yaml`:
+1. Verify the current branch is `main`:
+   ```bash
+   git branch --show-current
+   ```
+   If not on `main`, stop and tell the user to switch branches first.
+
+2. Detect current version from `pubspec.yaml`:
    - Read the `version:` field (e.g., `2.0.2`).
 
-2. Get the latest Git tag:
+3. Get the latest Git tag:
    ```bash
    git tag --sort=-v:refname | head -1
    ```
 
-3. Show unreleased commits as context:
+4. Show unreleased commits as context:
    ```bash
    git log <latest-tag>..HEAD --oneline
    ```
 
-4. Compute the next patch version (always bump patch):
+5. Compute the next patch version (always bump patch):
    - `2.0.2` → `2.0.3`
 
-5. Ask the user for release notes. Ask questions one at a time:
+6. Ask the user for release notes. Ask questions one at a time:
    - "Here are the unreleased commits since `<latest-tag>`. What release notes should I write for v`<next-version>`?"
    - Wait for the user's response.
 
-6. Insert the release notes into `CHANGELOG.md` at the top, after any existing content above the first `##` section:
+7. Insert the release notes into `CHANGELOG.md` at the top, after any existing content above the first `##` section:
    ```md
    ## <next-version>
 
    - <user-provided release notes>
    ```
 
-7. Update the version in `pubspec.yaml`:
+8. Update the version in `pubspec.yaml`:
    - Replace the `version:` field with the next patch version.
 
-8. Output the final commands for the user to run:
+9. Output the final commands for the user to run:
    ```bash
    git commit -am "Bump version to <next-version>"
    git tag v<next-version>
