@@ -45,8 +45,8 @@ ai/
       SKILL.md                 ← test generation
     minimum-requirements/
       SKILL.md                 ← version requirements
-    release-notes/
-      SKILL.md                 ← release process
+    trigger-release/
+      SKILL.md                 ← automated release trigger
     review-pr/
       SKILL.md                 ← PR review checklist
     run-build/
