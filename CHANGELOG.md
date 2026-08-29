@@ -1,3 +1,7 @@
+## 2.0.4
+
+- Update Yaml dependency.
+
 ## 2.0.3
 
 - Update error output to include more detailed information about the violations EagleEye detected in each file.
