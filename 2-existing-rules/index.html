@@ -265,7 +265,7 @@
   <span class="md-ellipsis">
     
   
-  Getting started 🚀
+  Getting Started
 
     
   </span>
@@ -534,16 +534,16 @@
 <p>The <code>DoNotWithRule</code> specifies that a set of file should not depend on certain files. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*viewmodel.dart&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;doNotWithPatterns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_screen.dart&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*viewmodel.dart"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"doNotWithPatterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_screen.dart"</span><span class="p">]</span>
 <span class="p">},</span>
 </code></pre></div>
 </div>
 <p>The <code>Forbidden Dependencies Rule</code> specifies that a set of file should not depend on certain files. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*viewmodel.dart&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;forbiddenDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_screen.dart&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*viewmodel.dart"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"forbiddenDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_screen.dart"</span><span class="p">]</span>
 <span class="p">},</span>
 </code></pre></div>
 <p>In this case, all files that has the suffix <code>viewmodel.dart</code> should not depend on any file whose name includes &lsquo;_screen.dart&rsquo;.</p>
@@ -553,16 +553,16 @@
 <p>The <code>JustWithRule</code> specifies that some files should depend on certain files. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*repository.dart&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;justWithPatterns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_datasources.dart&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*repository.dart"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"justWithPatterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_datasources.dart"</span><span class="p">]</span>
 <span class="p">},</span>
 </code></pre></div>
 </div>
 <p>The <code>Exclusive Dependencies Rule</code> specifies that some files should depend only on certain files. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*repository.dart&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;exclusiveDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_datasources.dart&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*repository.dart"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_datasources.dart"</span><span class="p">]</span>
 <span class="p">},</span>
 </code></pre></div>
 <p>In this case, the our repositories should depend only on data sources.</p>
@@ -571,15 +571,15 @@
 <p class="admonition-title">Deprecated - Only available before v2.0.0</p>
 <p>The <code>NoDependencyRule</code> ensures that some files should remain free of any dependencies. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*util.dart&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;noDependsEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*util.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"noDependsEnabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">  </span><span class="p">},</span>
 </code></pre></div>
 </div>
 <p>The <code>Dependencies Allowed Rule</code> ensures that some files should remain free of any dependencies. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*util.dart&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;dependenciesAllowed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*util.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dependenciesAllowed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">  </span><span class="p">},</span>
 </code></pre></div>
 <p>In this case, the all utils should be free of any internal dependencies.</p>
@@ -614,7 +614,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../1-getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started 🚀">
+          <a href="../1-getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
@@ -624,7 +624,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Getting started 🚀
+                Getting Started
               </div>
             </div>
           </a>

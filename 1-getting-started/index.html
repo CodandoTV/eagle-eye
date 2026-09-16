@@ -23,7 +23,7 @@
     
     
       
-        <title>Getting started 🚀 - Eagle eye</title>
+        <title>Getting Started - Eagle eye</title>
       
     
     
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting started 🚀
+              Getting Started
             
           </span>
         </div>
@@ -274,7 +274,7 @@
   <span class="md-ellipsis">
     
   
-  Getting started 🚀
+  Getting Started
 
     
   </span>
@@ -291,7 +291,7 @@
   <span class="md-ellipsis">
     
   
-  Getting started 🚀
+  Getting Started
 
     
   </span>
@@ -328,10 +328,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-define-rules" class="md-nav__link">
+  <a href="#1-detect-your-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        1. Define rules
+        1. Detect your architecture
       </span>
     </span>
   </a>
@@ -339,10 +339,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-make-sure-you-have-a-lint-rule-to-avoid-relative-imports" class="md-nav__link">
+  <a href="#2-create-eagle_eye_configjson" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        2. Make sure you have a lint rule to avoid relative imports
+        2. Create <code>eagle_eye_config.json</code>
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Create eagle_eye_config.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Rule types
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-specific-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Architecture-specific templates
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture-specific templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clean-architecture-data-domain-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Clean Architecture (<code>data/</code>, <code>domain/</code>, <code>presentation/</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvvm-viewmodeldart-screendart" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        MVVM (<code>*viewmodel.dart</code>, <code>*screen.dart</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-based-directories-named-by-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Feature-based (directories named by feature)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-starter-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Generic / starter config
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customization-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Customization guidelines
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configure-analysis_optionsyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Configure <code>analysis_options.yaml</code>
       </span>
     </span>
   </a>
@@ -350,10 +450,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-add-eagle-eye-dependency" class="md-nav__link">
+  <a href="#4-add-eagle-eye-dependency" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        3. Add Eagle Eye dependency
+        4. Add Eagle Eye dependency
       </span>
     </span>
   </a>
@@ -361,10 +461,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-run-the-cli" class="md-nav__link">
+  <a href="#5-validate-the-setup" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        4. Run the CLI
+        5. Validate the setup
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-optional-integrate-into-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Optional — integrate into CI/CD
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Summary
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-assisted-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        AI-assisted setup
       </span>
     </span>
   </a>
@@ -509,10 +642,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-define-rules" class="md-nav__link">
+  <a href="#1-detect-your-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        1. Define rules
+        1. Detect your architecture
       </span>
     </span>
   </a>
@@ -520,10 +653,110 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-make-sure-you-have-a-lint-rule-to-avoid-relative-imports" class="md-nav__link">
+  <a href="#2-create-eagle_eye_configjson" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        2. Make sure you have a lint rule to avoid relative imports
+        2. Create <code>eagle_eye_config.json</code>
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Create eagle_eye_config.json">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rule-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Rule types
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-specific-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Architecture-specific templates
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture-specific templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clean-architecture-data-domain-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Clean Architecture (<code>data/</code>, <code>domain/</code>, <code>presentation/</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvvm-viewmodeldart-screendart" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        MVVM (<code>*viewmodel.dart</code>, <code>*screen.dart</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-based-directories-named-by-feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Feature-based (directories named by feature)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-starter-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Generic / starter config
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#customization-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Customization guidelines
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configure-analysis_optionsyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Configure <code>analysis_options.yaml</code>
       </span>
     </span>
   </a>
@@ -531,10 +764,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-add-eagle-eye-dependency" class="md-nav__link">
+  <a href="#4-add-eagle-eye-dependency" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        3. Add Eagle Eye dependency
+        4. Add Eagle Eye dependency
       </span>
     </span>
   </a>
@@ -542,10 +775,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-run-the-cli" class="md-nav__link">
+  <a href="#5-validate-the-setup" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        4. Run the CLI
+        5. Validate the setup
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-optional-integrate-into-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Optional — integrate into CI/CD
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Summary
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-assisted-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        AI-assisted setup
       </span>
     </span>
   </a>
@@ -570,78 +836,251 @@
   
 
 
-<h1 id="getting-started">Getting started 🚀<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
+<h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
 <h2 id="minimum-requirements">Minimum Requirements<a class="headerlink" href="#minimum-requirements" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Dart SDK:</strong> ^3.8.0</li>
 </ul>
 <hr />
-<h2 id="1-define-rules">1. Define rules<a class="headerlink" href="#1-define-rules" title="Permanent link">&para;</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Deprecated - Only available before v2.0.0</p>
-<p>In the root level of you project, you need to create the file <code>eagle_eye_config.json</code> at the root level of your flutter/dart project.</p>
+<h2 id="1-detect-your-architecture">1. Detect your architecture<a class="headerlink" href="#1-detect-your-architecture" title="Permanent link">&para;</a></h2>
+<p>Read your <code>pubspec.yaml</code> to extract the app name and SDK constraint, then scan the <code>lib/</code> directory to identify your project&rsquo;s architecture pattern:</p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Likely pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lib/</code> has <code>data/</code>, <code>domain/</code>, <code>presentation/</code></td>
+<td>Clean Architecture</td>
+</tr>
+<tr>
+<td><code>lib/</code> has <code>data/</code>, <code>domain/</code>, <code>ui/</code> or <code>views/</code></td>
+<td>Clean Architecture (variant)</td>
+</tr>
+<tr>
+<td>Files named <code>*viewmodel.dart</code>, <code>*screen.dart</code></td>
+<td>MVVM</td>
+</tr>
+<tr>
+<td>Files named <code>*_cubit.dart</code>, <code>*_state.dart</code></td>
+<td>BLoC / Cubit</td>
+</tr>
+<tr>
+<td>Files named <code>*_controller.dart</code></td>
+<td>GetX or Controller-based</td>
+</tr>
+<tr>
+<td>Files named <code>*_provider.dart</code>, <code>*_notifier.dart</code></td>
+<td>Provider / Riverpod</td>
+</tr>
+<tr>
+<td>Directories named by feature (e.g. <code>auth/</code>, <code>home/</code>)</td>
+<td>Feature-based</td>
+</tr>
+<tr>
+<td><code>lib/</code> has <code>models/</code>, <code>repositories/</code>, <code>services/</code>, <code>utils/</code></td>
+<td>Layer-based</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-create-eagle_eye_configjson">2. Create <code>eagle_eye_config.json</code><a class="headerlink" href="#2-create-eagle_eye_configjson" title="Permanent link">&para;</a></h2>
+<p>Create this file at the <strong>project root</strong> (same directory as <code>pubspec.yaml</code>). It is a JSON array of rule objects.</p>
+<h3 id="rule-types">Rule types<a class="headerlink" href="#rule-types" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filePattern</code></td>
+<td>string</td>
+<td>Wildcard pattern matching file paths. <code>*</code> becomes <code>.*</code> regex.</td>
+</tr>
+<tr>
+<td><code>dependenciesAllowed</code></td>
+<td>boolean</td>
+<td>If <code>false</code>, matched files must have <strong>zero</strong> internal imports.</td>
+</tr>
+<tr>
+<td><code>forbiddenDependencies</code></td>
+<td>string[]</td>
+<td>Matched files <strong>must not</strong> import anything matching these patterns.</td>
+</tr>
+<tr>
+<td><code>exclusiveDependencies</code></td>
+<td>string[]</td>
+<td>Matched files can <strong>only</strong> import things matching these patterns.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Optional human-readable name (shown in violation output).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="architecture-specific-templates">Architecture-specific templates<a class="headerlink" href="#architecture-specific-templates" title="Permanent link">&para;</a></h3>
+<p>Pick and adapt the template that matches your architecture.</p>
+<h4 id="clean-architecture-data-domain-presentation">Clean Architecture (<code>data/</code>, <code>domain/</code>, <code>presentation/</code>)<a class="headerlink" href="#clean-architecture-data-domain-presentation" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*/data/model/*&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;noDependsEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*viewmodel.dart&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;doNotWithPatterns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_screen.dart&quot;</span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*/util/*_handler.dart&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;noDependsEnabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/domain/model/*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dependenciesAllowed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"domain-models-no-imports"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/domain/*_repository.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*/data/*"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"repositories-only-data"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/presentation/*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"forbiddenDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*/data/*"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"presentation-no-data"</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div>
-</div>
-<p>In the root level of you project, you need to create the file <code>eagle_eye_config.json</code> at the root level of your flutter/dart project.</p>
+<h4 id="mvvm-viewmodeldart-screendart">MVVM (<code>*viewmodel.dart</code>, <code>*screen.dart</code>)<a class="headerlink" href="#mvvm-viewmodeldart-screendart" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*/data/model/*&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dependenciesAllowed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*viewmodel.dart&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;forbiddenDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*_screen.dart&quot;</span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;filePattern&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*/util/*_handler.dart&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dependenciesAllowed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*viewmodel.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"forbiddenDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_screen.dart"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"viewmodels-no-screens"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*screen.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_viewmodel.dart"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*_widget.dart"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"screens-only-widgets-and-viewmodels"</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div>
-<p>In my first rule, I’m telling Eagle Eye that no file under the <code>data/model</code> path should have dependencies.</p>
-<p>The second rule states that my <code>ViewModels</code> must not depend on any screen-related files.</p>
-<p>I also have a third rule that enforces that our handler classes should not have any dependencies at all.</p>
-<h2 id="2-make-sure-you-have-a-lint-rule-to-avoid-relative-imports">2. Make sure you have a lint rule to avoid relative imports<a class="headerlink" href="#2-make-sure-you-have-a-lint-rule-to-avoid-relative-imports" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># analysis_options.yaml</span>
-
-<span class="nt">analyzer</span><span class="p">:</span>
+<h4 id="feature-based-directories-named-by-feature">Feature-based (directories named by feature)<a class="headerlink" href="#feature-based-directories-named-by-feature" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/features/*/data/*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*/features/*/domain/*"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"feature-data-depends-on-domain"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/features/*/domain/*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dependenciesAllowed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"feature-domain-no-imports"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h4 id="generic-starter-config">Generic / starter config<a class="headerlink" href="#generic-starter-config" title="Permanent link">&para;</a></h4>
+<p>If the architecture is unclear or doesn&rsquo;t match a specific pattern, use this conservative starter:</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/model/*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"dependenciesAllowed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"models-no-imports"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/data/*_repository.dart"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_datasource.dart"</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"repositories-only-datasources"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="customization-guidelines">Customization guidelines<a class="headerlink" href="#customization-guidelines" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Start with a small set of rules (2-4). You can add more as your architecture stabilizes.</li>
+<li><code>filePattern</code> matches against the full file path relative to <code>lib/</code>. Use <code>*</code> as a wildcard.</li>
+<li>Rules are evaluated in order; <strong>first matching rule wins</strong> for each file.</li>
+<li>Only <strong>internal imports</strong> (those containing your app name) are checked. External package imports are ignored.</li>
+<li>Each rule object should have <strong>at most one</strong> of: <code>dependenciesAllowed</code>, <code>forbiddenDependencies</code>, or <code>exclusiveDependencies</code>.</li>
+</ul>
+<hr />
+<h2 id="3-configure-analysis_optionsyaml">3. Configure <code>analysis_options.yaml</code><a class="headerlink" href="#3-configure-analysis_optionsyaml" title="Permanent link">&para;</a></h2>
+<p>Eagle Eye requires package-style imports (not relative imports). Ensure this lint rule is set to <code>error</code>.</p>
+<p><strong>If the file does not exist</strong>, create it:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">analyzer</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">errors</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">avoid_relative_lib_imports</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">error</span>
 </code></pre></div>
-<p>In this way, we are forcing the internal imports to have the app name:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// BAD ❌ (relative import)</span>
-<span class="k">import</span><span class="w"> </span><span class="s1">&#39;../utils/helper.dart&#39;</span><span class="p">;</span>
+<p><strong>If the file already exists</strong>, add or merge the <code>errors</code> section:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">analyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">errors</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">avoid_relative_lib_imports</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">error</span>
+<span class="w">        </span><span class="c1"># ... other existing error rules</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1">// GOOD ✅ (package import)</span>
-<span class="k">import</span><span class="w"> </span><span class="s1">&#39;package:my_app/utils/helper.dart&#39;</span><span class="p">;</span>
+<p>This enforces imports like:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// GOOD - package import</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">'package:my_app/utils/helper.dart'</span><span class="p">;</span>
+
+<span class="c1">// BAD - relative import</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">'../utils/helper.dart'</span><span class="p">;</span>
 </code></pre></div>
-<p>Ensure that this lint rule is enabled for EagleEye to function correctly.</p>
-<h2 id="3-add-eagle-eye-dependency">3. Add Eagle Eye dependency<a class="headerlink" href="#3-add-eagle-eye-dependency" title="Permanent link">&para;</a></h2>
-<p>Add EagleEye to your project in <code>pubspec.yaml</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># versions available, run `flutter pub outdated`.</span>
-<span class="nt">dev_dependencies</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">eagle_eye</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^version</span>
+<hr />
+<h2 id="4-add-eagle-eye-dependency">4. Add Eagle Eye dependency<a class="headerlink" href="#4-add-eagle-eye-dependency" title="Permanent link">&para;</a></h2>
+<p>Add to <code>pubspec.yaml</code> under <code>dev_dependencies</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">dev_dependencies</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># ... existing dev dependencies</span>
+<span class="w">    </span><span class="nt">eagle_eye</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.0.4</span>
 </code></pre></div>
-<h2 id="4-run-the-cli">4. Run the CLI<a class="headerlink" href="#4-run-the-cli" title="Permanent link">&para;</a></h2>
-<p>Now you can run the CLI, or integrate in your CI/CD pipeline as a required step.</p>
+<p>Then run:</p>
+<div class="highlight"><pre><span></span><code>dart<span class="w"> </span>pub<span class="w"> </span>get
+</code></pre></div>
+<p>Or for Flutter projects:</p>
+<div class="highlight"><pre><span></span><code>flutter<span class="w"> </span>pub<span class="w"> </span>get
+</code></pre></div>
+<hr />
+<h2 id="5-validate-the-setup">5. Validate the setup<a class="headerlink" href="#5-validate-the-setup" title="Permanent link">&para;</a></h2>
+<p>Run the CLI:</p>
 <div class="highlight"><pre><span></span><code>dart<span class="w"> </span>run<span class="w"> </span>eagle_eye:main
 </code></pre></div>
-<p>&ndash;</p>
+<ul>
+<li><strong>Exit code 0</strong> with a success message: setup is correct.</li>
+<li><strong>Exit code 1</strong> with violations listed: the rules are working — review the violations to confirm they are real issues or adjust your config.</li>
+</ul>
+<hr />
+<h2 id="6-optional-integrate-into-cicd">6. Optional — integrate into CI/CD<a class="headerlink" href="#6-optional-integrate-into-cicd" title="Permanent link">&para;</a></h2>
+<p>Add to your CI pipeline (e.g. GitHub Actions, GitLab CI):</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check architecture rules</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dart run eagle_eye:main</span>
+</code></pre></div>
+<p>Eagle Eye exits with code 1 on violations, so the CI step will fail automatically if architecture rules are broken.</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Action</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eagle_eye_config.json</code></td>
+<td>Create</td>
+<td>Architecture rules</td>
+</tr>
+<tr>
+<td><code>analysis_options.yaml</code></td>
+<td>Create or modify</td>
+<td>Enable <code>avoid_relative_lib_imports: error</code></td>
+</tr>
+<tr>
+<td><code>pubspec.yaml</code></td>
+<td>Modify</td>
+<td>Add <code>eagle_eye</code> as dev dependency</td>
+</tr>
+</tbody>
+</table>
+<p>After completing all steps, run <code>dart run eagle_eye:main</code> to confirm everything works.</p>
+<hr />
+<h2 id="ai-assisted-setup">AI-assisted setup<a class="headerlink" href="#ai-assisted-setup" title="Permanent link">&para;</a></h2>
+<p>You can use <a href="https://github.com/CodandoTV/eagle-eye/blob/main/SETUP_PROMPT.md">this prompt</a> with an AI assistant to automatically detect your project&rsquo;s architecture and generate an appropriate <code>eagle_eye_config.json</code>.</p>
+<hr />
 <p>Any problems you are facing, any suggestions you want to add, please feel free to <a href="mailto:gabrielbronzattimoro.es@gmail.com">reach us out</a>.</p>
 
 
