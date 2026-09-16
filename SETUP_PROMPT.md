@@ -1,14 +1,18 @@
-# Getting Started
+# Set Up Eagle Eye in a Flutter/Dart Project
 
-## Minimum Requirements
-
-- **Dart SDK:** ^3.8.0
+You are setting up [Eagle Eye](https://pub.dev/packages/eagle_eye), a Dart CLI tool that detects architecture violations in Dart projects. Follow the steps below to configure it for the target project.
 
 ---
 
-## 1. Detect your architecture
+## Step 1: Gather project context
 
-Read your `pubspec.yaml` to extract the app name and SDK constraint, then scan the `lib/` directory to identify your project's architecture pattern:
+Read `pubspec.yaml` in the project root to extract:
+
+- **App name** (`name:` field) — used to identify internal imports
+- **SDK constraint** (`environment.sdk`) — must be `^3.8.0` or higher
+- **Existing dependencies** — check if `eagle_eye` is already present
+
+Then scan the `lib/` directory tree. List all subdirectories and file patterns to understand the architecture. Look for:
 
 | Signal | Likely pattern |
 |---|---|
@@ -23,9 +27,9 @@ Read your `pubspec.yaml` to extract the app name and SDK constraint, then scan t
 
 ---
 
-## 2. Create `eagle_eye_config.json`
+## Step 2: Generate `eagle_eye_config.json`
 
-Create this file at the **project root** (same directory as `pubspec.yaml`). It is a JSON array of rule objects.
+Create the file at the **project root** (same directory as `pubspec.yaml`). The file is a JSON array of rule objects.
 
 ### Rule types
 
@@ -37,9 +41,9 @@ Create this file at the **project root** (same directory as `pubspec.yaml`). It 
 | `exclusiveDependencies` | string[] | Matched files can **only** import things matching these patterns. |
 | `name` | string | Optional human-readable name (shown in violation output). |
 
-### Architecture-specific templates
+### Architecture-specific rule templates
 
-Pick and adapt the template that matches your architecture.
+Based on what you detected in Step 1, pick and adapt the relevant template(s).
 
 #### Clean Architecture (`data/`, `domain/`, `presentation/`)
 
@@ -126,7 +130,7 @@ If the architecture is unclear or doesn't match a specific pattern, use this con
 
 ---
 
-## 3. Configure `analysis_options.yaml`
+## Step 3: Configure `analysis_options.yaml`
 
 Eagle Eye requires package-style imports (not relative imports). Ensure this lint rule is set to `error`.
 
@@ -148,7 +152,6 @@ analyzer:
 ```
 
 This enforces imports like:
-
 ```dart
 // GOOD - package import
 import 'package:my_app/utils/helper.dart';
@@ -159,7 +162,7 @@ import '../utils/helper.dart';
 
 ---
 
-## 4. Add Eagle Eye dependency
+## Step 4: Add Eagle Eye dependency
 
 Add to `pubspec.yaml` under `dev_dependencies`:
 
@@ -183,7 +186,7 @@ flutter pub get
 
 ---
 
-## 5. Validate the setup
+## Step 5: Validate the setup
 
 Run the CLI:
 
@@ -196,7 +199,7 @@ dart run eagle_eye:main
 
 ---
 
-## 6. Optional — integrate into CI/CD
+## Step 6: Optional — integrate into CI/CD
 
 Add to your CI pipeline (e.g. GitHub Actions, GitLab CI):
 
@@ -209,7 +212,7 @@ Eagle Eye exits with code 1 on violations, so the CI step will fail automaticall
 
 ---
 
-## Summary
+## Summary of files to create/modify
 
 | File | Action | Purpose |
 |---|---|---|
@@ -218,13 +221,3 @@ Eagle Eye exits with code 1 on violations, so the CI step will fail automaticall
 | `pubspec.yaml` | Modify | Add `eagle_eye` as dev dependency |
 
 After completing all steps, run `dart run eagle_eye:main` to confirm everything works.
-
----
-
-## AI-assisted setup
-
-You can use [this prompt](https://github.com/CodandoTV/eagle-eye/blob/main/SETUP_PROMPT.md) with an AI assistant to automatically detect your project's architecture and generate an appropriate `eagle_eye_config.json`.
-
----
-
-Any problems you are facing, any suggestions you want to add, please feel free to [reach us out](mailto:gabrielbronzattimoro.es@gmail.com).

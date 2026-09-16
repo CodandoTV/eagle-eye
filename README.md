@@ -30,69 +30,50 @@ dev_dependencies:
     eagle_eye: ^version
 ```
 
-## How to use?
+## Getting Started
 
-### 1. Make sure you have a lint rule to avoid relative imports
+### Quick setup
+
+1. **Enable the lint rule** in `analysis_options.yaml`:
 
 ```yaml
-# analysis_options.yaml
-
 analyzer:
     errors:
         avoid_relative_lib_imports: error
 ```
 
-In this way, we are forcing the internal imports to have the app name:
-
-```dart
-// BAD ❌ (relative import)
-import '../utils/helper.dart';
-```
-
-```dart
-// GOOD ✅ (package import)
-import 'package:my_app/utils/helper.dart';
-```
-
-Ensure that this lint rule is enabled for EagleEye to function correctly.
-
-### 2. In your project create a file `eagle_eye_config.json`
-
-Create a JSON file in your project to define rules. Example:
+2. **Create `eagle_eye_config.json`** at your project root:
 
 ```json
 [
   {
-    "filePattern": "*util.dart",
-    "dependenciesAllowed": false
+    "filePattern": "*/model/*",
+    "dependenciesAllowed": false,
+    "name": "models-no-imports"
   },
   {
     "filePattern": "*viewmodel.dart",
-    "exclusiveDependencies": ["*repository.dart"]
-  },
-  {
-    "filePattern": "*repository.dart",
-    "forbiddenDependencies": ["*screen.dart"]
+    "forbiddenDependencies": ["*_screen.dart"],
+    "name": "viewmodels-no-screens"
   }
 ]
 ```
 
-Add the json file in the root level of your project.
+3. **Add the dependency** to `pubspec.yaml`:
 
-Just to explain, we are defining some rules in this example:
+```yaml
+dev_dependencies:
+    eagle_eye: ^2.0.4
+```
 
-- Any file ending with the `util.dart` suffix must not have dependencies;
-
-- Any viewModel file should depend on repository classes;
-
-- Any repository file should not depends on screen files.
-
-### 3. Run the eagle eye locally
+4. **Run it:**
 
 ```sh
 dart run eagle_eye:main
 ```
 
-If you have any error, the process will fail immediately.
+### Auto-generate config with a prompt
 
-⚠ We are working on error reports.
+You can use [this prompt](./SETUP_PROMPT.md) with an AI assistant to automatically detect your architecture and generate an `eagle_eye_config.json` with the right rules.
+
+For the full setup guide with architecture-specific templates and customization guidelines, see the [Getting Started documentation](https://codandotv.github.io/eagle-eye/1-getting-started/).
