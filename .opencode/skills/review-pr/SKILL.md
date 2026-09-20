@@ -1,7 +1,6 @@
 ---
 name: review-pr
-description: Review an EagleEye pull request checking architecture, tests, docs, and completeness
-trigger: when the user asks to review a PR, check a pull request, or validate changes
+description: Review an EagleEye pull request checking architecture, tests, docs, and completeness. Use when the user asks to review a PR, check a pull request, or validate changes.
 ---
 
 # EagleEye PR Review Checklist

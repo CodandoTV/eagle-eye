@@ -2,8 +2,9 @@ import 'package:eagle_eye/analyzer/regex_helper.dart';
 
 /// Validates whether a file imports only allowed dependencies.
 ///
-/// Tests each import against a list of exclusive (allow-only) patterns.
-/// Returns a description string if a violation is found.
+/// An import is valid when it matches **any** of the exclusive (allow-only)
+/// patterns. A file that imports nothing is also valid, since there is no
+/// import to check. Returns a description string if a violation is found.
 class ExclusiveDependenciesRuleChecker {
   /// Helper used for regex-based pattern matching.
   RegexHelper regexHelper;
@@ -15,8 +16,8 @@ class ExclusiveDependenciesRuleChecker {
   /// Checks if [importDirective] conforms to the specified
   /// [justWithPatterns] for the given [filePath].
   ///
-  /// Returns a violation description if the import does not match any
-  /// allowed pattern, or `null` if it passes validation.
+  /// Returns `null` as soon as the import matches any allowed pattern, or a
+  /// violation description if it matches none of them.
   String? check({
     required List<String> justWithPatterns,
     required String importDirective,
@@ -27,10 +28,10 @@ class ExclusiveDependenciesRuleChecker {
         importDirective,
         justWithItem,
       );
-      if (matches == false) {
-        return '$filePath should depends only on $justWithPatterns';
+      if (matches == true) {
+        return null;
       }
     }
-    return null;
+    return '$filePath should depend only on $justWithPatterns';
   }
 }

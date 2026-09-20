@@ -1,7 +1,6 @@
 ---
 name: minimum-requirements
-description: Determine minimum requirements to consume the EagleEye library
-trigger: when the user asks about minimum SDK version, requirements, or compatible Dart versions
+description: Determine minimum requirements to consume the EagleEye library. Use when the user asks about minimum SDK version, requirements, or compatible Dart versions.
 ---
 
 # Minimum Requirements for EagleEye

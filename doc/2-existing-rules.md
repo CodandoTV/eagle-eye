@@ -42,7 +42,7 @@ In this case, all files that has the suffix `viewmodel.dart` should not depend o
     },
     ```
 
-The `Exclusive Dependencies Rule` specifies that some files should depend only on certain files. For example:
+The `Exclusive Dependencies Rule` specifies that some files should depend only on certain files. An import is allowed when it matches **any** of the listed patterns, and a file that imports nothing is also allowed. For example:
 
 ```json
 // your-project-root/eagle_eye_config.json
@@ -53,6 +53,18 @@ The `Exclusive Dependencies Rule` specifies that some files should depend only o
 ```
 
 In this case, the our repositories should depend only on data sources.
+
+You can also list several allowed patterns:
+
+```json
+// your-project-root/eagle_eye_config.json
+{
+  "filePattern": "*screen.dart",
+  "exclusiveDependencies": ["*_viewmodel.dart", "*_widget.dart"]
+},
+```
+
+In this case, screens may depend on view models, on widgets, on both, or on nothing — but never on anything else.
 
 ## Dependencies Allowed Rule
 

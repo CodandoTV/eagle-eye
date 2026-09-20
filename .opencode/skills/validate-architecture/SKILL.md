@@ -1,7 +1,6 @@
 ---
 name: validate-architecture
-description: Verify architectural consistency and dependency rules
-trigger: when the user asks about architecture, rules, conventions, or dependency validation
+description: Verify architectural consistency and dependency rules. Use when the user asks about architecture, rules, conventions, or dependency validation.
 ---
 
 # Validate Architecture

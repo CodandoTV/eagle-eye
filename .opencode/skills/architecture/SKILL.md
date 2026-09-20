@@ -1,7 +1,6 @@
 ---
 name: architecture
-description: Verify architectural consistency and dependency rules in EagleEye
-trigger: when the user asks about architecture, rules, conventions, or what is/isn't allowed in the codebase
+description: Verify architectural consistency and dependency rules in EagleEye. Use when the user asks about architecture, rules, conventions, or what is/isn't allowed in the codebase.
 ---
 
 # EagleEye — Architectural Rules & Conventions
