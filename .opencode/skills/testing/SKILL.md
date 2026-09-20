@@ -1,7 +1,6 @@
 ---
 name: testing
-description: Generate tests for EagleEye following project conventions
-trigger: when the user asks to write tests, review test files, or generate new test cases
+description: Generate tests for EagleEye following project conventions. Use when the user asks to write tests, review test files, or generate new test cases.
 ---
 
 # Testing in EagleEye

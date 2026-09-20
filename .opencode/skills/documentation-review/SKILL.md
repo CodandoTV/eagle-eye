@@ -1,7 +1,6 @@
 ---
 name: documentation-review
-description: Validate EagleEye documentation matches actual implementation
-trigger: when the user asks to review documentation, check for outdated docs, or verify docs match code
+description: Validate EagleEye documentation matches actual implementation. Use when the user asks to review documentation, check for outdated docs, or verify docs match code.
 ---
 
 # Documentation Review for EagleEye
