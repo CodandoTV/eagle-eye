@@ -16,7 +16,7 @@ void main() {
 
       expect(
         result,
-        'lib/my_screen.dart should depends only on [*repository.dart]',
+        'lib/my_screen.dart should depend only on [*repository.dart]',
       );
     });
 
@@ -31,6 +31,38 @@ void main() {
       );
 
       expect(result, isNull);
+    });
+
+    test('returns null when the import matches the second of many patterns',
+        () {
+      final regexHelper = RegexHelper();
+      final checker = ExclusiveDependenciesRuleChecker(regexHelper);
+
+      final result = checker.check(
+        justWithPatterns: ['*_viewmodel.dart', '*_widget.dart'],
+        importDirective: 'my_widget.dart',
+        filePath: 'lib/my_screen.dart',
+      );
+
+      expect(result, isNull);
+    });
+
+    test('returns description when the import matches none of many patterns',
+        () {
+      final regexHelper = RegexHelper();
+      final checker = ExclusiveDependenciesRuleChecker(regexHelper);
+
+      final result = checker.check(
+        justWithPatterns: ['*_viewmodel.dart', '*_widget.dart'],
+        importDirective: 'my_helper.dart',
+        filePath: 'lib/my_screen.dart',
+      );
+
+      expect(
+        result,
+        'lib/my_screen.dart should depend only on '
+        '[*_viewmodel.dart, *_widget.dart]',
+      );
     });
   });
 }

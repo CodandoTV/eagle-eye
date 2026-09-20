@@ -34,7 +34,7 @@ Create this file at the **project root** (same directory as `pubspec.yaml`). It 
 | `filePattern` | string | Wildcard pattern matching file paths. `*` becomes `.*` regex. |
 | `dependenciesAllowed` | boolean | If `false`, matched files must have **zero** internal imports. |
 | `forbiddenDependencies` | string[] | Matched files **must not** import anything matching these patterns. |
-| `exclusiveDependencies` | string[] | Matched files can **only** import things matching these patterns. |
+| `exclusiveDependencies` | string[] | Matched files can **only** import things matching **any** of these patterns (or nothing at all). |
 | `name` | string | Optional human-readable name (shown in violation output). |
 
 ### Architecture-specific templates
