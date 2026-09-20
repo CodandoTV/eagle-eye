@@ -1,3 +1,7 @@
+## 2.0.5
+
+- Fix Exclusive Dependencies Rule to depend only on certain files. An import is allowed when it matches **any** of the listed patterns, and a file that imports nothing is also allowed.
+
 ## 2.0.4
 
 - Update Yaml dependency.
