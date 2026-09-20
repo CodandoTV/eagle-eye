@@ -558,7 +558,7 @@
 <span class="p">},</span>
 </code></pre></div>
 </div>
-<p>The <code>Exclusive Dependencies Rule</code> specifies that some files should depend only on certain files. For example:</p>
+<p>The <code>Exclusive Dependencies Rule</code> specifies that some files should depend only on certain files. An import is allowed when it matches <strong>any</strong> of the listed patterns, and a file that imports nothing is also allowed. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*repository.dart"</span><span class="p">,</span>
@@ -566,6 +566,14 @@
 <span class="p">},</span>
 </code></pre></div>
 <p>In this case, the our repositories should depend only on data sources.</p>
+<p>You can also list several allowed patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// your-project-root/eagle_eye_config.json</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">"filePattern"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*screen.dart"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"exclusiveDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*_viewmodel.dart"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*_widget.dart"</span><span class="p">]</span>
+<span class="p">},</span>
+</code></pre></div>
+<p>In this case, screens may depend on view models, on widgets, on both, or on nothing — but never on anything else.</p>
 <h2 id="dependencies-allowed-rule">Dependencies Allowed Rule<a class="headerlink" href="#dependencies-allowed-rule" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Deprecated - Only available before v2.0.0</p>
