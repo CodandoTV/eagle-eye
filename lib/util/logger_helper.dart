@@ -43,4 +43,9 @@ class LoggerHelper {
   static void printWarning(String message) {
     print('⚠️  $message');
   }
+
+  /// Prints an informational message with an eagle emoji prefix.
+  static void printInfo(String message) {
+    print('$_eagleEmoji $message');
+  }
 }

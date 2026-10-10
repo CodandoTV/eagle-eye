@@ -1,3 +1,7 @@
+## 2.1.0
+
+- Add baseline support for incremental adoption. Run `dart run eagle_eye:main --baseline` to record the violations that already exist, then future runs suppress known violations and fail only on new ones.
+
 ## 2.0.5
 
 - Fix Exclusive Dependencies Rule to depend only on certain files. An import is allowed when it matches **any** of the listed patterns, and a file that imports nothing is also allowed.

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
+import 'package:eagle_eye/model/eagle_eye_baseline.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 
 /// Defines the contract for accessing and loading Eagle Eye configuration
@@ -26,6 +27,14 @@ abstract class EagleEyeRepository {
 
   /// Returns the application’s name as defined in the project structure.
   String getApplicationName();
+
+  /// Loads the baseline file if it exists in the project root.
+  ///
+  /// Returns `null` when no baseline file is present.
+  Future<EagleEyeBaseline?> getBaselineIfExists();
+
+  /// Writes [baseline] to the baseline file in the project root.
+  Future<void> saveBaseline(EagleEyeBaseline baseline);
 }
 
 // Concrete implementation of [EagleEyeRepository] that uses
@@ -39,6 +48,9 @@ abstract class EagleEyeRepository {
 class EagleEyeRepositoryImpl extends EagleEyeRepository {
   /// The expected name of the Eagle Eye configuration file.
   static const configFileName = 'eagle_eye_config.json';
+
+  /// The expected name of the Eagle Eye baseline file.
+  static const baselineFileName = 'eagle_eye_baseline.json';
 
   /// The default folder containing Dart source code.
   static const libsFolderName = 'lib';
@@ -74,5 +86,22 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
   @override
   String getApplicationName() {
     return fileHelper.getApplicationName();
+  }
+
+  @override
+  Future<EagleEyeBaseline?> getBaselineIfExists() async {
+    final content = await fileHelper.getBaselineContentIfExists(
+      baselineFileName,
+    );
+    if (content == null) {
+      return null;
+    }
+    return jsonConverter.convertBaseline(content);
+  }
+
+  @override
+  Future<void> saveBaseline(EagleEyeBaseline baseline) async {
+    final content = jsonConverter.encodeBaseline(baseline);
+    await fileHelper.writeBaselineFile(baselineFileName, content);
   }
 }

@@ -63,7 +63,7 @@ analyzer:
 
 ```yaml
 dev_dependencies:
-    eagle_eye: ^2.0.4
+    eagle_eye: ^2.1.0
 ```
 
 4. **Run it:**
@@ -71,6 +71,23 @@ dev_dependencies:
 ```sh
 dart run eagle_eye:main
 ```
+
+### Adopt incrementally with a baseline
+
+If your project already has architecture violations, freeze them and block only new ones:
+
+```sh
+# Record every current violation as "known"
+dart run eagle_eye:main --baseline
+
+# Later runs fail only on new violations
+dart run eagle_eye:main
+```
+
+This writes `eagle_eye_baseline.json` at the project root — commit it.
+Re-run `--baseline` (alias `--update-baseline`) whenever you want to absorb or
+prune known violations. Entries match on file path, rule type, and import (not
+line numbers), so moving code around won't resurface known violations.
 
 ### Auto-generate config with a prompt
 

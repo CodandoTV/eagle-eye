@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:eagle_eye/model/config_keys.dart';
+import 'package:eagle_eye/model/eagle_eye_baseline.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/model/exceptions/invalid_baseline_exception.dart';
 import 'package:eagle_eye/model/exceptions/invalid_json_key_exception.dart';
 
 /// A utility class that converts JSON configuration data
@@ -52,5 +54,23 @@ class JsonConverter {
       eagleConfigItems.add(configItem);
     }
     return EagleEyeConfig(items: eagleConfigItems);
+  }
+
+  /// Converts a JSON string ([jsonText]) into an [EagleEyeBaseline] object.
+  ///
+  /// Throws an [InvalidBaselineException] if the content cannot be parsed.
+  EagleEyeBaseline convertBaseline(String jsonText) {
+    try {
+      final jsonData = jsonDecode(jsonText) as Map<String, dynamic>;
+      return EagleEyeBaseline.fromJson(jsonData);
+    } catch (_) {
+      throw InvalidBaselineException();
+    }
+  }
+
+  /// Encodes an [EagleEyeBaseline] into a pretty-printed JSON string.
+  String encodeBaseline(EagleEyeBaseline baseline) {
+    const encoder = JsonEncoder.withIndent('  ');
+    return encoder.convert(baseline.toJson());
   }
 }

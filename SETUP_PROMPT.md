@@ -169,7 +169,7 @@ Add to `pubspec.yaml` under `dev_dependencies`:
 ```yaml
 dev_dependencies:
     # ... existing dev dependencies
-    eagle_eye: ^2.0.4
+    eagle_eye: ^2.1.0
 ```
 
 Then run:
@@ -199,7 +199,24 @@ dart run eagle_eye:main
 
 ---
 
-## Step 6: Optional — integrate into CI/CD
+## Step 6: Optional — adopt incrementally with a baseline
+
+If the target project already has violations that cannot be fixed immediately,
+generate a baseline so only **new** violations fail the build:
+
+```bash
+dart run eagle_eye:main --baseline
+```
+
+This writes `eagle_eye_baseline.json` at the project root. Commit it. Subsequent
+`dart run eagle_eye:main` runs suppress known violations and fail only on new
+ones. Re-run `--baseline` (alias `--update-baseline`) to absorb or prune known
+violations. Entries match on file path, rule type, and import — not line
+numbers — so moving code around won't resurface known violations.
+
+---
+
+## Step 7: Optional — integrate into CI/CD
 
 Add to your CI pipeline (e.g. GitHub Actions, GitLab CI):
 
@@ -219,5 +236,6 @@ Eagle Eye exits with code 1 on violations, so the CI step will fail automaticall
 | `eagle_eye_config.json` | Create | Architecture rules |
 | `analysis_options.yaml` | Create or modify | Enable `avoid_relative_lib_imports: error` |
 | `pubspec.yaml` | Modify | Add `eagle_eye` as dev dependency |
+| `eagle_eye_baseline.json` | Create (optional) | Freeze existing violations for incremental adoption |
 
 After completing all steps, run `dart run eagle_eye:main` to confirm everything works.

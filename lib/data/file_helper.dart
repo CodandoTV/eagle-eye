@@ -30,6 +30,22 @@ class FileHelper {
     return textContent;
   }
 
+  /// Reads the baseline file [baselineFile] if it exists.
+  ///
+  /// Returns `null` when the file does not exist.
+  Future<String?> getBaselineContentIfExists(String baselineFile) async {
+    final file = File(baselineFile);
+    if (!file.existsSync()) {
+      return null;
+    }
+    return file.readAsString();
+  }
+
+  /// Writes [content] to the baseline file [baselineFile].
+  Future<void> writeBaselineFile(String baselineFile, String content) async {
+    await File(baselineFile).writeAsString(content);
+  }
+
   /// Ensures the specified [libsFolderName] directory exists and returns it.
   ///
   /// If the directory does not exist, logs an error message via [LoggerHelper].
