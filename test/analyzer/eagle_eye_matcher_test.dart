@@ -58,5 +58,30 @@ void main() {
       // The first matching item should be returned
       expect(result, equals(item1));
     });
+
+    test('reports each file pattern checked', () {
+      final messages = <String>[];
+      final item1 = EagleEyeConfigItem(
+        filePattern: '*widget.dart',
+        name: 'widgets',
+      );
+      final item2 = EagleEyeConfigItem(filePattern: '*screen.dart');
+      final config = EagleEyeConfig(items: [item1, item2]);
+
+      final matcher = EagleEyeMatcher(
+        config: config,
+        regexHelper: regexHelper,
+        onCheck: messages.add,
+      );
+
+      final result = matcher.find('home_screen.dart');
+
+      expect(result, equals(item2));
+      expect(messages, [
+        '  filePattern "*widget.dart" vs "home_screen.dart": no match',
+        '  filePattern "*screen.dart" vs "home_screen.dart": match',
+        '  rule "*screen.dart" selected',
+      ]);
+    });
   });
 }

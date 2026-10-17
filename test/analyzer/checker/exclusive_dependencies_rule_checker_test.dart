@@ -64,5 +64,24 @@ void main() {
         '[*_viewmodel.dart, *_widget.dart]',
       );
     });
+
+    test('reports each exclusive pattern checked until a match', () {
+      final messages = <String>[];
+      final checker = ExclusiveDependenciesRuleChecker(
+        RegexHelper(),
+        onCheck: messages.add,
+      );
+
+      checker.check(
+        justWithPatterns: ['*_viewmodel.dart', '*_widget.dart'],
+        importDirective: 'my_widget.dart',
+        filePath: 'lib/my_screen.dart',
+      );
+
+      expect(messages, [
+        '    allowed pattern "*_viewmodel.dart": no match',
+        '    allowed pattern "*_widget.dart": match -> allowed',
+      ]);
+    });
   });
 }

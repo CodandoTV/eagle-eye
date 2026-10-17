@@ -194,6 +194,15 @@ dart run eagle_eye:main
 - **Exit code 0** with a success message: setup is correct.
 - **Exit code 1** with violations listed: the rules are working — review the violations to confirm they are real issues or adjust your config.
 
+To see every configuration, file, import, and pattern check performed, run:
+
+```bash
+dart run eagle_eye:main --verbose
+```
+
+Verbose lines are prefixed with `[verbose]`. Use `--help` (or `-h`) to list the
+available options.
+
 ---
 
 ## 6. Optional — integrate into CI/CD

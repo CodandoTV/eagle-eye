@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add a `--verbose` (`-v`) flag that prints every configuration, file, import, and pattern check performed by EagleEye. Add `--help` (`-h`) for usage information.
+
 ## 2.0.5
 
 - Fix Exclusive Dependencies Rule to depend only on certain files. An import is allowed when it matches **any** of the listed patterns, and a file that imports nothing is also allowed.

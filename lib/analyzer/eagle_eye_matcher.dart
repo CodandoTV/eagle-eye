@@ -1,6 +1,7 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
+import 'package:eagle_eye/util/check_reporter.dart';
 
 /// A matcher finds the configuration item that applies to a given file path.
 ///
@@ -15,11 +16,15 @@ class EagleEyeMatcher {
   /// Helper class used to perform regex-based pattern matching.
   final RegexHelper regexHelper;
 
-  /// Creates a new [EagleEyeMatcher] instance with the provided [config]
-  /// and [regexHelper].
+  /// Optional callback used to report each file pattern checked.
+  final CheckReporter? onCheck;
+
+  /// Creates a new [EagleEyeMatcher] instance with the provided [config],
+  /// [regexHelper], and optional [onCheck] reporter.
   EagleEyeMatcher({
     required this.config,
     required this.regexHelper,
+    this.onCheck,
   });
 
   /// Finds the first [EagleEyeConfigItem] whose [filePattern]
@@ -35,7 +40,14 @@ class EagleEyeMatcher {
         filePath,
         configurationItem.filePattern,
       );
+      onCheck?.call(
+        '  filePattern "${configurationItem.filePattern}" vs "$filePath": '
+        '${configItemFounded ? 'match' : 'no match'}',
+      );
       if (configItemFounded) {
+        final ruleLabel =
+            configurationItem.name ?? configurationItem.filePattern;
+        onCheck?.call('  rule "$ruleLabel" selected');
         return configurationItem;
       }
     }

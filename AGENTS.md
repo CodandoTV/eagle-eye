@@ -15,6 +15,7 @@ dart test                       # run all tests
 dart test test/model/eagle_eye_config_item_test.dart   # single file
 dart test -n "returns null"     # single test by name
 dart run eagle_eye:main         # run the CLI against the current project
+dart run eagle_eye:main --verbose  # trace every check performed
 ```
 
 CI (`pr.yml`) runs `dart test` then `dart analyze` on PRs to `main`; both must

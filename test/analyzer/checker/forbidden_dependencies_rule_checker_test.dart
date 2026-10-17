@@ -32,5 +32,24 @@ void main() {
 
       expect(result, isNull);
     });
+
+    test('reports each forbidden pattern checked until a match', () {
+      final messages = <String>[];
+      final checker = ForbiddenDependenciesRuleChecker(
+        RegexHelper(),
+        onCheck: messages.add,
+      );
+
+      checker.check(
+        noDepsWithPatterns: ['*repository.dart', '*service.dart'],
+        importDirective: 'my_service.dart',
+        filePath: 'lib/my_screen.dart',
+      );
+
+      expect(messages, [
+        '    forbidden pattern "*repository.dart": no match',
+        '    forbidden pattern "*service.dart": match -> violation',
+      ]);
+    });
   });
 }

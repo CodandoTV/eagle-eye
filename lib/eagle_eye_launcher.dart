@@ -12,6 +12,8 @@ import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/exceptions/eagle_eye_exception.dart';
 import 'package:eagle_eye/model/violation.dart';
+import 'package:eagle_eye/util/check_reporter.dart';
+import 'package:eagle_eye/util/cli_options.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
 import 'package:eagle_eye/util/output_renderer.dart';
 
@@ -19,13 +21,14 @@ import 'package:eagle_eye/util/output_renderer.dart';
 ///
 /// [EagleEyeLauncher] coordinates the analysis of a Dart project using
 /// the Eagle Eye tool. It performs the following steps:
-/// 1. Loads the configuration file (`eagle_eye_config.json`) via
+/// 1. Parses the command-line arguments.
+/// 2. Loads the configuration file (`eagle_eye_config.json`) via
 /// [EagleEyeRepository].
-/// 2. Collects all Dart files in the `lib/` folder.
-/// 3. Determines the application name from `pubspec.yaml`.
-/// 4. Uses [EagleEyeMatcher] to find which rules apply to each file.
-/// 5. Uses [EagleEyeVisitor] to analyze imports and collect violations.
-/// 6. Logs errors using [LoggerHelper] and exits with a non-zero code if
+/// 3. Collects all Dart files in the `lib/` folder.
+/// 4. Determines the application name from `pubspec.yaml`.
+/// 5. Uses [EagleEyeMatcher] to find which rules apply to each file.
+/// 6. Uses [EagleEyeVisitor] to analyze imports and collect violations.
+/// 7. Logs errors using [LoggerHelper] and exits with a non-zero code if
 /// violations exist.
 class EagleEyeLauncher {
   late EagleEyeRepository _repository;
@@ -42,6 +45,9 @@ class EagleEyeLauncher {
 
   /// Launches the Eagle Eye analysis on the current Dart project.
   ///
+  /// Accepts the raw command-line [args]. Pass `--verbose` (or `-v`) to print
+  /// every configuration, file, import, and pattern check performed.
+  ///
   /// This method:
   /// - Loads the configuration file and Dart source files.
   /// - Validates internal imports according to the rules defined in the
@@ -49,7 +55,23 @@ class EagleEyeLauncher {
   /// - Collects all errors and prints them to the console.
   /// - Exits the process with a non-zero code if violations are found or
   /// critical files are missing.
-  Future<void> launchEagleEye() async {
+  Future<void> launchEagleEye({List<String> args = const []}) async {
+    late final CliOptions options;
+    try {
+      options = CliOptions.parse(args);
+    } on FormatException catch (e) {
+      LoggerHelper.printError(e.message);
+      exit(1);
+    }
+
+    if (options.showHelp) {
+      print(options.usage);
+      return;
+    }
+
+    final CheckReporter? onCheck =
+        options.verbose ? LoggerHelper.printVerbose : null;
+
     try {
       EagleEyeConfig configFile =
           await _repository.getAndCheckIfConfigFileExists();
@@ -58,14 +80,24 @@ class EagleEyeLauncher {
 
       String applicationName = _repository.getApplicationName();
 
+      onCheck?.call(
+        'Loaded ${configFile.items.length} rule(s) from '
+        '${EagleEyeRepositoryImpl.configFileName}',
+      );
+      onCheck?.call('Application name: $applicationName');
+      onCheck?.call('Found ${dartFiles.length} Dart file(s) in lib/');
+
       final EagleEyeMatcher matcher = EagleEyeMatcher(
         config: configFile,
         regexHelper: RegexHelper(),
+        onCheck: onCheck,
       );
 
       List<Violation> errors = [];
 
       for (final file in dartFiles) {
+        onCheck?.call('Checking ${file.path}');
+
         final result = parseFile(
           path: file.path,
           featureSet: FeatureSet.latestLanguageVersion(),
@@ -79,10 +111,18 @@ class EagleEyeLauncher {
             errorCallback: (error) => errors.add(error),
             regexHelper: RegexHelper(),
             unit: result.unit,
+            onCheck: onCheck,
           );
           result.unit.visitChildren(visitor);
+        } else {
+          onCheck?.call('  no rule matched; skipping file');
         }
       }
+
+      onCheck?.call(
+        'Checked ${dartFiles.length} file(s); '
+        '${errors.length} violation(s) found',
+      );
 
       if (errors.isNotEmpty) {
         final output = OutputRenderer().format(errors);
