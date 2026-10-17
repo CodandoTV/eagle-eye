@@ -52,7 +52,9 @@ Layer rules (enforced by convention, checked in `.opencode/module-graph.md`):
 
 `launchEagleEye()` reads `eagle_eye_config.json` from the project root, gets the
 app name from `pubspec.yaml`, scans `lib/`, and `exit(1)` on violations or
-missing config/app name. Config is a JSON array of items with keys:
+missing config/app name. Before analyzing imports it validates the
+configuration: rules must be structurally valid and each Dart file must match
+at most one rule. Config is a JSON array of items with keys:
 `filePattern`, `name`, `dependenciesAllowed`, `forbiddenDependencies`,
 `exclusiveDependencies` (these were renamed in 2.0.0).
 

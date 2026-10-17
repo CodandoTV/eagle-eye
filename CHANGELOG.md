@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Add a configuration validation step before analysis. EagleEye now rejects malformed rules and configurations where more than one rule matches the same file, instead of silently applying the first match.
 - Add a `--verbose` (`-v`) flag that prints every configuration, file, import, and pattern check performed by EagleEye. Add `--help` (`-h`) for usage information.
 
 ## 2.0.5

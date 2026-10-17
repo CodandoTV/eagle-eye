@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
+import 'package:eagle_eye/analyzer/config_validator.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
@@ -26,9 +27,11 @@ import 'package:eagle_eye/util/output_renderer.dart';
 /// [EagleEyeRepository].
 /// 3. Collects all Dart files in the `lib/` folder.
 /// 4. Determines the application name from `pubspec.yaml`.
-/// 5. Uses [EagleEyeMatcher] to find which rules apply to each file.
-/// 6. Uses [EagleEyeVisitor] to analyze imports and collect violations.
-/// 7. Logs errors using [LoggerHelper] and exits with a non-zero code if
+/// 5. Validates the configuration with [EagleEyeConfigValidator], rejecting
+/// invalid rules and files matched by more than one rule.
+/// 6. Uses [EagleEyeMatcher] to find which rules apply to each file.
+/// 7. Uses [EagleEyeVisitor] to analyze imports and collect violations.
+/// 8. Logs errors using [LoggerHelper] and exits with a non-zero code if
 /// violations exist.
 class EagleEyeLauncher {
   late EagleEyeRepository _repository;
@@ -69,12 +72,13 @@ class EagleEyeLauncher {
       return;
     }
 
-    final CheckReporter? onCheck =
-        options.verbose ? LoggerHelper.printVerbose : null;
+    final CheckReporter? onCheck = options.verbose
+        ? LoggerHelper.printVerbose
+        : null;
 
     try {
-      EagleEyeConfig configFile =
-          await _repository.getAndCheckIfConfigFileExists();
+      EagleEyeConfig configFile = await _repository
+          .getAndCheckIfConfigFileExists();
 
       List<File> dartFiles = _repository.allDartFiles();
 
@@ -87,9 +91,19 @@ class EagleEyeLauncher {
       onCheck?.call('Application name: $applicationName');
       onCheck?.call('Found ${dartFiles.length} Dart file(s) in lib/');
 
+      final regexHelper = RegexHelper();
+
+      EagleEyeConfigValidator(
+        regexHelper: regexHelper,
+        onCheck: onCheck,
+      ).validate(
+        config: configFile,
+        filePaths: dartFiles.map((file) => file.path),
+      );
+
       final EagleEyeMatcher matcher = EagleEyeMatcher(
         config: configFile,
-        regexHelper: RegexHelper(),
+        regexHelper: regexHelper,
         onCheck: onCheck,
       );
 
