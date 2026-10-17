@@ -994,9 +994,9 @@
 <ul>
 <li>Start with a small set of rules (2-4). You can add more as your architecture stabilizes.</li>
 <li><code>filePattern</code> matches against the full file path relative to <code>lib/</code>. Use <code>*</code> as a wildcard.</li>
-<li>Rules are evaluated in order; <strong>first matching rule wins</strong> for each file.</li>
+<li>Each file must match <strong>at most one</strong> rule. EagleEye validates the configuration before analyzing imports and exits with code 1 when a file matches more than one rule.</li>
 <li>Only <strong>internal imports</strong> (those containing your app name) are checked. External package imports are ignored.</li>
-<li>Each rule object should have <strong>at most one</strong> of: <code>dependenciesAllowed</code>, <code>forbiddenDependencies</code>, or <code>exclusiveDependencies</code>.</li>
+<li>Each rule object must have <strong>at most one</strong> of: <code>dependenciesAllowed</code>, <code>forbiddenDependencies</code>, or <code>exclusiveDependencies</code>. EagleEye also rejects empty or invalid <code>filePattern</code> values and invalid dependency patterns.</li>
 </ul>
 <hr />
 <h2 id="3-configure-analysis_optionsyaml">3. Configure <code>analysis_options.yaml</code><a class="headerlink" href="#3-configure-analysis_optionsyaml" title="Permanent link">&para;</a></h2>
