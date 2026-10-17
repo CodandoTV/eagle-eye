@@ -1,4 +1,5 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/util/check_reporter.dart';
 
 /// Validates whether a file imports disallowed dependencies.
 ///
@@ -8,9 +9,12 @@ class ForbiddenDependenciesRuleChecker {
   /// Helper used for regex-based pattern matching.
   RegexHelper regexHelper;
 
+  /// Optional callback used to report each pattern checked.
+  final CheckReporter? onCheck;
+
   /// Creates a new [ForbiddenDependenciesRuleChecker] with the given
-  /// [regexHelper].
-  ForbiddenDependenciesRuleChecker(this.regexHelper);
+  /// [regexHelper] and optional [onCheck] reporter.
+  ForbiddenDependenciesRuleChecker(this.regexHelper, {this.onCheck});
 
   /// Checks if [importDirective] violates any of [noDepsWithPatterns]
   /// for the given [filePath].
@@ -26,6 +30,10 @@ class ForbiddenDependenciesRuleChecker {
       var matches = regexHelper.matchesPattern(
         importDirective,
         noDepsWithItem,
+      );
+      onCheck?.call(
+        '    forbidden pattern "$noDepsWithItem": '
+        '${matches ? 'match -> violation' : 'no match'}',
       );
       if (matches == true) {
         return '$filePath should not depends on $importDirective';

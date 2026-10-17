@@ -9,6 +9,7 @@ class LoggerHelper {
 
   static const _red = '\x1B[31m';
   static const _green = '\x1B[32m';
+  static const _cyan = '\x1B[36m';
   static const _reset = '\x1B[0m';
   static const _eagleEmoji = '🦅';
 
@@ -42,5 +43,13 @@ class LoggerHelper {
   /// The message is printed in orange color with a prefix 'warn' for visibility
   static void printWarning(String message) {
     print('⚠️  $message');
+  }
+
+  /// Prints a verbose check message in cyan with a `[verbose]` prefix.
+  ///
+  /// Example:
+  /// `🦅 <cyan>[verbose] message</cyan>`
+  static void printVerbose(String message) {
+    print('$_eagleEmoji $_cyan[verbose]$_reset $message');
   }
 }

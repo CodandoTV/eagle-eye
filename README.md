@@ -72,6 +72,18 @@ dev_dependencies:
 dart run eagle_eye:main
 ```
 
+### Verbose mode
+
+Pass `--verbose` (or `-v`) to print every configuration, file, import, and
+pattern check performed by Eagle Eye:
+
+```sh
+dart run eagle_eye:main --verbose
+```
+
+Verbose lines are prefixed with `[verbose]` on stdout, so regular output stays
+unchanged when the flag is omitted. Use `--help` to see all available options.
+
 ### Auto-generate config with a prompt
 
 You can use [this prompt](./SETUP_PROMPT.md) with an AI assistant to automatically detect your architecture and generate an `eagle_eye_config.json` with the right rules.

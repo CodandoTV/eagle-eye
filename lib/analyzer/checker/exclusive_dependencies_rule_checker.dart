@@ -1,4 +1,5 @@
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/util/check_reporter.dart';
 
 /// Validates whether a file imports only allowed dependencies.
 ///
@@ -9,9 +10,12 @@ class ExclusiveDependenciesRuleChecker {
   /// Helper used for regex-based pattern matching.
   RegexHelper regexHelper;
 
+  /// Optional callback used to report each pattern checked.
+  final CheckReporter? onCheck;
+
   /// Creates a new [ExclusiveDependenciesRuleChecker] with the given
-  /// [regexHelper].
-  ExclusiveDependenciesRuleChecker(this.regexHelper);
+  /// [regexHelper] and optional [onCheck] reporter.
+  ExclusiveDependenciesRuleChecker(this.regexHelper, {this.onCheck});
 
   /// Checks if [importDirective] conforms to the specified
   /// [justWithPatterns] for the given [filePath].
@@ -27,6 +31,10 @@ class ExclusiveDependenciesRuleChecker {
       var matches = regexHelper.matchesPattern(
         importDirective,
         justWithItem,
+      );
+      onCheck?.call(
+        '    allowed pattern "$justWithItem": '
+        '${matches ? 'match -> allowed' : 'no match'}',
       );
       if (matches == true) {
         return null;
