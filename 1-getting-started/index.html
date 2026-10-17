@@ -472,21 +472,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-adopt-incrementally-with-a-baseline-optional" class="md-nav__link">
+  <a href="#6-optional-integrate-into-cicd" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        6. Adopt incrementally with a baseline (optional)
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-optional-integrate-into-cicd" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        7. Optional — integrate into CI/CD
+        6. Optional — integrate into CI/CD
       </span>
     </span>
   </a>
@@ -797,21 +786,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-adopt-incrementally-with-a-baseline-optional" class="md-nav__link">
+  <a href="#6-optional-integrate-into-cicd" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        6. Adopt incrementally with a baseline (optional)
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-optional-integrate-into-cicd" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        7. Optional — integrate into CI/CD
+        6. Optional — integrate into CI/CD
       </span>
     </span>
   </a>
@@ -1046,7 +1024,7 @@
 <p>Add to <code>pubspec.yaml</code> under <code>dev_dependencies</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">dev_dependencies</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># ... existing dev dependencies</span>
-<span class="w">    </span><span class="nt">eagle_eye</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.1.0</span>
+<span class="w">    </span><span class="nt">eagle_eye</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.0.4</span>
 </code></pre></div>
 <p>Then run:</p>
 <div class="highlight"><pre><span></span><code>dart<span class="w"> </span>pub<span class="w"> </span>get
@@ -1063,31 +1041,13 @@
 <li><strong>Exit code 0</strong> with a success message: setup is correct.</li>
 <li><strong>Exit code 1</strong> with violations listed: the rules are working — review the violations to confirm they are real issues or adjust your config.</li>
 </ul>
-<hr />
-<h2 id="6-adopt-incrementally-with-a-baseline-optional">6. Adopt incrementally with a baseline (optional)<a class="headerlink" href="#6-adopt-incrementally-with-a-baseline-optional" title="Permanent link">&para;</a></h2>
-<p>If your project already has violations, you don&rsquo;t have to fix them all at once.
-A <strong>baseline</strong> records the violations that exist today so that only <strong>new</strong>
-violations fail the build, letting you adopt Eagle Eye step by step.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Record every current violation as "known"</span>
-dart<span class="w"> </span>run<span class="w"> </span>eagle_eye:main<span class="w"> </span>--baseline
-
-<span class="c1"># Later runs suppress known violations and fail only on new ones</span>
-dart<span class="w"> </span>run<span class="w"> </span>eagle_eye:main
+<p>To see every configuration, file, import, and pattern check performed, run:</p>
+<div class="highlight"><pre><span></span><code>dart<span class="w"> </span>run<span class="w"> </span>eagle_eye:main<span class="w"> </span>--verbose
 </code></pre></div>
-<p>This writes <code>eagle_eye_baseline.json</code> at the project root. Commit it so the
-whole team shares the same baseline.</p>
-<ul>
-<li><strong>Generate / refresh:</strong> <code>dart run eagle_eye:main --baseline</code>
-  (alias: <code>--update-baseline</code>). Overwrites the file with the current violations.</li>
-<li><strong>Apply:</strong> a plain <code>dart run eagle_eye:main</code> reads the file automatically if
-  it exists.</li>
-<li><strong>Prune:</strong> re-running with <code>--baseline</code> removes entries that are no longer
-  violated. A normal run warns when obsolete entries are present.</li>
-</ul>
-<p>Entries are identified by <strong>file path + rule type + import</strong>, not line numbers,
-so shifting code around does not resurface known violations.</p>
+<p>Verbose lines are prefixed with <code>[verbose]</code>. Use <code>--help</code> (or <code>-h</code>) to list the
+available options.</p>
 <hr />
-<h2 id="7-optional-integrate-into-cicd">7. Optional — integrate into CI/CD<a class="headerlink" href="#7-optional-integrate-into-cicd" title="Permanent link">&para;</a></h2>
+<h2 id="6-optional-integrate-into-cicd">6. Optional — integrate into CI/CD<a class="headerlink" href="#6-optional-integrate-into-cicd" title="Permanent link">&para;</a></h2>
 <p>Add to your CI pipeline (e.g. GitHub Actions, GitLab CI):</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check architecture rules</span>
 <span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dart run eagle_eye:main</span>
@@ -1118,11 +1078,6 @@ so shifting code around does not resurface known violations.</p>
 <td><code>pubspec.yaml</code></td>
 <td>Modify</td>
 <td>Add <code>eagle_eye</code> as dev dependency</td>
-</tr>
-<tr>
-<td><code>eagle_eye_baseline.json</code></td>
-<td>Create (optional)</td>
-<td>Freeze existing violations for incremental adoption</td>
 </tr>
 </tbody>
 </table>
