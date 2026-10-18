@@ -2,6 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:eagle_eye/analyzer/config_validator.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
+import 'package:eagle_eye/analyzer/output_renderer.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/data/config_item_mapper.dart';
 import 'package:eagle_eye/data/dart_source_loader.dart';
@@ -13,7 +14,6 @@ import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/violation.dart';
 import 'package:eagle_eye/util/check_reporter.dart';
 import 'package:eagle_eye/util/cli_options.dart';
-import 'package:eagle_eye/util/output_renderer.dart';
 
 /// Creates and wires every dependency used by Eagle Eye.
 ///

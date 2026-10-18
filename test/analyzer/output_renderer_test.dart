@@ -1,5 +1,5 @@
+import 'package:eagle_eye/analyzer/output_renderer.dart';
 import 'package:eagle_eye/model/violation.dart';
-import 'package:eagle_eye/util/output_renderer.dart';
 import 'package:test/test.dart';
 
 void main() {

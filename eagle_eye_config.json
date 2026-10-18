@@ -1,0 +1,27 @@
+[
+  {
+    "filePattern": "*/model/*",
+    "exclusiveDependencies": ["*/model/*"],
+    "name": "model-only-imports-model"
+  },
+  {
+    "filePattern": "*/util/*",
+    "dependenciesAllowed": false,
+    "name": "util-no-internal-imports"
+  },
+  {
+    "filePattern": "*/data/*",
+    "exclusiveDependencies": ["*/data/*", "*/model/*"],
+    "name": "data-only-model"
+  },
+  {
+    "filePattern": "*/analyzer/*",
+    "exclusiveDependencies": [
+      "*/analyzer/*",
+      "*/model/*",
+      "*/data/*",
+      "*/util/*"
+    ],
+    "name": "analyzer-layers"
+  }
+]

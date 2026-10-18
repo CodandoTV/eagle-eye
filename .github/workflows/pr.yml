@@ -21,3 +21,6 @@ jobs:
 
       - name: Analyze
         run: dart analyze
+
+      - name: Check architecture rules
+        run: dart run eagle_eye:main
