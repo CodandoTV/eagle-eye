@@ -22,12 +22,11 @@ import 'package:eagle_eye/model/exceptions/invalid_json_key_exception.dart';
 /// - `name` — optional human-readable rule name
 class JsonConverter {
   /// Creates a new [JsonConverter].
-  ///
-  /// When [mapper] is omitted, a default [ConfigItemMapper] is used.
-  JsonConverter({ConfigItemMapper? mapper})
-    : _mapper = mapper ?? ConfigItemMapper();
+  JsonConverter({required ConfigItemMapper mapper}) {
+   _mapper = mapper;
+  }
 
-  final ConfigItemMapper _mapper;
+  late ConfigItemMapper _mapper;
 
   void _checkKeys(List<String> keys) {
     final validKeys = [

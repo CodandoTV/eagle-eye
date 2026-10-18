@@ -3,6 +3,7 @@ import 'package:eagle_eye/analyzer/config_validator.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/data/config_item_mapper.dart';
 import 'package:eagle_eye/data/dart_source_loader.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
 import 'package:eagle_eye/data/file_helper.dart';
@@ -24,7 +25,9 @@ class ServiceLocator {
   ServiceLocator();
 
   final FileHelper _fileHelper = FileHelper();
-  final JsonConverter _jsonConverter = JsonConverter();
+  final JsonConverter _jsonConverter = JsonConverter(
+    mapper: ConfigItemMapper(),
+  );
   final RegexHelper _regexHelper = RegexHelper();
   final OutputRenderer _outputRenderer = OutputRenderer();
   final DartSourceLoader _dartSourceLoader = DartSourceLoader();

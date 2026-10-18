@@ -1,3 +1,4 @@
+import 'package:eagle_eye/data/config_item_mapper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/exceptions/invalid_config_exception.dart';
 import 'package:eagle_eye/model/exceptions/invalid_json_key_exception.dart';
@@ -8,7 +9,7 @@ void main() {
     late JsonConverter converter;
 
     setUp(() {
-      converter = JsonConverter();
+      converter = JsonConverter(mapper: ConfigItemMapper());
     });
 
     Matcher throwsInvalidConfig(String expectedMessage) {
