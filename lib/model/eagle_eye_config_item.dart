@@ -1,4 +1,5 @@
 import 'package:eagle_eye/model/config_keys.dart';
+import 'package:eagle_eye/model/exceptions/invalid_config_exception.dart';
 
 /// Represents a single rule item in the Eagle Eye configuration file.
 ///
@@ -40,33 +41,20 @@ class EagleEyeConfigItem {
 
   /// Maps a single JSON object into an [EagleEyeConfigItem].
   ///
-  /// Handles missing or invalid fields gracefully by assigning `null`
-  /// where appropriate.
+  /// Throws an [InvalidConfigException] when a required field is missing or
+  /// when a field has an unexpected type.
   factory EagleEyeConfigItem.fromJson(Map<String, dynamic> json) {
-    bool? dependenciesAllowed =
-        json[ConfigKeys.dependenciesAllowedEagleItemKey];
-
-    List<String>? forbiddenDependencies;
-    try {
-      forbiddenDependencies = List<String>.from(
-        json[ConfigKeys.forbiddenDependenciesEagleItemKey] as List<dynamic>,
-      );
-    } catch (e) {
-      forbiddenDependencies = null;
-    }
-
-    List<String>? exclusiveDependencies;
-    try {
-      exclusiveDependencies = List<String>.from(
-        json[ConfigKeys.exclusiveDependenciesEagleItemKey] as List<dynamic>,
-      );
-    } catch (e) {
-      exclusiveDependencies = null;
-    }
-
-    String filePattern = json[ConfigKeys.filePatternEagleItemKey];
-
-    String? name = json[ConfigKeys.nameEagleItemKey];
+    final dependenciesAllowed = _readDependenciesAllowed(json);
+    final forbiddenDependencies = _readStringList(
+      json,
+      ConfigKeys.forbiddenDependenciesEagleItemKey,
+    );
+    final exclusiveDependencies = _readStringList(
+      json,
+      ConfigKeys.exclusiveDependenciesEagleItemKey,
+    );
+    final filePattern = _readFilePattern(json);
+    final name = _readName(json);
 
     return EagleEyeConfigItem(
       dependenciesAllowed: dependenciesAllowed,
@@ -75,5 +63,47 @@ class EagleEyeConfigItem {
       filePattern: filePattern,
       name: name,
     );
+  }
+
+  static bool? _readDependenciesAllowed(Map<String, dynamic> json) {
+    final key = ConfigKeys.dependenciesAllowedEagleItemKey;
+    final value = json[key];
+    if (value != null && value is! bool) {
+      throw InvalidConfigException('The "$key" value must be a boolean.');
+    }
+    return value as bool?;
+  }
+
+  static List<String>? _readStringList(Map<String, dynamic> json, String key) {
+    final value = json[key];
+    if (value == null) {
+      return null;
+    }
+    if (value is! List || value.any((item) => item is! String)) {
+      throw InvalidConfigException(
+        'The "$key" value must be a list of strings.',
+      );
+    }
+    return List<String>.from(value);
+  }
+
+  static String _readFilePattern(Map<String, dynamic> json) {
+    final key = ConfigKeys.filePatternEagleItemKey;
+    final value = json[key];
+    if (value is! String || value.trim().isEmpty) {
+      throw InvalidConfigException(
+        'The "$key" value is required and must be a non-empty string.',
+      );
+    }
+    return value;
+  }
+
+  static String? _readName(Map<String, dynamic> json) {
+    final key = ConfigKeys.nameEagleItemKey;
+    final value = json[key];
+    if (value != null && value is! String) {
+      throw InvalidConfigException('The "$key" value must be a string.');
+    }
+    return value as String?;
   }
 }

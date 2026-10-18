@@ -17,6 +17,8 @@
 ## Features
 
 - Analyze Dart project files for architectural rules.
+- Validate the configuration before analysis, rejecting malformed rules and
+  files matched by more than one rule.
 - Detect forbidden dependencies based on configurable patterns.
 - Lightweight CLI, easy to integrate into your project workflow.
 
