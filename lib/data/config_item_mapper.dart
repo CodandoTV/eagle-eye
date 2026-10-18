@@ -9,8 +9,9 @@ import 'package:eagle_eye/model/exceptions/invalid_config_exception.dart';
 class ConfigItemMapper {
   /// Maps a single JSON object into an [EagleEyeConfigItem].
   ///
-  /// Throws an [InvalidConfigException] when a required field is missing or
-  /// when a field has an unexpected type.
+  /// The [ConfigKeys.nameEagleItemKey] field is optional and maps to `null`
+  /// when absent. Throws an [InvalidConfigException] when a required field is
+  /// missing or when a field has an unexpected type.
   EagleEyeConfigItem map(Map<String, dynamic> json) {
     final dependenciesAllowed = _readDependenciesAllowed(json);
     final forbiddenDependencies = _readStringList(

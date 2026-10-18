@@ -55,5 +55,20 @@ void main() {
         expect(actual.filePattern, '*screen.dart');
       },
     );
+
+    test('name - is optional and defaults to null when absent', () {
+      final actual = mapper.map({'filePattern': '*screen.dart'});
+
+      expect(actual.name, null);
+    });
+
+    test('name - maps a provided name', () {
+      final actual = mapper.map({
+        'filePattern': '*screen.dart',
+        'name': 'screens-only-widgets',
+      });
+
+      expect(actual.name, 'screens-only-widgets');
+    });
   });
 }
