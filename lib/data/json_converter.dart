@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:eagle_eye/model/config_keys.dart';
+import 'package:eagle_eye/data/config_item_mapper.dart';
+import 'package:eagle_eye/data/config_keys.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/exceptions/invalid_config_exception.dart';
@@ -20,6 +21,13 @@ import 'package:eagle_eye/model/exceptions/invalid_json_key_exception.dart';
 /// - `filePattern` — defines which files the rule applies to
 /// - `name` — optional human-readable rule name
 class JsonConverter {
+  /// Creates a new [JsonConverter].
+  JsonConverter({required ConfigItemMapper mapper}) {
+   _mapper = mapper;
+  }
+
+  late ConfigItemMapper _mapper;
+
   void _checkKeys(List<String> keys) {
     final validKeys = [
       ConfigKeys.filePatternEagleItemKey,
@@ -68,9 +76,7 @@ class JsonConverter {
       _checkKeys(jsonDataItem.keys.toList());
 
       try {
-        EagleEyeConfigItem configItem = EagleEyeConfigItem.fromJson(
-          jsonDataItem,
-        );
+        EagleEyeConfigItem configItem = _mapper.map(jsonDataItem);
         eagleConfigItems.add(configItem);
       } on InvalidConfigException catch (e) {
         throw InvalidConfigException('Rule #${index + 1}: ${e.details}');

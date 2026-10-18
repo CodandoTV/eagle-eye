@@ -38,7 +38,7 @@ void main() {
       expect(validator.regexHelper, same(locator.regexHelper));
     });
 
-    test('parses a Dart file into a compilation unit', () {
+    test('exposes a Dart source loader', () {
       final directory = Directory.systemTemp.createTempSync('eagle_eye');
       addTearDown(() => directory.deleteSync(recursive: true));
       final file = File('${directory.path}/sample.dart');
@@ -46,7 +46,7 @@ void main() {
         "import 'package:eagle_eye/service_locator.dart';",
       );
 
-      final unit = locator.parseDartFile(file.path);
+      final unit = locator.dartSourceLoader.load(file.path);
 
       expect(unit.directives, hasLength(1));
     });
