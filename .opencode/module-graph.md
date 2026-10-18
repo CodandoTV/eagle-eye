@@ -5,7 +5,7 @@
 ```
 lib/
   model/         ← data classes, enums, exceptions (zero internal deps)
-  data/          ← data access, serialization (depends on model/)
+  data/          ← data access, serialization, file I/O (depends on model/)
   analyzer/      ← analysis engine, rule checkers (depends on model/, data/)
     checker/     ← individual rule implementations (depends on model/)
   util/          ← shared utilities (zero internal deps)
@@ -53,11 +53,23 @@ bin/
 | Layer | Role |
 |---|---|
 | `model/` | Data classes, enums, custom exceptions. Zero knowledge of other layers. |
-| `data/` | Config loading, JSON parsing, file I/O. Depends on `model/` for types. |
+| `data/` | Config loading, JSON mapping, Dart source parsing, file I/O. Depends on `model/` for types and may use external packages (`yaml`, `analyzer`). |
 | `analyzer/` | Core logic: walks files, resolves imports, checks rules. Orchestrates the analysis. |
 | `analyzer/checker/` | Individual rule implementations. Each checker validates one rule type. |
 | `util/` | Shared helpers (string, file, path utilities). No knowledge of project domain. |
 | `bin/main.dart` | CLI entry point. Only calls the public API — never internal modules directly. |
+
+## Data Layer Contents
+
+- `config_item_mapper.dart` — maps JSON objects to `EagleEyeConfigItem`.
+- `config_keys.dart` — JSON key names (wire format).
+- `dart_source_loader.dart` — reads Dart files and returns `CompilationUnit`.
+- `json_converter.dart` — parses the configuration array.
+- `eagle_eye_repository.dart` — exposes config, application name, and Dart paths.
+- `file_helper.dart` — internal file-system operations.
+
+The model layer has no wire-format knowledge: `EagleEyeConfigItem.fromJson`
+does not exist, and JSON keys live in `data/`.
 
 ## Adding a New Feature
 

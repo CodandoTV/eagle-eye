@@ -1,10 +1,9 @@
-import 'package:analyzer/dart/analysis/features.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:eagle_eye/analyzer/config_validator.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/data/dart_source_loader.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
@@ -28,6 +27,7 @@ class ServiceLocator {
   final JsonConverter _jsonConverter = JsonConverter();
   final RegexHelper _regexHelper = RegexHelper();
   final OutputRenderer _outputRenderer = OutputRenderer();
+  final DartSourceLoader _dartSourceLoader = DartSourceLoader();
 
   late final EagleEyeRepository _repository = EagleEyeRepositoryImpl(
     fileHelper: _fileHelper,
@@ -43,16 +43,11 @@ class ServiceLocator {
   /// The renderer used to format detected violations.
   OutputRenderer get outputRenderer => _outputRenderer;
 
+  /// The loader used to read and parse Dart source files.
+  DartSourceLoader get dartSourceLoader => _dartSourceLoader;
+
   /// Parses the command-line [args] into [CliOptions].
   CliOptions parseCliOptions(List<String> args) => CliOptions.parse(args);
-
-  /// Parses the Dart file at [path] into a [CompilationUnit].
-  CompilationUnit parseDartFile(String path) {
-    return parseFile(
-      path: path,
-      featureSet: FeatureSet.latestLanguageVersion(),
-    ).unit;
-  }
 
   /// Creates a configuration validator.
   EagleEyeConfigValidator createConfigValidator({CheckReporter? onCheck}) {

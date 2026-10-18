@@ -3,7 +3,6 @@ import 'package:eagle_eye/model/exceptions/application_name_not_found_exception.
 import 'package:eagle_eye/model/exceptions/config_file_not_found_exception.dart';
 import 'package:eagle_eye/model/exceptions/empty_dart_file_list_exception.dart';
 import 'package:eagle_eye/model/exceptions/library_folder_not_found_exception.dart';
-import 'package:eagle_eye/util/logger_helper.dart';
 import 'package:yaml/yaml.dart';
 
 /// Provides utility methods for interacting with project files and directories.
@@ -17,10 +16,9 @@ import 'package:yaml/yaml.dart';
 class FileHelper {
   // Checks if the specified configuration file exists and reads its contents.
   ///
-  /// If the file does not exist, logs an error message via [LoggerHelper].
+  /// Throws a [ConfigFileNotFoundException] if the file does not exist.
   ///
   /// Returns the file content as a [String].
-  /// Throws a [ConfigFileNotFoundException] if the file is not specified
   Future<String> getAndCheckIfConfigFileExists(String configFile) async {
     final file = File(configFile);
     if (!file.existsSync()) {
@@ -32,11 +30,10 @@ class FileHelper {
 
   /// Ensures the specified [libsFolderName] directory exists and returns it.
   ///
-  /// If the directory does not exist, logs an error message via [LoggerHelper].
+  /// Throws a [LibraryFolderNotFoundException] if the directory does not
+  /// exist.
   ///
   /// Returns the [Directory] representing the `lib/` folder.
-  /// Throws a [LibraryFolderNotFoundException] if the lib folder is not
-  /// available.
   Directory getAndCheckIfLibsDirectoryExists(String libsFolderName) {
     final projectDirectory = Directory(libsFolderName);
 

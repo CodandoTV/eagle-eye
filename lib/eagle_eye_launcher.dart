@@ -68,7 +68,7 @@ class EagleEyeLauncher {
       EagleEyeConfig configFile = await _locator.repository
           .getAndCheckIfConfigFileExists();
 
-      List<File> dartFiles = _locator.repository.allDartFiles();
+      List<String> dartPaths = _locator.repository.allDartPaths();
 
       String applicationName = _locator.repository.getApplicationName();
 
@@ -77,14 +77,11 @@ class EagleEyeLauncher {
         '${EagleEyeRepositoryImpl.configFileName}',
       );
       onCheck?.call('Application name: $applicationName');
-      onCheck?.call('Found ${dartFiles.length} Dart file(s) in lib/');
+      onCheck?.call('Found ${dartPaths.length} Dart file(s) in lib/');
 
       _locator
           .createConfigValidator(onCheck: onCheck)
-          .validate(
-            config: configFile,
-            filePaths: dartFiles.map((file) => file.path),
-          );
+          .validate(config: configFile, filePaths: dartPaths);
 
       final matcher = _locator.createMatcher(
         config: configFile,
@@ -93,15 +90,15 @@ class EagleEyeLauncher {
 
       List<Violation> errors = [];
 
-      for (final file in dartFiles) {
-        onCheck?.call('Checking ${file.path}');
+      for (final path in dartPaths) {
+        onCheck?.call('Checking $path');
 
-        final unit = _locator.parseDartFile(file.path);
-        EagleEyeConfigItem? eagleEyeItem = matcher.find(file.path);
+        final unit = _locator.dartSourceLoader.load(path);
+        EagleEyeConfigItem? eagleEyeItem = matcher.find(path);
         if (eagleEyeItem != null) {
           final visitor = _locator.createVisitor(
             configItem: eagleEyeItem,
-            filePath: file.path,
+            filePath: path,
             applicationName: applicationName,
             unit: unit,
             errorCallback: (error) => errors.add(error),
@@ -114,7 +111,7 @@ class EagleEyeLauncher {
       }
 
       onCheck?.call(
-        'Checked ${dartFiles.length} file(s); '
+        'Checked ${dartPaths.length} file(s); '
         '${errors.length} violation(s) found',
       );
 

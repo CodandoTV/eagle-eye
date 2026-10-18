@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
@@ -21,8 +19,9 @@ abstract class EagleEyeRepository {
   /// Returns an [EagleEyeConfig]
   Future<EagleEyeConfig> getAndCheckIfConfigFileExists();
 
-  /// Returns all Dart files found within the project’s `lib/` directory.
-  List<File> allDartFiles();
+  /// Returns the paths of all Dart files found within the project’s `lib/`
+  /// directory.
+  List<String> allDartPaths();
 
   /// Returns the application’s name as defined in the project structure.
   String getApplicationName();
@@ -56,17 +55,15 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
   });
 
   @override
-  List<File> allDartFiles() {
-    Directory libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(
-      libsFolderName,
-    );
-    return fileHelper.allDartFiles(libsDir);
+  List<String> allDartPaths() {
+    final libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(libsFolderName);
+    return fileHelper.allDartFiles(libsDir).map((file) => file.path).toList();
   }
 
   @override
   Future<EagleEyeConfig> getAndCheckIfConfigFileExists() async {
-    final String configFileContent =
-        await fileHelper.getAndCheckIfConfigFileExists(configFileName);
+    final String configFileContent = await fileHelper
+        .getAndCheckIfConfigFileExists(configFileName);
 
     return jsonConverter.convert(configFileContent);
   }
