@@ -1,22 +1,14 @@
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/features.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
-import 'package:eagle_eye/analyzer/config_validator.dart';
-import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
-import 'package:eagle_eye/analyzer/eagle_eye_visitor.dart';
-import 'package:eagle_eye/analyzer/regex_helper.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
-import 'package:eagle_eye/data/file_helper.dart';
-import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:eagle_eye/model/exceptions/eagle_eye_exception.dart';
 import 'package:eagle_eye/model/violation.dart';
+import 'package:eagle_eye/service_locator.dart';
 import 'package:eagle_eye/util/check_reporter.dart';
 import 'package:eagle_eye/util/cli_options.dart';
 import 'package:eagle_eye/util/logger_helper.dart';
-import 'package:eagle_eye/util/output_renderer.dart';
 
 /// The main launcher for Eagle Eye architecture validation.
 ///
@@ -34,17 +26,13 @@ import 'package:eagle_eye/util/output_renderer.dart';
 /// 8. Logs errors using [LoggerHelper] and exits with a non-zero code if
 /// violations exist.
 class EagleEyeLauncher {
-  late EagleEyeRepository _repository;
+  final ServiceLocator _locator;
 
-  /// Initializes the launcher with the default repository, file helper, and
-  /// JSON converter.
-  EagleEyeLauncher() {
-    final fileHelper = FileHelper();
-    _repository = EagleEyeRepositoryImpl(
-      fileHelper: fileHelper,
-      jsonConverter: JsonConverter(),
-    );
-  }
+  /// Creates a new [EagleEyeLauncher].
+  ///
+  /// When [serviceLocator] is omitted, a default [ServiceLocator] is used.
+  EagleEyeLauncher({ServiceLocator? serviceLocator})
+    : _locator = serviceLocator ?? ServiceLocator();
 
   /// Launches the Eagle Eye analysis on the current Dart project.
   ///
@@ -61,7 +49,7 @@ class EagleEyeLauncher {
   Future<void> launchEagleEye({List<String> args = const []}) async {
     late final CliOptions options;
     try {
-      options = CliOptions.parse(args);
+      options = _locator.parseCliOptions(args);
     } on FormatException catch (e) {
       LoggerHelper.printError(e.message);
       exit(1);
@@ -77,12 +65,12 @@ class EagleEyeLauncher {
         : null;
 
     try {
-      EagleEyeConfig configFile = await _repository
+      EagleEyeConfig configFile = await _locator.repository
           .getAndCheckIfConfigFileExists();
 
-      List<File> dartFiles = _repository.allDartFiles();
+      List<File> dartFiles = _locator.repository.allDartFiles();
 
-      String applicationName = _repository.getApplicationName();
+      String applicationName = _locator.repository.getApplicationName();
 
       onCheck?.call(
         'Loaded ${configFile.items.length} rule(s) from '
@@ -91,19 +79,15 @@ class EagleEyeLauncher {
       onCheck?.call('Application name: $applicationName');
       onCheck?.call('Found ${dartFiles.length} Dart file(s) in lib/');
 
-      final regexHelper = RegexHelper();
+      _locator
+          .createConfigValidator(onCheck: onCheck)
+          .validate(
+            config: configFile,
+            filePaths: dartFiles.map((file) => file.path),
+          );
 
-      EagleEyeConfigValidator(
-        regexHelper: regexHelper,
-        onCheck: onCheck,
-      ).validate(
+      final matcher = _locator.createMatcher(
         config: configFile,
-        filePaths: dartFiles.map((file) => file.path),
-      );
-
-      final EagleEyeMatcher matcher = EagleEyeMatcher(
-        config: configFile,
-        regexHelper: regexHelper,
         onCheck: onCheck,
       );
 
@@ -112,22 +96,18 @@ class EagleEyeLauncher {
       for (final file in dartFiles) {
         onCheck?.call('Checking ${file.path}');
 
-        final result = parseFile(
-          path: file.path,
-          featureSet: FeatureSet.latestLanguageVersion(),
-        );
+        final unit = _locator.parseDartFile(file.path);
         EagleEyeConfigItem? eagleEyeItem = matcher.find(file.path);
         if (eagleEyeItem != null) {
-          EagleEyeVisitor visitor = EagleEyeVisitor(
+          final visitor = _locator.createVisitor(
             configItem: eagleEyeItem,
             filePath: file.path,
             applicationName: applicationName,
+            unit: unit,
             errorCallback: (error) => errors.add(error),
-            regexHelper: RegexHelper(),
-            unit: result.unit,
             onCheck: onCheck,
           );
-          result.unit.visitChildren(visitor);
+          unit.visitChildren(visitor);
         } else {
           onCheck?.call('  no rule matched; skipping file');
         }
@@ -139,7 +119,7 @@ class EagleEyeLauncher {
       );
 
       if (errors.isNotEmpty) {
-        final output = OutputRenderer().format(errors);
+        final output = _locator.outputRenderer.format(errors);
         print(output);
       }
 
