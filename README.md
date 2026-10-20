@@ -86,6 +86,18 @@ dart run eagle_eye:main --verbose
 Verbose lines are prefixed with `[verbose]` on stdout, so regular output stays
 unchanged when the flag is omitted. Use `--help` to see all available options.
 
+### Checking specific files
+
+Pass one or more file paths to analyze only those files:
+
+```sh
+dart run eagle_eye:main lib/data/user_repository.dart lib/model/user.dart
+```
+
+Paths must exist, end with `.dart`, and live under `lib/`. When no paths are
+given, EagleEye keeps scanning all Dart files in `lib/`. Configuration conflict
+validation also applies only to the files being checked.
+
 ### Auto-generate config with a prompt
 
 You can use [this prompt](./SETUP_PROMPT.md) with an AI assistant to automatically detect your architecture and generate an `eagle_eye_config.json` with the right rules.
