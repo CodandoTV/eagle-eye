@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:eagle_eye/model/exceptions/application_name_not_found_exception.dart';
 import 'package:eagle_eye/model/exceptions/config_file_not_found_exception.dart';
 import 'package:eagle_eye/model/exceptions/empty_dart_file_list_exception.dart';
+import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart';
 import 'package:eagle_eye/model/exceptions/library_folder_not_found_exception.dart';
 import 'package:yaml/yaml.dart';
 
@@ -58,6 +59,68 @@ class FileHelper {
     } else {
       return dartFiles.toList();
     }
+  }
+
+  /// Selects the Dart [requestedFiles] that belong to [availableFiles].
+  ///
+  /// [availableFiles] contains every Dart file discovered under `lib/`.
+  /// Paths may be absolute or relative and are normalized before comparison.
+  /// Duplicates are removed while preserving the order in which they were
+  /// first requested.
+  ///
+  /// Throws an [InvalidFileSelectionException] when a requested path does not
+  /// exist, is not a `.dart` file, or is outside `lib/`.
+  List<String> selectDartFiles({
+    required List<String> availableFiles,
+    required List<String> requestedFiles,
+  }) {
+    if (requestedFiles.isEmpty) {
+      return availableFiles;
+    }
+
+    final byNormalizedPath = <String, String>{};
+    for (final filePath in availableFiles) {
+      byNormalizedPath[_normalizePath(filePath)] = filePath;
+    }
+
+    final problems = <String>[];
+    final selected = <String>[];
+    final seen = <String>{};
+
+    for (final requestedPath in requestedFiles) {
+      final normalizedPath = _normalizePath(requestedPath);
+      if (!seen.add(normalizedPath)) {
+        continue;
+      }
+
+      if (!requestedPath.endsWith('.dart')) {
+        problems.add('$requestedPath is not a Dart (.dart) file.');
+        continue;
+      }
+
+      if (!File(requestedPath).existsSync()) {
+        problems.add('$requestedPath does not exist.');
+        continue;
+      }
+
+      final availablePath = byNormalizedPath[normalizedPath];
+      if (availablePath == null) {
+        problems.add('$requestedPath is outside lib/.');
+        continue;
+      }
+
+      selected.add(availablePath);
+    }
+
+    if (problems.isNotEmpty) {
+      throw InvalidFileSelectionException(problems);
+    }
+
+    return selected;
+  }
+
+  String _normalizePath(String path) {
+    return File(path).absolute.uri.normalizePath().toFilePath();
   }
 
   /// Reads the `pubspec.yaml` file and returns the application’s name.

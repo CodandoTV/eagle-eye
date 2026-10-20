@@ -1,6 +1,7 @@
 import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
+import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart';
 
 /// Defines the contract for accessing and loading Eagle Eye configuration
 /// and project-related information.
@@ -22,6 +23,12 @@ abstract class EagleEyeRepository {
   /// Returns the paths of all Dart files found within the project’s `lib/`
   /// directory.
   List<String> allDartPaths();
+
+  /// Returns the paths among [requestedPaths] that belong to `lib/`.
+  ///
+  /// Every requested path must exist, end with `.dart`, and be inside `lib/`.
+  /// Otherwise an [InvalidFileSelectionException] is thrown.
+  List<String> dartPathsFor(List<String> requestedPaths);
 
   /// Returns the application’s name as defined in the project structure.
   String getApplicationName();
@@ -56,6 +63,18 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
 
   @override
   List<String> allDartPaths() {
+    return _allDartPaths();
+  }
+
+  @override
+  List<String> dartPathsFor(List<String> requestedPaths) {
+    return fileHelper.selectDartFiles(
+      availableFiles: _allDartPaths(),
+      requestedFiles: requestedPaths,
+    );
+  }
+
+  List<String> _allDartPaths() {
     final libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(libsFolderName);
     return fileHelper.allDartFiles(libsDir).map((file) => file.path).toList();
   }

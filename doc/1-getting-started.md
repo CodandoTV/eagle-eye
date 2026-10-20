@@ -203,6 +203,15 @@ dart run eagle_eye:main --verbose
 Verbose lines are prefixed with `[verbose]`. Use `--help` (or `-h`) to list the
 available options.
 
+To analyze only specific files, pass their paths:
+
+```bash
+dart run eagle_eye:main lib/data/user_repository.dart lib/model/user.dart
+```
+
+Paths must exist, end with `.dart`, and live under `lib/`. When no paths are
+provided, EagleEye scans every Dart file in `lib/`.
+
 ---
 
 ## 6. Optional — integrate into CI/CD

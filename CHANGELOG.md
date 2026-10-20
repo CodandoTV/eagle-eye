@@ -3,6 +3,7 @@
 - Internal refactor: move JSON mapping, configuration keys, and Dart source loading into `lib/data/`. `EagleEyeConfigItem` is now a pure model with no `fromJson` factory, and `EagleEyeRepository` returns Dart file paths instead of `File` objects. `FileHelper` no longer references `util/logger_helper.dart`.
 - Add a configuration validation step before analysis. EagleEye now rejects malformed rules and configurations where more than one rule matches the same file, instead of silently applying the first match.
 - Add a `--verbose` (`-v`) flag that prints every configuration, file, import, and pattern check performed by EagleEye. Add `--help` (`-h`) for usage information.
+- Add support for analyzing specific files by passing positional paths to the CLI (for example, `dart run eagle_eye:main lib/a.dart lib/b.dart`). When no paths are provided, EagleEye keeps scanning every Dart file under `lib/`.
 
 ## 2.0.5
 

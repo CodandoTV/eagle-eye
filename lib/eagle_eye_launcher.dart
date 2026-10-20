@@ -68,7 +68,9 @@ class EagleEyeLauncher {
       EagleEyeConfig configFile = await _locator.repository
           .getAndCheckIfConfigFileExists();
 
-      List<String> dartPaths = _locator.repository.allDartPaths();
+      final List<String> dartPaths = options.files.isEmpty
+          ? _locator.repository.allDartPaths()
+          : _locator.repository.dartPathsFor(options.files);
 
       String applicationName = _locator.repository.getApplicationName();
 
@@ -77,7 +79,11 @@ class EagleEyeLauncher {
         '${EagleEyeRepositoryImpl.configFileName}',
       );
       onCheck?.call('Application name: $applicationName');
-      onCheck?.call('Found ${dartPaths.length} Dart file(s) in lib/');
+      if (options.files.isEmpty) {
+        onCheck?.call('Found ${dartPaths.length} Dart file(s) in lib/');
+      } else {
+        onCheck?.call('Checking ${dartPaths.length} selected file(s)');
+      }
 
       _locator
           .createConfigValidator(onCheck: onCheck)
