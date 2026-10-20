@@ -1,4 +1,4 @@
-## Unreleased
+## 2.0.6
 
 - Internal refactor: move JSON mapping, configuration keys, and Dart source loading into `lib/data/`. `EagleEyeConfigItem` is now a pure model with no `fromJson` factory, and `EagleEyeRepository` returns Dart file paths instead of `File` objects. `FileHelper` no longer references `util/logger_helper.dart`.
 - Add a configuration validation step before analysis. EagleEye now rejects malformed rules and configurations where more than one rule matches the same file, instead of silently applying the first match.
