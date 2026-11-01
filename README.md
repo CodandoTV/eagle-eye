@@ -65,7 +65,7 @@ analyzer:
 
 ```yaml
 dev_dependencies:
-    eagle_eye: ^2.0.4
+    eagle_eye: ^2.1.0
 ```
 
 4. **Run it:**
@@ -97,6 +97,19 @@ dart run eagle_eye:main lib/data/user_repository.dart lib/model/user.dart
 Paths must exist, end with `.dart`, and live under `lib/`. When no paths are
 given, EagleEye keeps scanning all Dart files in `lib/`. Configuration conflict
 validation also applies only to the files being checked.
+
+### Using a custom configuration file
+
+By default, EagleEye reads `eagle_eye_config.json` from the current directory.
+Pass `--config` (or `-c`) to load the rules from another path:
+
+```sh
+dart run eagle_eye:main --config path/to/eagle_eye_config.json
+```
+
+The path is resolved from the current directory, and absolute paths are also
+accepted. When the flag is omitted, the default `eagle_eye_config.json` lookup
+is unchanged.
 
 ### Auto-generate config with a prompt
 

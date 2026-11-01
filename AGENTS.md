@@ -60,7 +60,7 @@ at most one rule. Config is a JSON array of items with keys:
 
 ## Version & release
 
-- Version lives in `pubspec.yaml` (currently `2.0.4`) and `CHANGELOG.md`.
+- Version lives in `pubspec.yaml` (currently `2.1.0`) and `CHANGELOG.md`.
 - Release = bump version + changelog, commit, tag `vX.Y.Z`, push. The tag
   triggers `publish.yml` (pub.dev via OIDC). Use the `trigger-release` skill.
 

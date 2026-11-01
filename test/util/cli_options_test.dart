@@ -9,6 +9,7 @@ void main() {
       expect(options.verbose, isFalse);
       expect(options.showHelp, isFalse);
       expect(options.files, isEmpty);
+      expect(options.configPath, isNull);
     });
 
     test('collects positional file paths in order', () {
@@ -21,6 +22,29 @@ void main() {
       final options = CliOptions.parse(['lib/a.dart', '--verbose']);
 
       expect(options.verbose, isTrue);
+      expect(options.files, ['lib/a.dart']);
+    });
+
+    test('parses the configuration path with --config', () {
+      final options = CliOptions.parse(['--config', 'custom.json']);
+
+      expect(options.configPath, 'custom.json');
+    });
+
+    test('parses the configuration path with -c', () {
+      final options = CliOptions.parse(['-c', 'custom.json']);
+
+      expect(options.configPath, 'custom.json');
+    });
+
+    test('parses the configuration path alongside files', () {
+      final options = CliOptions.parse([
+        '--config',
+        'custom.json',
+        'lib/a.dart',
+      ]);
+
+      expect(options.configPath, 'custom.json');
       expect(options.files, ['lib/a.dart']);
     });
 
@@ -54,6 +78,7 @@ void main() {
 
       expect(options.usage, contains('--verbose'));
       expect(options.usage, contains('--help'));
+      expect(options.usage, contains('--config'));
       expect(options.usage, contains('[file ...]'));
     });
   });

@@ -1,3 +1,7 @@
+## 2.1.0
+
+- Add `--config` (`-c`) to load the EagleEye configuration from a custom path. When the flag is omitted, EagleEye keeps loading `eagle_eye_config.json` from the current directory. This is a backward-compatible feature release (minor version).
+
 ## 2.0.6
 
 - Internal refactor: move JSON mapping, configuration keys, and Dart source loading into `lib/data/`. `EagleEyeConfigItem` is now a pure model with no `fromJson` factory, and `EagleEyeRepository` returns Dart file paths instead of `File` objects. `FileHelper` no longer references `util/logger_helper.dart`.

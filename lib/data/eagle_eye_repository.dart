@@ -14,11 +14,13 @@ import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart
 /// Implementations are responsible for handling file system operations
 /// and converting raw data into [EagleEyeConfig] objects.
 abstract class EagleEyeRepository {
-  /// Retrieves and parses the Eagle Eye configuration file
-  /// if it exists in the project root.
+  /// Retrieves and parses the Eagle Eye configuration file.
+  ///
+  /// When [configPath] is omitted, the default `eagle_eye_config.json` file is
+  /// loaded from the current directory.
   ///
   /// Returns an [EagleEyeConfig]
-  Future<EagleEyeConfig> getAndCheckIfConfigFileExists();
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists({String? configPath});
 
   /// Returns the paths of all Dart files found within the project’s `lib/`
   /// directory.
@@ -80,9 +82,11 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
   }
 
   @override
-  Future<EagleEyeConfig> getAndCheckIfConfigFileExists() async {
+  Future<EagleEyeConfig> getAndCheckIfConfigFileExists({
+    String? configPath,
+  }) async {
     final String configFileContent = await fileHelper
-        .getAndCheckIfConfigFileExists(configFileName);
+        .getAndCheckIfConfigFileExists(configPath ?? configFileName);
 
     return jsonConverter.convert(configFileContent);
   }
