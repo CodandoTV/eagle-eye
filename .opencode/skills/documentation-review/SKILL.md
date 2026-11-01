@@ -1,6 +1,7 @@
 ---
 name: documentation-review
 description: Validate EagleEye documentation matches actual implementation. Use when the user asks to review documentation, check for outdated docs, or verify docs match code.
+whenToUse: Reviewing docs for drift, checking links, or verifying README/doc examples against the real code.
 ---
 
 # Documentation Review for EagleEye

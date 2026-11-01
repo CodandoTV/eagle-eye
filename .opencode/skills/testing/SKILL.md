@@ -1,40 +1,40 @@
 ---
 name: testing
-description: Generate tests for EagleEye following project conventions. Use when the user asks to write tests, review test files, or generate new test cases.
+description: Write and review EagleEye tests following project conventions. Use when the user asks to write tests, add test cases, or review a test file.
+whenToUse: Writing new tests, adding a regression test for a bug fix, or reviewing an existing test file.
 ---
 
 # Testing in EagleEye
 
-When invoked:
+The project uses `package:test` (`^1.31.1`). Follow the existing suite rather
+than inventing a style.
 
-1. Detect testing framework:
-   - Read `pubspec.yaml` `dev_dependencies:` for `test` (Dart `package:test`).
-   - This project uses `package:test` (`^1.31.1`).
+## 1. Detect the framework
 
-2. Analyze existing tests in `test/`:
-   - Read existing test files to determine naming conventions.
-   - Note the use of `test()`, `group()`, `expect()` patterns.
-   - Observe file naming (`*_test.dart` suffix).
-   - Observe directory structure mirroring `lib/`.
+- Read `pubspec.yaml` `dev_dependencies:` for `test`.
+- If `flutter_test` appears, the project has become a Flutter package — confirm
+  with the user before generating widget tests.
 
-3. Follow current naming conventions:
-   - File names: `<name>_test.dart` matching `<name>.dart` in `lib/`.
-   - Test names: descriptive strings, typically lowercase with spaces.
-   - Use `group()` for logical grouping.
-   - Use `test()` for individual test cases.
-   - Use `expect(actual, matcher)` for assertions.
+## 2. Read the existing suite first
 
-4. Generate unit tests for:
-   - Public API classes and functions in `lib/`.
-   - Edge cases (null inputs, empty collections, invalid patterns).
-   - Error paths (exceptions, validation failures).
+- Skim `test/` before writing anything: note naming, the `group()`/`test()`
+  shape, any helpers, and which matchers are already in use.
+- Files are `<name>_test.dart` mirroring `<name>.dart` in `lib/`, and the
+  directory tree mirrors `lib/`: `test/analyzer/`, `test/data/`, `test/util/`,
+  plus `test/service_locator_test.dart`.
+- Test names are descriptive lowercase phrases; assertions are
+  `expect(actual, matcher)`.
 
-5. Generate integration tests when applicable:
-   - End-to-end CLI execution tests.
-   - Config file loading and parsing.
+## 3. Cover the right things
 
-6. Ensure generated tests use the project's assertion style and test architecture:
-   - Match existing `package:test` conventions.
-   - Use the same matchers and patterns found in existing tests.
+- Public classes and functions in `lib/`.
+- Edge cases: null inputs, empty collections, invalid patterns.
+- Error paths: exceptions and validation failures.
+- Integration cases where relevant: end-to-end CLI execution, config loading
+  and parsing.
 
-7. After writing tests, run `dart test` to verify they pass.
+## 4. Verify
+
+- Run the new file first (`dart test test/<path>_test.dart`), then the full
+  build per the `run-build` skill: `dart analyze && dart test`.
+- Never report a test task complete on a failing build.
