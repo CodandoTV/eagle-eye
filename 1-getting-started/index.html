@@ -1024,7 +1024,7 @@
 <p>Add to <code>pubspec.yaml</code> under <code>dev_dependencies</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">dev_dependencies</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># ... existing dev dependencies</span>
-<span class="w">    </span><span class="nt">eagle_eye</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.0.4</span>
+<span class="w">    </span><span class="nt">eagle_eye</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.1.0</span>
 </code></pre></div>
 <p>Then run:</p>
 <div class="highlight"><pre><span></span><code>dart<span class="w"> </span>pub<span class="w"> </span>get
@@ -1051,6 +1051,11 @@ available options.</p>
 </code></pre></div>
 <p>Paths must exist, end with <code>.dart</code>, and live under <code>lib/</code>. When no paths are
 provided, EagleEye scans every Dart file in <code>lib/</code>.</p>
+<p>To load the configuration from a different path, pass <code>--config</code> (or <code>-c</code>):</p>
+<div class="highlight"><pre><span></span><code>dart<span class="w"> </span>run<span class="w"> </span>eagle_eye:main<span class="w"> </span>--config<span class="w"> </span>path/to/eagle_eye_config.json
+</code></pre></div>
+<p>The default remains <code>eagle_eye_config.json</code> in the current directory. Relative
+paths are resolved from the current directory; absolute paths are accepted.</p>
 <hr />
 <h2 id="6-optional-integrate-into-cicd">6. Optional — integrate into CI/CD<a class="headerlink" href="#6-optional-integrate-into-cicd" title="Permanent link">&para;</a></h2>
 <p>Add to your CI pipeline (e.g. GitHub Actions, GitLab CI):</p>
