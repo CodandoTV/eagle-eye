@@ -64,9 +64,12 @@ class EagleEyeLauncher {
         ? LoggerHelper.printVerbose
         : null;
 
+    final String configPath =
+        options.configPath ?? EagleEyeRepositoryImpl.configFileName;
+
     try {
       EagleEyeConfig configFile = await _locator.repository
-          .getAndCheckIfConfigFileExists();
+          .getAndCheckIfConfigFileExists(configPath: configPath);
 
       final List<String> dartPaths = options.files.isEmpty
           ? _locator.repository.allDartPaths()
@@ -75,8 +78,7 @@ class EagleEyeLauncher {
       String applicationName = _locator.repository.getApplicationName();
 
       onCheck?.call(
-        'Loaded ${configFile.items.length} rule(s) from '
-        '${EagleEyeRepositoryImpl.configFileName}',
+        'Loaded ${configFile.items.length} rule(s) from $configPath',
       );
       onCheck?.call('Application name: $applicationName');
       if (options.files.isEmpty) {

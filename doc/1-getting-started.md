@@ -166,7 +166,7 @@ Add to `pubspec.yaml` under `dev_dependencies`:
 ```yaml
 dev_dependencies:
     # ... existing dev dependencies
-    eagle_eye: ^2.0.4
+    eagle_eye: ^2.1.0
 ```
 
 Then run:
@@ -211,6 +211,15 @@ dart run eagle_eye:main lib/data/user_repository.dart lib/model/user.dart
 
 Paths must exist, end with `.dart`, and live under `lib/`. When no paths are
 provided, EagleEye scans every Dart file in `lib/`.
+
+To load the configuration from a different path, pass `--config` (or `-c`):
+
+```bash
+dart run eagle_eye:main --config path/to/eagle_eye_config.json
+```
+
+The default remains `eagle_eye_config.json` in the current directory. Relative
+paths are resolved from the current directory; absolute paths are accepted.
 
 ---
 

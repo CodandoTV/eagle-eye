@@ -23,7 +23,7 @@ class FileHelper {
   Future<String> getAndCheckIfConfigFileExists(String configFile) async {
     final file = File(configFile);
     if (!file.existsSync()) {
-      throw ConfigFileNotFoundException();
+      throw ConfigFileNotFoundException(configFile);
     }
     final textContent = await file.readAsString();
     return textContent;

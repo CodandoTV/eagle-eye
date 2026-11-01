@@ -13,6 +13,12 @@ class CliOptions {
   /// An empty list means every Dart file under `lib/` should be analyzed.
   final List<String> files;
 
+  /// The path to the configuration file.
+  ///
+  /// When `null`, EagleEye loads `eagle_eye_config.json` from the current
+  /// directory.
+  final String? configPath;
+
   /// The usage information for the available options.
   final String usage;
 
@@ -22,6 +28,7 @@ class CliOptions {
     required this.showHelp,
     required this.files,
     required this.usage,
+    this.configPath,
   });
 
   /// Parses the command-line [args].
@@ -39,6 +46,7 @@ class CliOptions {
       verbose: results['verbose'] as bool,
       showHelp: results['help'] as bool,
       files: List.unmodifiable(results.rest),
+      configPath: results['config'] as String?,
       usage: _buildUsage(parser),
     );
   }
@@ -50,6 +58,13 @@ class CliOptions {
         abbr: 'v',
         negatable: false,
         help: 'Print every file, import, and pattern check performed.',
+      )
+      ..addOption(
+        'config',
+        abbr: 'c',
+        valueHelp: 'file',
+        help: 'Path to the configuration file. Defaults to '
+            'eagle_eye_config.json in the current directory.',
       )
       ..addFlag(
         'help',
@@ -64,6 +79,9 @@ class CliOptions {
         '\n'
         'Analyzes the given Dart files. When no files are provided, analyzes '
         'every Dart file under lib/.\n'
+        '\n'
+        'EagleEye loads eagle_eye_config.json from the current directory by '
+        'default. Use --config to load it from another path.\n'
         '\n'
         '${parser.usage}';
   }
