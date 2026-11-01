@@ -12,7 +12,7 @@ Always run from the repo root.
 dart pub get                    # install deps
 dart analyze                    # static analysis (fails build on lint errors)
 dart test                       # run all tests
-dart test test/model/eagle_eye_config_item_test.dart   # single file
+dart test test/analyzer/config_validator_test.dart      # single file
 dart test -n "returns null"     # single test by name
 dart run eagle_eye:main         # run the CLI against the current project
 dart run eagle_eye:main --verbose  # trace every check performed
@@ -69,8 +69,12 @@ at most one rule. Config is a JSON array of items with keys:
 - `AGENTS.md` is the single source of truth; opencode loads it via
   `opencode.json`.
 - Skills live in `.opencode/skills/` and are auto-loaded by opencode's native
-  skill scan. Before a task, check for a matching skill (e.g. `testing`,
-  `review-pr`, `trigger-release`, `architecture`) and read it in full.
+  skill scan. `.dsh/skills` is a symlink to that directory so DeepSeek Harness
+  discovers the same files from `<repo>/.dsh/skills`. Before a task, check for a
+  matching skill (e.g. `testing`, `review-pr`, `trigger-release`,
+  `architecture`) and load it. On a Windows checkout without symlink support
+  the link lands as a plain file — recreate it, or add `.opencode/skills` to
+  `customSkillDirs` in your DSH profile.
 - Warning: `.opencode/instructions/dart.md` references class/file paths that no
   longer exist (e.g. `lib/analyzer/analyzer.dart`, `checker/checker.dart`).
   Trust the actual `lib/` tree over it.

@@ -1,6 +1,7 @@
 ---
 name: trigger-release
 description: Automate the EagleEye release process — update changelog, bump version, tag, and push. Use when the user asks to trigger a release, cut a release, or release a new version.
+whenToUse: The user asks to release, cut a version, or publish to pub.dev.
 ---
 
 # Trigger Release

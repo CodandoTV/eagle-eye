@@ -1,6 +1,7 @@
 ---
 name: run-build
 description: Run the EagleEye build and tests. Use when the user asks to build, compile, run tests, or validate the project.
+whenToUse: Before marking any change complete, or when the user asks to build, run tests, or validate the project.
 ---
 
 # Running the EagleEye Build
