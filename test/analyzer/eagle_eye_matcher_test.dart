@@ -85,7 +85,7 @@ void main() {
       ]);
     });
 
-    test('matches a path discovered with Windows separators', () {
+    test('matches the canonical form of a Windows-style path', () {
       final item = EagleEyeConfigItem(filePattern: 'lib/domain/*');
       final config = EagleEyeConfig(items: [item]);
       final matcher = EagleEyeMatcher(

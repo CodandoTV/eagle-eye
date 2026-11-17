@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:eagle_eye/data/config_item_mapper.dart';
 import 'package:eagle_eye/data/eagle_eye_repository.dart';
+import 'package:eagle_eye/data/file_helper.dart';
+import 'package:eagle_eye/data/json_converter.dart';
 import 'package:eagle_eye/model/exceptions/config_file_not_found_exception.dart';
 import 'package:eagle_eye/service_locator.dart';
 import 'package:test/test.dart';
@@ -71,15 +74,12 @@ void main() {
     });
 
     test('returns canonical paths for discovered files', () {
-      Directory('${tempDirectory.path}/lib/domain').createSync(recursive: true);
-      File(
-        '${tempDirectory.path}/lib/domain/user.dart',
-      ).writeAsStringSync('');
+      final repository = EagleEyeRepositoryImpl(
+        fileHelper: _FakeFileHelper([File(r'lib\domain\user.dart')]),
+        jsonConverter: JsonConverter(mapper: ConfigItemMapper()),
+      );
 
-      final paths = repository.allDartPaths();
-
-      expect(paths, ['lib/domain/user.dart']);
-      expect(paths.every((path) => !path.contains(r'\')), isTrue);
+      expect(repository.allDartPaths(), ['lib/domain/user.dart']);
     });
 
     test('normalizes Windows-style requested paths', () {
@@ -93,4 +93,23 @@ void main() {
       expect(paths, ['lib/domain/user.dart']);
     });
   });
+}
+
+/// [FileHelper] that reports a fixed set of discovered files.
+///
+/// Discovery is the only layer that touches the file system, so faking it
+/// lets the test feed a Windows-style path that `Directory.listSync` would
+/// never produce on Linux or macOS.
+class _FakeFileHelper extends FileHelper {
+  _FakeFileHelper(this.files);
+
+  final List<File> files;
+
+  @override
+  Directory getAndCheckIfLibsDirectoryExists(String libsFolderName) {
+    return Directory(libsFolderName);
+  }
+
+  @override
+  List<File> allDartFiles(Directory directory) => files;
 }
