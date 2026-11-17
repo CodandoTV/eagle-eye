@@ -120,6 +120,7 @@ If the architecture is unclear or doesn't match a specific pattern, use this con
 
 - Start with a small set of rules (2-4). You can add more as your architecture stabilizes.
 - `filePattern` matches against the full file path relative to `lib/`. Use `*` as a wildcard.
+- Paths are normalized to forward slashes before matching, so a pattern written with `/` also matches files on Windows.
 - Each file must match **at most one** rule. EagleEye validates the configuration before analyzing imports and exits with code 1 when a file matches more than one rule.
 - Only **internal imports** (those containing your app name) are checked. External package imports are ignored.
 - Each rule object must have **at most one** of: `dependenciesAllowed`, `forbiddenDependencies`, or `exclusiveDependencies`. EagleEye also rejects empty or invalid `filePattern` values and invalid dependency patterns.
