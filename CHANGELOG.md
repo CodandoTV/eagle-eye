@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix path matching on Windows: discovered and user-supplied paths are normalized to `/` before rule matching, so patterns written with forward slashes match on every platform. Output always uses a single separator.
+
 ## 2.1.0
 
 - Add `--config` (`-c`) to load the EagleEye configuration from a custom path. When the flag is omitted, EagleEye keeps loading `eagle_eye_config.json` from the current directory. This is a backward-compatible feature release (minor version).

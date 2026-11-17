@@ -69,5 +69,28 @@ void main() {
         ),
       );
     });
+
+    test('returns canonical paths for discovered files', () {
+      Directory('${tempDirectory.path}/lib/domain').createSync(recursive: true);
+      File(
+        '${tempDirectory.path}/lib/domain/user.dart',
+      ).writeAsStringSync('');
+
+      final paths = repository.allDartPaths();
+
+      expect(paths, ['lib/domain/user.dart']);
+      expect(paths.every((path) => !path.contains(r'\')), isTrue);
+    });
+
+    test('normalizes Windows-style requested paths', () {
+      Directory('${tempDirectory.path}/lib/domain').createSync(recursive: true);
+      File(
+        '${tempDirectory.path}/lib/domain/user.dart',
+      ).writeAsStringSync('');
+
+      final paths = repository.dartPathsFor([r'lib\domain\user.dart']);
+
+      expect(paths, ['lib/domain/user.dart']);
+    });
   });
 }

@@ -24,12 +24,18 @@ abstract class EagleEyeRepository {
 
   /// Returns the paths of all Dart files found within the project’s `lib/`
   /// directory.
+  ///
+  /// Every path is canonical: it uses `/` as the separator on every platform
+  /// and is relative to the project root, so forward-slash `filePattern`
+  /// values match on Windows too.
   List<String> allDartPaths();
 
   /// Returns the paths among [requestedPaths] that belong to `lib/`.
   ///
   /// Every requested path must exist, end with `.dart`, and be inside `lib/`.
-  /// Otherwise an [InvalidFileSelectionException] is thrown.
+  /// Requested paths are canonicalized with the same form as [allDartPaths],
+  /// so the Windows and POSIX spellings of the same file select the same
+  /// result. Otherwise an [InvalidFileSelectionException] is thrown.
   List<String> dartPathsFor(List<String> requestedPaths);
 
   /// Returns the application’s name as defined in the project structure.
@@ -78,7 +84,10 @@ class EagleEyeRepositoryImpl extends EagleEyeRepository {
 
   List<String> _allDartPaths() {
     final libsDir = fileHelper.getAndCheckIfLibsDirectoryExists(libsFolderName);
-    return fileHelper.allDartFiles(libsDir).map((file) => file.path).toList();
+    return fileHelper
+        .allDartFiles(libsDir)
+        .map((file) => fileHelper.toCanonicalPath(file.path))
+        .toList();
   }
 
   @override

@@ -50,6 +50,9 @@ class FileHelper {
   ///
   /// Return only includes files that end with the `.dart` extension
   /// Throw an [EmptyDartFileListException] if there is no dart file available.
+  ///
+  /// Each [File] keeps the OS-native spelling of its path. Use
+  /// [toCanonicalPath] to obtain the form used for rule matching.
   List<File> allDartFiles(Directory directory) {
     final dartFiles = directory
         .listSync(recursive: true)
@@ -76,9 +79,13 @@ class FileHelper {
   /// Selects the Dart [requestedFiles] that belong to [availableFiles].
   ///
   /// [availableFiles] contains every Dart file discovered under `lib/`.
-  /// Paths may be absolute or relative and are normalized before comparison.
-  /// Duplicates are removed while preserving the order in which they were
-  /// first requested.
+  /// Paths may be absolute or relative and are canonicalized with
+  /// [toCanonicalPath] before comparison, so the Windows and POSIX spellings
+  /// of the same file are treated as equal. Duplicates are removed while
+  /// preserving the order in which they were first requested.
+  ///
+  /// Returns the selected paths in canonical form, so callers never see a
+  /// mixed `\`/`/` output.
   ///
   /// Throws an [InvalidFileSelectionException] when a requested path does not
   /// exist, is not a `.dart` file, or is outside `lib/`.
@@ -87,12 +94,13 @@ class FileHelper {
     required List<String> requestedFiles,
   }) {
     if (requestedFiles.isEmpty) {
-      return availableFiles;
+      return availableFiles.map(toCanonicalPath).toList();
     }
 
     final byNormalizedPath = <String, String>{};
     for (final filePath in availableFiles) {
-      byNormalizedPath[_normalizePath(filePath)] = filePath;
+      final canonicalPath = toCanonicalPath(filePath);
+      byNormalizedPath[_normalizePath(canonicalPath)] = canonicalPath;
     }
 
     final problems = <String>[];
@@ -100,24 +108,25 @@ class FileHelper {
     final seen = <String>{};
 
     for (final requestedPath in requestedFiles) {
-      final normalizedPath = _normalizePath(requestedPath);
+      final canonicalPath = toCanonicalPath(requestedPath);
+      final normalizedPath = _normalizePath(canonicalPath);
       if (!seen.add(normalizedPath)) {
         continue;
       }
 
-      if (!requestedPath.endsWith('.dart')) {
-        problems.add('$requestedPath is not a Dart (.dart) file.');
+      if (!canonicalPath.endsWith('.dart')) {
+        problems.add('$canonicalPath is not a Dart (.dart) file.');
         continue;
       }
 
-      if (!File(requestedPath).existsSync()) {
-        problems.add('$requestedPath does not exist.');
+      if (!File(canonicalPath).existsSync()) {
+        problems.add('$canonicalPath does not exist.');
         continue;
       }
 
       final availablePath = byNormalizedPath[normalizedPath];
       if (availablePath == null) {
-        problems.add('$requestedPath is outside lib/.');
+        problems.add('$canonicalPath is outside lib/.');
         continue;
       }
 
@@ -132,7 +141,8 @@ class FileHelper {
   }
 
   String _normalizePath(String path) {
-    return File(path).absolute.uri.normalizePath().toFilePath();
+    final absolutePath = File(path).absolute.uri.normalizePath().toFilePath();
+    return toCanonicalPath(absolutePath);
   }
 
   /// Reads the `pubspec.yaml` file and returns the application’s name.

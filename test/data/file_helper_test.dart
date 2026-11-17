@@ -112,6 +112,37 @@ void main() {
       expect(selected, [third.path, first.path]);
     });
 
+    test('selects a Windows-style spelling of an available file', () {
+      final windowsSpelling = first.path.replaceAll('/', r'\');
+
+      final selected = fileHelper.selectDartFiles(
+        availableFiles: [first.path, second.path],
+        requestedFiles: [windowsSpelling],
+      );
+
+      expect(selected, [first.path]);
+      expect(selected.single.contains(r'\'), isFalse);
+    });
+
+    test('reports the canonical form of an invalid Windows-style path', () {
+      final missing = File('${directory.path}/missing.dart');
+      final windowsSpelling = missing.path.replaceAll('/', r'\');
+
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [windowsSpelling],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            allOf(contains('/missing.dart'), isNot(contains(r'\'))),
+          ),
+        ),
+      );
+    });
+
     test('removes duplicate requests', () {
       final selected = fileHelper.selectDartFiles(
         availableFiles: [first.path, second.path],
