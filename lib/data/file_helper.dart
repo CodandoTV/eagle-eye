@@ -88,7 +88,8 @@ class FileHelper {
   /// mixed `\`/`/` output.
   ///
   /// Throws an [InvalidFileSelectionException] when a requested path does not
-  /// exist, is not a `.dart` file, or is outside `lib/`.
+  /// exist, is not a `.dart` file, is outside `lib/`, or uses a Windows UNC
+  /// or extended-length root.
   List<String> selectDartFiles({
     required List<String> availableFiles,
     required List<String> requestedFiles,
@@ -111,6 +112,15 @@ class FileHelper {
       final canonicalPath = toCanonicalPath(requestedPath);
       final normalizedPath = _normalizePath(canonicalPath);
       if (!seen.add(normalizedPath)) {
+        continue;
+      }
+
+      if (_hasUnsupportedWindowsRoot(requestedPath)) {
+        problems.add(
+          '$requestedPath uses a Windows UNC or extended-length root, '
+          'which EagleEye does not support. Pass a path relative to the '
+          'project root instead.',
+        );
         continue;
       }
 
@@ -138,6 +148,17 @@ class FileHelper {
     }
 
     return selected;
+  }
+
+  /// Whether [path] starts with a Windows UNC, device, or extended-length
+  /// root.
+  ///
+  /// The canonical form collapses the leading separator to a single `/`, so
+  /// those roots cannot be kept without pointing at a different location.
+  /// [selectDartFiles] rejects them instead of reporting a misleading
+  /// "does not exist" error.
+  bool _hasUnsupportedWindowsRoot(String path) {
+    return path.startsWith(r'\\') || path.startsWith('//');
   }
 
   String _normalizePath(String path) {

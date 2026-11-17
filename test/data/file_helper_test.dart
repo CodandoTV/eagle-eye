@@ -146,6 +146,41 @@ void main() {
       );
     });
 
+    test('rejects a UNC path with an explicit message', () {
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [r'\\server\share\lib\first.dart'],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            allOf(
+              contains('UNC or extended-length'),
+              contains(r'\\server\share'),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('rejects an extended-length Windows path', () {
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [r'\\?\C:\proj\lib\first.dart'],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            contains('extended-length'),
+          ),
+        ),
+      );
+    });
+
     test('removes duplicate requests', () {
       final selected = fileHelper.selectDartFiles(
         availableFiles: [first.path, second.path],
