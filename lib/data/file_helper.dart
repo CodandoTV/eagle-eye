@@ -4,6 +4,7 @@ import 'package:eagle_eye/model/exceptions/config_file_not_found_exception.dart'
 import 'package:eagle_eye/model/exceptions/empty_dart_file_list_exception.dart';
 import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart';
 import 'package:eagle_eye/model/exceptions/library_folder_not_found_exception.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
 /// Provides utility methods for interacting with project files and directories.
@@ -59,6 +60,17 @@ class FileHelper {
     } else {
       return dartFiles.toList();
     }
+  }
+
+  /// Returns [path] in EagleEye's canonical form.
+  ///
+  /// Both `\` and `/` are treated as separators, so a path discovered on
+  /// Windows (`lib\domain\x.dart`) and one discovered on POSIX
+  /// (`lib/domain/x.dart`) become the same string on every platform.
+  /// Repeated separators, `.` and `..` segments are collapsed, and the
+  /// result always uses `/`.
+  String toCanonicalPath(String path) {
+    return p.posix.normalize(path.replaceAll(r'\', '/'));
   }
 
   /// Selects the Dart [requestedFiles] that belong to [availableFiles].

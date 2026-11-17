@@ -6,6 +6,46 @@ import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart
 import 'package:test/test.dart';
 
 void main() {
+  group('FileHelper.toCanonicalPath', () {
+    late FileHelper fileHelper;
+
+    setUp(() {
+      fileHelper = FileHelper();
+    });
+
+    test('converts Windows separators to forward slashes', () {
+      expect(
+        fileHelper.toCanonicalPath(r'lib\domain\user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+
+    test('accepts mixed separators', () {
+      expect(
+        fileHelper.toCanonicalPath(r'lib\domain/user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+
+    test('collapses repeated, current and parent segments', () {
+      expect(
+        fileHelper.toCanonicalPath('lib//domain/./user.dart'),
+        'lib/domain/user.dart',
+      );
+      expect(
+        fileHelper.toCanonicalPath('lib/domain/../data/user.dart'),
+        'lib/data/user.dart',
+      );
+    });
+
+    test('leaves posix paths unchanged', () {
+      expect(
+        fileHelper.toCanonicalPath('lib/domain/user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+  });
+
   group('FileHelper.allDartFiles', () {
     late FileHelper fileHelper;
     late Directory directory;
