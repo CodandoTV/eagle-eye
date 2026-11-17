@@ -109,7 +109,10 @@ void main() {
         requestedFiles: [third.path, first.path],
       );
 
-      expect(selected, [third.path, first.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(third.path),
+        fileHelper.toCanonicalPath(first.path),
+      ]);
     });
 
     test('selects a Windows-style spelling of an available file', () {
@@ -120,7 +123,7 @@ void main() {
         requestedFiles: [windowsSpelling],
       );
 
-      expect(selected, [first.path]);
+      expect(selected, [fileHelper.toCanonicalPath(first.path)]);
       expect(selected.single.contains(r'\'), isFalse);
     });
 
@@ -149,7 +152,10 @@ void main() {
         requestedFiles: [first.path, first.path, second.path],
       );
 
-      expect(selected, [first.path, second.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(first.path),
+        fileHelper.toCanonicalPath(second.path),
+      ]);
     });
 
     test('returns every available file when nothing is requested', () {
@@ -158,7 +164,10 @@ void main() {
         requestedFiles: const [],
       );
 
-      expect(selected, [first.path, second.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(first.path),
+        fileHelper.toCanonicalPath(second.path),
+      ]);
     });
 
     test('throws when a requested file does not exist', () {
