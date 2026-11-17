@@ -6,6 +6,46 @@ import 'package:eagle_eye/model/exceptions/invalid_file_selection_exception.dart
 import 'package:test/test.dart';
 
 void main() {
+  group('FileHelper.toCanonicalPath', () {
+    late FileHelper fileHelper;
+
+    setUp(() {
+      fileHelper = FileHelper();
+    });
+
+    test('converts Windows separators to forward slashes', () {
+      expect(
+        fileHelper.toCanonicalPath(r'lib\domain\user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+
+    test('accepts mixed separators', () {
+      expect(
+        fileHelper.toCanonicalPath(r'lib\domain/user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+
+    test('collapses repeated, current and parent segments', () {
+      expect(
+        fileHelper.toCanonicalPath('lib//domain/./user.dart'),
+        'lib/domain/user.dart',
+      );
+      expect(
+        fileHelper.toCanonicalPath('lib/domain/../data/user.dart'),
+        'lib/data/user.dart',
+      );
+    });
+
+    test('leaves posix paths unchanged', () {
+      expect(
+        fileHelper.toCanonicalPath('lib/domain/user.dart'),
+        'lib/domain/user.dart',
+      );
+    });
+  });
+
   group('FileHelper.allDartFiles', () {
     late FileHelper fileHelper;
     late Directory directory;
@@ -69,7 +109,76 @@ void main() {
         requestedFiles: [third.path, first.path],
       );
 
-      expect(selected, [third.path, first.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(third.path),
+        fileHelper.toCanonicalPath(first.path),
+      ]);
+    });
+
+    test('selects a Windows-style spelling of an available file', () {
+      final windowsSpelling = first.path.replaceAll('/', r'\');
+
+      final selected = fileHelper.selectDartFiles(
+        availableFiles: [first.path, second.path],
+        requestedFiles: [windowsSpelling],
+      );
+
+      expect(selected, [fileHelper.toCanonicalPath(first.path)]);
+      expect(selected.single.contains(r'\'), isFalse);
+    });
+
+    test('reports the canonical form of an invalid Windows-style path', () {
+      final missing = File('${directory.path}/missing.dart');
+      final windowsSpelling = missing.path.replaceAll('/', r'\');
+
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [windowsSpelling],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            allOf(contains('/missing.dart'), isNot(contains(r'\'))),
+          ),
+        ),
+      );
+    });
+
+    test('rejects a UNC path with an explicit message', () {
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [r'\\server\share\lib\first.dart'],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            allOf(
+              contains('UNC or extended-length'),
+              contains(r'\\server\share'),
+            ),
+          ),
+        ),
+      );
+    });
+
+    test('rejects an extended-length Windows path', () {
+      expect(
+        () => fileHelper.selectDartFiles(
+          availableFiles: [first.path],
+          requestedFiles: [r'\\?\C:\proj\lib\first.dart'],
+        ),
+        throwsA(
+          isA<InvalidFileSelectionException>().having(
+            (exception) => exception.message,
+            'message',
+            contains('extended-length'),
+          ),
+        ),
+      );
     });
 
     test('removes duplicate requests', () {
@@ -78,7 +187,10 @@ void main() {
         requestedFiles: [first.path, first.path, second.path],
       );
 
-      expect(selected, [first.path, second.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(first.path),
+        fileHelper.toCanonicalPath(second.path),
+      ]);
     });
 
     test('returns every available file when nothing is requested', () {
@@ -87,7 +199,10 @@ void main() {
         requestedFiles: const [],
       );
 
-      expect(selected, [first.path, second.path]);
+      expect(selected, [
+        fileHelper.toCanonicalPath(first.path),
+        fileHelper.toCanonicalPath(second.path),
+      ]);
     });
 
     test('throws when a requested file does not exist', () {

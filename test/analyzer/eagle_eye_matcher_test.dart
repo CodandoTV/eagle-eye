@@ -1,5 +1,6 @@
 import 'package:eagle_eye/analyzer/eagle_eye_matcher.dart';
 import 'package:eagle_eye/analyzer/regex_helper.dart';
+import 'package:eagle_eye/data/file_helper.dart';
 import 'package:eagle_eye/model/eagle_eye_config.dart';
 import 'package:eagle_eye/model/eagle_eye_config_item.dart';
 import 'package:test/test.dart';
@@ -82,6 +83,21 @@ void main() {
         '  filePattern "*screen.dart" vs "home_screen.dart": match',
         '  rule "*screen.dart" selected',
       ]);
+    });
+
+    test('matches the canonical form of a Windows-style path', () {
+      final item = EagleEyeConfigItem(filePattern: 'lib/domain/*');
+      final config = EagleEyeConfig(items: [item]);
+      final matcher = EagleEyeMatcher(
+        config: config,
+        regexHelper: regexHelper,
+      );
+
+      final canonicalPath = FileHelper().toCanonicalPath(
+        r'lib\domain\user.dart',
+      );
+
+      expect(matcher.find(canonicalPath), equals(item));
     });
   });
 }

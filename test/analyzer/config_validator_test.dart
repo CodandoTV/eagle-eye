@@ -150,6 +150,17 @@ void main() {
       );
     });
 
+    test('rejects a filePattern that uses a backslash', () {
+      final config = EagleEyeConfig(
+        items: [EagleEyeConfigItem(filePattern: r'lib\domain\*')],
+      );
+
+      expect(
+        () => validator.validate(config: config, filePaths: []),
+        throwsInvalidConfig('uses a backslash'),
+      );
+    });
+
     test('rejects an invalid dependency pattern regex', () {
       final config = EagleEyeConfig(
         items: [
