@@ -994,7 +994,7 @@
 <ul>
 <li>Start with a small set of rules (2-4). You can add more as your architecture stabilizes.</li>
 <li><code>filePattern</code> matches against the full file path relative to <code>lib/</code>. Use <code>*</code> as a wildcard.</li>
-<li>Paths are normalized to forward slashes before matching, so a pattern written with <code>/</code> also matches files on Windows.</li>
+<li>Paths are normalized to forward slashes before matching, so a pattern written with <code>/</code> also matches files on Windows. <strong>Patterns must use <code>/</code> too</strong>: EagleEye rejects a <code>filePattern</code> containing a backslash, because such a pattern would silently match no files.</li>
 <li>Each file must match <strong>at most one</strong> rule. EagleEye validates the configuration before analyzing imports and exits with code 1 when a file matches more than one rule.</li>
 <li>Only <strong>internal imports</strong> (those containing your app name) are checked. External package imports are ignored.</li>
 <li>Each rule object must have <strong>at most one</strong> of: <code>dependenciesAllowed</code>, <code>forbiddenDependencies</code>, or <code>exclusiveDependencies</code>. EagleEye also rejects empty or invalid <code>filePattern</code> values and invalid dependency patterns.</li>
