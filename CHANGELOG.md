@@ -1,6 +1,7 @@
 ## Unreleased
 
 - Fix path matching on Windows: discovered and user-supplied paths are normalized to `/` before rule matching, so patterns written with forward slashes match on every platform. Output always uses a single separator.
+- Reject a `filePattern` that contains a backslash with an explicit validation error. Paths are matched with forward slashes, so a Windows-style pattern would match nothing after the normalization fix; rewrite such patterns to use `/` (for example `lib/domain/*`).
 
 ## 2.1.0
 

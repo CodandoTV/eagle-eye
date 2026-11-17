@@ -83,6 +83,11 @@ class EagleEyeConfigValidator {
   ) {
     if (pattern.trim().isEmpty) {
       problems.add('$label has an empty "filePattern".');
+    } else if (pattern.contains(r'\')) {
+      problems.add(
+        '$label has a "filePattern" that uses a backslash: "$pattern". '
+        'Use "/" as the path separator.',
+      );
     } else if (!_isValidPattern(pattern)) {
       problems.add('$label has an invalid "filePattern": "$pattern".');
     }
